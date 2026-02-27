@@ -1,0 +1,76 @@
+[project]
+name = "galeria-supers"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "J-L Gatz",email = "elan.rgb@gmail.com"}
+]
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "flet (>=0.81.0,<0.82.0)"
+]
+
+
+[tool.poetry]
+packages = [{include = "galeria"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "taskipy (>=1.14.1,<2.0.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "ruff (>=0.15.3,<0.16.0)",
+    "pyright (>=1.1.408,<2.0.0)"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+respect-gitignore = true
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "UP",
+    "B",
+    "C4",
+    "SIM",
+    "RUF",
+]
+ignore = [
+    "E501",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["galeria_supers"]
+combine-as-imports = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
+
+[tool.ruff.lint.per-file-ignores]
+"app/ui/*" = ["ANN", "D"]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = '-p no:warnings'
+
+[tool.taskipy.tasks]
+lint = "ruff check ."
+pre_format = "ruff check . --fix"
+format = "ruff format ."
+run = 'python main.py'
+pre_test = 'task lint'
+test = 'pytest -s -x --cov=galeria -vv'
+post_test = 'coverage html'
+typecheck = "pyright"

@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "nome": "João da Silva",
+    "foto": "sup_001.png",
+    "historias": [
+      "João assumiu a superintendência em 1985...",
+      "Durante sua gestão, modernizou os processos...",
+      "Seu legado inclui a criação de..."
+    ]
+  },
+  {
+    "id": 2,
+    "nome": "Maria Oliveira",
+    "foto": "sup_002.png",
+    "historias": [
+      "Maria foi a primeira mulher a ocupar o cargo...",
+      "Expandiu a atuação regional...",
+      "Fortaleceu as parcerias institucionais..."
+    ]
+  },
+  {
+    "id": 3,
+    "nome": "Carlos Mendes",
+    "foto": "sup_003.png",
+    "historias": [
+      "Carlos assumiu a superintendência em 1990, em um período de grandes transformações institucionais...",
+      "Implementou um ambicioso plano de digitalização dos arquivos históricos...",
+      "Seu legado é lembrado pela consolidação da cultura de planejamento estratégico..."
+    ]
+  },
+  {
+    "id": 4,
+    "nome": "Ana Beatriz Costa",
+    "foto": "sup_004.png",
+    "historias": [
+      "Ana Beatriz tomou posse em 1993, trazendo uma visão inovadora para a gestão pública...",
+      "Reestruturou departamentos e valorizou a formação continuada das equipes...",
+      "É reconhecida pela criação de programas de integração comunitária..."
+    ]
+  },
+  {
+    "id": 5,
+    "nome": "Ricardo Almeida",
+    "foto": "sup_005.png",
+    "historias": [
+      "Ricardo liderou a instituição a partir de 1998, focando em eficiência operacional...",
+      "Reduziu custos administrativos sem comprometer a qualidade dos serviços...",
+      "Seu período ficou marcado pela estabilidade e crescimento sustentável..."
+    ]
+  },
+  {
+    "id": 6,
+    "nome": "Fernanda Rocha",
+    "foto": "sup_006.png",
+    "historias": [
+      "Fernanda assumiu em 2001, com forte atuação na modernização tecnológica...",
+      "Implantou sistemas integrados de gestão que otimizaram fluxos internos...",
+      "Deixou como marca a valorização da transparência institucional..."
+    ]
+  },
+  {
+    "id": 7,
+    "nome": "Paulo Henrique Martins",
+    "foto": "sup_007.png",
+    "historias": [
+      "Paulo Henrique iniciou sua gestão em 2004, priorizando a descentralização administrativa...",
+      "Fortaleceu as unidades regionais e ampliou a capilaridade dos serviços...",
+      "É lembrado pelo diálogo constante com servidores e parceiros externos..."
+    ]
+  },
+  {
+    "id": 8,
+    "nome": "Juliana Freitas",
+    "foto": "sup_008.png",
+    "historias": [
+      "Juliana assumiu o cargo em 2007, trazendo foco em inovação e governança...",
+      "Criou indicadores de desempenho que passaram a orientar decisões estratégicas...",
+      "Seu legado inclui a consolidação de políticas internas de compliance..."
+    ]
+  },
+  {
+    "id": 9,
+    "nome": "Roberto Nunes",
+    "foto": "sup_009.png",
+    "historias": [
+      "Roberto liderou a superintendência a partir de 2010, em um cenário de expansão institucional...",
+      "Promoveu investimentos em infraestrutura e atualização tecnológica...",
+      "É reconhecido pela capacidade de articulação interinstitucional..."
+    ]
+  },
+  {
+    "id": 10,
+    "nome": "Camila Duarte",
+    "foto": "sup_010.png",
+    "historias": [
+      "Camila assumiu em 2012, com ênfase na modernização dos processos internos...",
+      "Revisou normas e simplificou procedimentos administrativos...",
+      "Seu período é associado à maior eficiência e agilidade operacional..."
+    ]
+  },
+  {
+    "id": 11,
+    "nome": "Eduardo Lima",
+    "foto": "sup_011.png",
+    "historias": [
+      "Eduardo iniciou sua gestão em 2015, com foco na transformação digital...",
+      "Expandiu canais de atendimento e investiu em soluções online...",
+      "Deixou como legado a consolidação da cultura de inovação contínua..."
+    ]
+  },
+  {
+    "id": 12,
+    "nome": "Patrícia Gomes",
+    "foto": "sup_012.png",
+    "historias": [
+      "Patrícia assumiu a superintendência em 2017, priorizando a gestão participativa...",
+      "Criou fóruns internos de escuta ativa e planejamento colaborativo...",
+      "É lembrada pela aproximação institucional com a sociedade civil..."
+    ]
+  },
+  {
+    "id": 13,
+    "nome": "Marcos Vinícius Andrade",
+    "foto": "sup_013.png",
+    "historias": [
+      "Marcos Vinícius tomou posse em 2019, enfrentando desafios estruturais significativos...",
+      "Reorganizou prioridades estratégicas e fortaleceu a governança interna...",
+      "Seu legado inclui a implementação de práticas modernas de gestão pública..."
+    ]
+  },
+  {
+    "id": 14,
+    "nome": "Luciana Barros",
+    "foto": "sup_014.png",
+    "historias": [
+      "Luciana assumiu em 2021, conduzindo a instituição em um período de adaptação e resiliência...",
+      "Incentivou o uso de tecnologias colaborativas e trabalho híbrido...",
+      "É reconhecida pela consolidação de uma cultura institucional mais ágil e integrada..."
+    ]
+  }
+]
