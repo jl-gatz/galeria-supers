@@ -2,4 +2,4 @@
 APP_TITLE = "Galeria dos Superintendentes"
 
 DETAIL_TIMEOUT_SECONDS = 20
-SCROLL_RESET_DURATION = 8000
+SCROLL_RESET_DURATION = 8000  # Duração do scroll da galeria
