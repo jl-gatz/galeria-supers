@@ -38,7 +38,8 @@ class GalleryView(ft.Container):
             [
                 ft.Text(
                     "Galeria dos Superintendentes",
-                    size=36,
+                    font_family="Montserrat-EXTRA",
+                    size=72,
                     weight=ft.FontWeight.BOLD,
                 ),
                 self.galeria,

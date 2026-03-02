@@ -47,7 +47,8 @@ class SuperDetail(ft.Container):
                 ),
                 ft.Text(
                     self._super.nome,
-                    size=32,
+                    font_family="Montserrat",
+                    size=36,
                     weight=ft.FontWeight.BOLD,
                 ),
                 self._texto,
