@@ -1,3 +1,5 @@
+# ui/components/gallery_view.py
+
 import flet as ft
 from domain.models import Super
 from ui.components.super_card import SuperCard
@@ -69,10 +71,6 @@ class GalleryView(ft.Container):
 
         self.root.show_overlay(detail)
         detail.fade_in()
-
-        # self.fade_background()
-        # self.root.show_overlay(detail)
-        # detail.fade_in()
 
     def _fechar_detail(self, detail):
         self.root.hide_overlay(detail)

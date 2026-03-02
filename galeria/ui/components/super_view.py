@@ -5,6 +5,13 @@ from pathlib import Path
 import flet as ft
 from domain.models import Super
 
+from galeria.core.config import (
+    ANIMATE_OPACITY,
+    AUTO_TIME_VIEW_BACK,
+    FADE_OUT_ASYNC_SLEEP,
+)
+from galeria.ui.controllers.AutoTimeoutController import AutoTimeoutController
+
 
 class SuperDetail(ft.Container):
     def __init__(
@@ -16,6 +23,7 @@ class SuperDetail(ft.Container):
         self._super = super_data
         self._image_path = image_path
         self._on_request_close = on_request_close
+        self.timeout = None
 
         self._slide_index = 0
 
@@ -24,6 +32,10 @@ class SuperDetail(ft.Container):
             size=24,
             text_align=ft.TextAlign.CENTER,
             width=800,
+        )
+
+        self.timeout = AutoTimeoutController(
+            seconds=AUTO_TIME_VIEW_BACK, on_timeout=self._timeout_close
         )
 
         content = ft.Column(
@@ -63,7 +75,7 @@ class SuperDetail(ft.Container):
                 color=ft.Colors.BLACK_26,
             ),
             opacity=0,
-            animate_opacity=300,
+            animate_opacity=ANIMATE_OPACITY,
             expand=True,
             alignment=ft.Alignment.CENTER,
         )
@@ -89,6 +101,7 @@ class SuperDetail(ft.Container):
     # -------------------------
 
     def fade_in(self) -> None:
+        self.timeout.start()
         self.opacity = 0
         self.update()
 
@@ -96,6 +109,8 @@ class SuperDetail(ft.Container):
         self.update()
 
     def fade_out(self) -> None:
+        self.timeout.cancel()
+
         self.opacity = 0
         self.update()
 
@@ -108,5 +123,16 @@ class SuperDetail(ft.Container):
 
     async def _close_sequence(self) -> None:
         self.fade_out()
-        await asyncio.sleep(0.3)  # igual ao animate_opacity
+        await asyncio.sleep(FADE_OUT_ASYNC_SLEEP)  # igual ao animate_opacity (0.3)
         self._on_request_close()
+
+    def _wrap_interaction(self, handler):
+        def wrapped(e):
+            self.timeout.restart()
+            return handler(e)
+
+        return wrapped
+
+    def _timeout_close(self):
+        # Executa a sequência de fechamento de forma assíncrona
+        self.page.run_task(self._close_sequence)

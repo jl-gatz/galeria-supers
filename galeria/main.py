@@ -13,13 +13,13 @@ def main(page: ft.Page):
     configurar_page(page)
 
     repository = SuperRepository()
-    use_case = ListarSupers(repository)
+    use_case = ListarSupers(repository)  # type: ignore
     supers = use_case.executar()
 
     # navigator = Navigator(page)
 
     # Criamos a galeria primeiro
-    gallery = GalleryView(supers, root_layout=None)
+    gallery = GalleryView(supers, root_layout=None)  # type: ignore
 
     # Agora criamos o root passando a galeria
     root = RootLayout(gallery)
@@ -30,4 +30,5 @@ def main(page: ft.Page):
     page.add(root)
 
 
-ft.app(target=main, assets_dir="assets")
+# Utilizando app ao invés de run, por conta da chamada para assets
+ft.app(target=main, assets_dir="assets")  # type: ignore
