@@ -5,20 +5,30 @@ from application.use_cases import ListarSupers
 from infrastructure.repositories.super_repository import SuperRepository
 from ui.components.gallery_view import GalleryView
 from ui.config.page_config import configurar_page
-from ui.navigation.navigator import Navigator
+
+from galeria.ui.layout.root_layout import RootLayout
 
 
 def main(page: ft.Page):
     configurar_page(page)
 
     repository = SuperRepository()
-    use_case = ListarSupers(repository)
+    use_case = ListarSupers(repository)  # type: ignore
     supers = use_case.executar()
 
-    navigator = Navigator(page)
+    # navigator = Navigator(page)
 
-    home = GalleryView(supers, navigator)
-    navigator.go(home)
+    # Criamos a galeria primeiro
+    gallery = GalleryView(supers, root_layout=None)  # type: ignore
+
+    # Agora criamos o root passando a galeria
+    root = RootLayout(gallery)
+
+    # Injetamos root na galeria
+    gallery.root = root
+
+    page.add(root)
 
 
-ft.app(target=main, assets_dir="assets")
+# Utilizando app ao invés de run, por conta da chamada para assets
+ft.app(target=main, assets_dir="assets")  # type: ignore

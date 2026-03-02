@@ -70,6 +70,7 @@ lint = "ruff check ."
 pre_format = "ruff check . --fix"
 format = "ruff format ."
 run = 'python main.py'
+runb = 'python galeria/main.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=galeria -vv'
 post_test = 'coverage html'
