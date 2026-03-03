@@ -7,9 +7,11 @@ from ui.components.gallery_view import GalleryView
 from ui.config.page_config import configurar_page
 
 from galeria.ui.layout.root_layout import RootLayout
+from galeria.ui.theme.theme import setup_theme
 
 
 def main(page: ft.Page):
+    setup_theme(page)
     configurar_page(page)
 
     repository = SuperRepository()
