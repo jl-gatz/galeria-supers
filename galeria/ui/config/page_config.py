@@ -18,3 +18,23 @@ def configurar_page(page: ft.Page) -> None:
     page.scroll = ft.ScrollMode.AUTO
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.fonts = {
+        "Montserrat": "fonts/Montserrat-Regular.ttf",
+        "Montserrat-Light": "fonts/Montserrat-Light.ttf",
+        "Montserrat-Light-Italic": "fonts/Montserrat-LightItalic.ttf",
+        "Montserrat-Medium": "fonts/Montserrat-Medium.ttf",
+        "Montserrat-Medium-Italic": "fonts/Montserrat-MediumItalic.ttf",
+        "Montserrat-Italic": "fonts/Montserrat-Italic.ttf",
+        "Montserrat-Bold": "fonts/Montserrat-Bold.ttf",
+        "Montserrat-Bold-Italic": "fonts/Montserrat-BoldItalic.ttf",
+        "Montserrat-EXTRA": "fonts/Montserrat-Extrabold.ttf",
+        "Montserrat-EXTRA-Italic": "fonts/Montserrat-ExtraboldItalic.ttf",
+        "Montserrat-EXTRA-Light": "fonts/Montserrat-ExtraLight.ttf",
+        "Montserrat-BLACK": "fonts/Montserrat-Black.ttf",
+        "Montserrat-BLACK-Italic": "fonts/Montserrat-BlackItalice.ttf",
+        "Montserrat-Regular": "fonts/Montserrat-Regular.ttf",
+        "Montserrat-Semi-Bold": "fonts/Montserrat-SemiBold.ttf",
+        "Montserrat-Semi-Bold-Italic": "fonts/Montserrat-SemiBoldItalic.ttf",
+        "Montserrat-Thin": "fonts/Montserrat-Thin.ttf",
+        "Montserrat-Thin-Italic": "fonts/Montserrat-ThinItalic.ttf",
+    }
