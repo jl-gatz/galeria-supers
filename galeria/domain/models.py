@@ -9,4 +9,4 @@ class Super:
     id: str
     nome: str
     foto: Path
-    historias: str
+    historias: list[str]
