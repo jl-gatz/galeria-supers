@@ -6,6 +6,7 @@ from galeria.ui.components.gallery_row import GalleryRow
 from galeria.ui.components.navigation_arrow import right_arrow
 from galeria.ui.components.super_view import SuperDetail
 from galeria.ui.controllers.GalleryScrollController import GalleryScrollController
+from galeria.ui.layout.root_layout import RootLayout
 from galeria.ui.theme.typography import heading_h1
 
 
@@ -14,9 +15,10 @@ class GalleryView(ft.Container):
     CARD_HEIGHT = 300
     VISIBLE_CARDS = 5
     SPACING = 60
-    MAX_WIDTH = 1600
+    MAX_WIDTH = 1725
+    PADDING = 50
 
-    def __init__(self, page: ft.Page, root_layout):
+    def __init__(self, page: ft.Page, root_layout: RootLayout):
         super().__init__(expand=True)
 
         self.root = root_layout
@@ -62,9 +64,12 @@ class GalleryView(ft.Container):
                     content=layout,
                     width=self.MAX_WIDTH,
                     alignment=ft.Alignment.TOP_CENTER,
+                    padding=self.PADDING,
                 ),
                 right_fade(),
-                right_arrow(on_click=lambda e: self.page.run_task(self.scroll_controller.next)),
+                right_arrow(
+                    on_click=lambda e: self.page.run_task(self.scroll_controller.next),
+                ),
             ]
         )
 
