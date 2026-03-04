@@ -38,47 +38,80 @@ class SuperDetail(ft.Container):
             seconds=AUTO_TIME_VIEW_BACK, on_timeout=self._timeout_close
         )
 
+        self.timeout.start()
+
         content = ft.Column(
             controls=[
-                ft.Image(
-                    src=str(self._image_path),
-                    width=300,
-                    border_radius=20,
-                ),
-                ft.Text(
-                    self._super.nome,
-                    font_family="Montserrat",
-                    size=36,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                self._texto,
-                ft.Row(
-                    controls=[
-                        ft.Button("Anterior", on_click=self._anterior),
-                        ft.Button("Próximo", on_click=self._proximo),
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                ),
-                ft.TextButton("Voltar", on_click=self._handle_voltar),
+                ft.GestureDetector(
+                    on_tap_down=self._handle_user_activity,
+                    content=ft.Column(
+                        controls=[
+                            ft.Image(
+                                src=str(self._image_path),
+                                width=300,
+                                border_radius=20,
+                            ),
+                            ft.Text(
+                                self._super.nome,
+                                font_family="Montserrat",
+                                size=36,
+                                weight=ft.FontWeight.BOLD,
+                            ),
+                            self._texto,
+                            ft.Row(
+                                controls=[
+                                    ft.Button(
+                                        "Anterior",
+                                        on_click=lambda e: (
+                                            self._handle_user_activity(),
+                                            self._anterior(e),
+                                        ),
+                                    ),
+                                    ft.Button(
+                                        "Próximo",
+                                        on_click=lambda e: (
+                                            self._handle_user_activity(),
+                                            self._proximo(e),
+                                        ),
+                                    ),
+                                ],
+                                alignment=ft.MainAxisAlignment.CENTER,
+                            ),
+                            ft.TextButton(
+                                "Voltar",
+                                on_click=lambda e: (
+                                    self._handle_user_activity(),
+                                    self._handle_voltar(e),
+                                ),
+                            ),
+                        ],
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=20,
+                    ),
+                )
             ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=20,
         )
 
         super().__init__(
-            content=content,
-            padding=40,
-            border_radius=20,
-            bgcolor=ft.Colors.WHITE,
-            shadow=ft.BoxShadow(
-                blur_radius=20,
-                spread_radius=2,
-                color=ft.Colors.BLACK_26,
-            ),
-            opacity=0,
-            animate_opacity=ANIMATE_OPACITY,
             expand=True,
             alignment=ft.Alignment.CENTER,
+            opacity=0,
+            animate_opacity=ANIMATE_OPACITY,
+            content=ft.GestureDetector(
+                on_tap_down=self._handle_user_activity,
+                # behavior=ft.HitTestBehavior.TRANSLUCENT,
+                content=ft.Container(
+                    content=content,  # sua Column interna
+                    padding=40,
+                    border_radius=20,
+                    bgcolor=ft.Colors.WHITE,
+                    shadow=ft.BoxShadow(
+                        blur_radius=20,
+                        spread_radius=2,
+                        color=ft.Colors.BLACK_26,
+                    ),
+                ),
+            ),
         )
 
     # -------------------------
@@ -100,16 +133,17 @@ class SuperDetail(ft.Container):
     # -------------------------
     # Animações
     # -------------------------
-
     def fade_in(self) -> None:
-        self.timeout.start()
         self.opacity = 0
         self.update()
 
         self.opacity = 1
         self.update()
+        # Inicia depois do fade -->
+        self.timeout.start()
 
     def fade_out(self) -> None:
+        # Cancela antes da aplicação do fade_out
         self.timeout.cancel()
 
         self.opacity = 0
@@ -127,12 +161,8 @@ class SuperDetail(ft.Container):
         await asyncio.sleep(FADE_OUT_ASYNC_SLEEP)  # igual ao animate_opacity (0.3)
         self._on_request_close()
 
-    def _wrap_interaction(self, handler):
-        def wrapped(e):
-            self.timeout.restart()
-            return handler(e)
-
-        return wrapped
+    def _handle_user_activity(self, e=None):
+        self.timeout.restart()
 
     def _timeout_close(self):
         # Executa a sequência de fechamento de forma assíncrona
