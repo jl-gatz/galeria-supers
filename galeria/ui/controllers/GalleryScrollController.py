@@ -7,7 +7,12 @@ from galeria.core.config import SCROLL_DURATION, SCROLL_RESET_DURATION
 
 class GalleryScrollController:
     def __init__(
-        self, row: ft.Row, visible_cards: int, card_width: int, spacing: int, padding: int = 0
+        self,
+        row: ft.Row,
+        visible_cards: int,
+        card_width: int,
+        spacing: int,
+        padding: int = 0,
     ):
         self.row = row
         self.visible_cards = visible_cards

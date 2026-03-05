@@ -1,17 +1,19 @@
 import flet as ft
 
+from galeria.ui.theme.colors import GRAY
 
-def right_fade(width=160):
+
+def right_fade():
     return ft.Container(
         expand=True,
         alignment=ft.Alignment.CENTER_RIGHT,
         content=ft.Container(
-            width=width,
+            width=20,
             expand=True,
             gradient=ft.LinearGradient(
                 begin=ft.Alignment.CENTER_LEFT,
                 end=ft.Alignment.CENTER_RIGHT,
-                colors=["#F4F4F400", "#F4F4F4"],
+                colors=[ft.Colors.TRANSPARENT, GRAY],
             ),
         ),
         # ignore_pointer=True,
