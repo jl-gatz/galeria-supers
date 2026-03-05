@@ -2,6 +2,7 @@ from pathlib import Path
 
 import flet as ft
 
+from galeria.core.paths import LOGO_DETIC, LOGO_UNICAMP
 from galeria.infrastructure.repositories.super_repository import Super, SuperRepository
 from galeria.ui.components.gallery_row import GalleryRow
 from galeria.ui.components.navigation_arrow import right_arrow
@@ -23,8 +24,8 @@ class GalleryView(ft.Container):
         self,
         page: ft.Page,
         root_layout: RootLayout,
-        logo1_src: str = "images/logos/logo-detic-4x.png",
-        logo2_src: str = "images/logos/Logo_Unicamp__0.png",
+        logo1_src: str = LOGO_DETIC,
+        logo2_src: str = LOGO_UNICAMP,
         show_placeholders: bool = False,
     ):
         super().__init__(expand=True)
