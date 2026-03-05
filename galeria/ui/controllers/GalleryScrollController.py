@@ -6,20 +6,34 @@ from galeria.core.config import SCROLL_DURATION, SCROLL_RESET_DURATION
 
 
 class GalleryScrollController:
-    def __init__(self, row: ft.Row, visible_cards: int, card_width: int, spacing: int):
+    def __init__(
+        self,
+        row: ft.Row,
+        visible_cards: int,
+        card_width: int,
+        spacing: int,
+        padding: int = 0,
+    ):
         self.row = row
         self.visible_cards = visible_cards
         self.card_width = card_width
         self.spacing = spacing
+        self.padding = padding
         self.current_page = 0
 
         self.row.on_scroll = self._on_scroll
 
     def group_width(self):
+        """Largura ocupada pelos cards de uma página (sem o espaçamento extra após o último card)."""
         return self.visible_cards * self.card_width + (self.visible_cards - 1) * self.spacing
+
+    def page_width(self):
+        """Distância do início de uma página ao início da próxima página (inclui o espaçamento extra)."""
+        return self.group_width() + self.spacing
 
     def total_pages(self):
         total_cards = len(self.row.controls)
+        # Número de páginas baseado nos cards, sem considerar padding
         return max(0, math.ceil(total_cards / self.visible_cards) - 1)
 
     async def _on_scroll(self, e: ft.OnScrollEvent):
@@ -39,7 +53,8 @@ class GalleryScrollController:
         else:
             self.current_page = 0
 
-        offset = self.current_page * self.group_width()
+        # Offset = padding inicial + (página atual) * (largura de uma página completa)
+        offset = self.padding + self.current_page * self.page_width()
 
         await self.row.scroll_to(
             offset=offset,

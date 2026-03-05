@@ -22,6 +22,6 @@ class GalleryRow(ft.Row):
             content=ft.Image(
                 src=f"images/supers/{super_data.foto}",
                 fit="cover",
-                height=300,
+                height=400,
             ),
         )

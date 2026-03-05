@@ -18,8 +18,6 @@ def main(page: ft.Page):
     use_case = ListarSupers(repository)  # type: ignore
     supers = use_case.executar()
 
-    # navigator = Navigator(page)
-
     # Criamos a galeria primeiro
     gallery = GalleryView(supers, root_layout=None)  # type: ignore
 

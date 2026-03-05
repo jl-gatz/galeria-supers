@@ -21,7 +21,7 @@ class SuperCard(ft.Container):
                     src=str(image_path),
                     width=200,
                     height=200,
-                    fit="cover",
+                    fit=ft.BoxFit.FIT_HEIGHT,
                     border_radius=ft.BorderRadius.all(100),
                 ),
                 ft.Text(
