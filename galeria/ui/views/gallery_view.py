@@ -3,13 +3,16 @@ from pathlib import Path
 import flet as ft
 
 from galeria.core.paths import LOGO_DETIC, LOGO_UNICAMP
-from galeria.infrastructure.repositories.super_repository import Super, SuperRepository
+from galeria.infrastructure.repositories.super_repository import Super
 from galeria.ui.components.gallery_row import GalleryRow
+from galeria.ui.components.logos_row import logos_row
 from galeria.ui.components.navigation_arrow import right_arrow
-from galeria.ui.components.super_view import SuperDetail
-from galeria.ui.controllers.GalleryScrollController import GalleryScrollController
+from galeria.ui.components.placeholders_row import placeholders_row
+from galeria.ui.controllers.gallery_controller import GalleryController
+from galeria.ui.controllers.gallery_scroll_controller import GalleryScrollController
 from galeria.ui.layout.root_layout import RootLayout
 from galeria.ui.theme.typography import heading_h1
+from galeria.ui.views.super_view import SuperDetail
 
 
 class GalleryView(ft.Container):
@@ -24,19 +27,19 @@ class GalleryView(ft.Container):
         self,
         page: ft.Page,
         root_layout: RootLayout,
-        logo1_src: str = LOGO_DETIC,
-        logo2_src: str = LOGO_UNICAMP,
-        show_placeholders: bool = False,
+        logo_detic: str = LOGO_DETIC,
+        logo_unicamp: str = LOGO_UNICAMP,
+        show_placeholder_left: bool = False,
+        show_placeholder_right: bool = False,
     ):
         super().__init__(expand=True)
 
         self.root = root_layout
-        self.repo = SuperRepository()
-        self.supers = self.repo.listar()
+        controller = GalleryController()
 
         # Galeria rolável
         self.gallery_row = GalleryRow(
-            supers=self.supers,
+            supers=controller.get_supers(),
             card_width=self.CARD_WIDTH,
             spacing=self.SPACING,
             on_card_click=self.abrir_super,
@@ -52,7 +55,7 @@ class GalleryView(ft.Container):
 
         # Container que envolve a galeria (sem padding extra por enquanto)
         cards_container = ft.Container(
-            width=self._calculate_visible_width(),
+            width=self.scroll_controller.group_width(),
             height=self.CARD_HEIGHT,
             content=self.gallery_row,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
@@ -64,7 +67,7 @@ class GalleryView(ft.Container):
                 cards_container,
                 # right_fade(),  # descomente se necessário
             ],
-            width=self._calculate_visible_width() + 2 * self.PADDING,
+            width=self.scroll_controller.group_width() + 2 * self.PADDING,
             height=self.CARD_HEIGHT,
         )
 
@@ -76,49 +79,10 @@ class GalleryView(ft.Container):
         )
 
         # Linha com os dois logotipos (alinhados à direita)
-        logos_row = ft.Container(
-            content=ft.Row(
-                [
-                    ft.Image(src=logo1_src, height=120, fit=ft.BoxFit.CONTAIN),
-                    ft.Image(src=logo2_src, height=120, fit=ft.BoxFit.CONTAIN),
-                ],
-                alignment=ft.MainAxisAlignment.END,
-                spacing=20,
-            ),
-            margin=ft.margin.only(top=20, bottom=10),
-        )
-
-        # Placeholders esquerdo e direito (decorativos, podem ser desligados)
-        self.left_placeholder = ft.Container(
-            width=80,
-            height=80,
-            bgcolor=ft.Colors.GREY_300 if show_placeholders else None,
-            visible=show_placeholders,
-            border_radius=10,
-            content=ft.Text("L", color=ft.Colors.GREY_700) if show_placeholders else None,
-        )
-        self.right_placeholder = ft.Container(
-            width=80,
-            height=80,
-            bgcolor=ft.Colors.GREY_300 if show_placeholders else None,
-            visible=show_placeholders,
-            border_radius=10,
-            content=ft.Text("R", color=ft.Colors.GREY_700) if show_placeholders else None,
-        )
+        logos = logos_row(logo_detic, logo_unicamp)
 
         # Linha inferior com placeholders (um à esquerda, um à direita)
-        placeholders_row = ft.Container(
-            content=ft.Row(
-                [
-                    self.left_placeholder,
-                    ft.Container(expand=True),  # espaçador flexível
-                    self.right_placeholder,
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            ),
-            visible=show_placeholders,
-            margin=ft.margin.only(top=20),
-        )
+        placeholders = placeholders_row(show_placeholder_left, show_placeholder_right)
 
         # Layout principal (coluna)
         layout = ft.Column(
@@ -126,8 +90,8 @@ class GalleryView(ft.Container):
                 heading_h1("Galeria de Superintendentes"),
                 gallery_stack,
                 arrow_container,
-                logos_row,
-                placeholders_row,
+                logos,
+                placeholders,
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             spacing=60,
@@ -140,9 +104,6 @@ class GalleryView(ft.Container):
             alignment=ft.Alignment.TOP_CENTER,
             padding=self.PADDING,
         )
-
-    def _calculate_visible_width(self):
-        return self.VISIBLE_CARDS * self.CARD_WIDTH + (self.VISIBLE_CARDS - 1) * self.SPACING
 
     def abrir_super(self, super_data: Super):
         if super_data.nome != "_blank":  # há um quadro "vazio" vindo do json

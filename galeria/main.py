@@ -3,11 +3,11 @@
 import flet as ft
 from application.use_cases import ListarSupers
 from infrastructure.repositories.super_repository import SuperRepository
-from ui.components.gallery_view import GalleryView
 from ui.config.page_config import configurar_page
 
 from galeria.ui.layout.root_layout import RootLayout
 from galeria.ui.theme.theme import setup_theme
+from galeria.ui.views.gallery_view import GalleryView
 
 
 def main(page: ft.Page):
