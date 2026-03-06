@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
-from collections.abc import Sequence
 
 from .models import Super
 
 
-class SuperRepository(ABC):
+class InterfaceSuperRepository(ABC):
     @abstractmethod
-    def listar(self) -> Sequence[Super]:
+    def listar(self) -> list[Super]:
         raise NotImplementedError
 
     @abstractmethod
