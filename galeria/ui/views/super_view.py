@@ -10,7 +10,8 @@ from galeria.core.config import (
     AUTO_TIME_VIEW_BACK,
     FADE_OUT_ASYNC_SLEEP,
 )
-from galeria.ui.controllers.AutoTimeoutController import AutoTimeoutController
+from galeria.ui.controllers.auto_time_controller import AutoTimeoutController
+from galeria.ui.theme.typography import heading_h2
 
 
 class SuperDetail(ft.Container):
@@ -51,11 +52,8 @@ class SuperDetail(ft.Container):
                                 width=300,
                                 border_radius=20,
                             ),
-                            ft.Text(
+                            heading_h2(
                                 self._super.nome,
-                                font_family="Montserrat",
-                                size=36,
-                                weight=ft.FontWeight.BOLD,
                             ),
                             self._texto,
                             ft.Row(

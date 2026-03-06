@@ -12,6 +12,16 @@ def heading_h1(text: str):
     )
 
 
+def heading_h2(text: str):
+    return ft.Text(
+        text,
+        font_family="Montserrat",
+        size=36,
+        weight=ft.FontWeight.BOLD,
+        color=BLACK,
+    )
+
+
 def body(text: str):
     return ft.Text(
         text,

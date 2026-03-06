@@ -2,7 +2,7 @@
 from collections.abc import Sequence
 
 from galeria.domain.models import Super
-from galeria.domain.repository import SuperRepository
+from galeria.infrastructure.repositories.super_repository import SuperRepository
 
 
 class ListarSupers:
