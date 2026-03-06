@@ -145,10 +145,11 @@ class GalleryView(ft.Container):
         return self.VISIBLE_CARDS * self.CARD_WIDTH + (self.VISIBLE_CARDS - 1) * self.SPACING
 
     def abrir_super(self, super_data: Super):
-        detail = SuperDetail(
-            super_data=super_data,
-            image_path=Path(f"images/supers/{super_data.foto}"),
-            on_request_close=lambda: self.root.hide_overlay(detail),
-        )
-        self.root.show_overlay(detail)
-        detail.fade_in()
+        if super_data.nome != "_blank":  # há um quadro "vazio" vindo do json
+            detail = SuperDetail(
+                super_data=super_data,
+                image_path=Path(f"images/supers/{super_data.foto}"),
+                on_request_close=lambda: self.root.hide_overlay(detail),
+            )
+            self.root.show_overlay(detail)
+            detail.fade_in()
