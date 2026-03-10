@@ -1,31 +1,6 @@
-import flet as ft
-from ui.theme.colors import BLACK
+FONT = "Montserrat"
 
-
-def heading_h1(text: str):
-    return ft.Text(
-        text,
-        font_family="Montserrat",
-        size=72,
-        weight=ft.FontWeight.BOLD,
-        color=BLACK,
-    )
-
-
-def heading_h2(text: str):
-    return ft.Text(
-        text,
-        font_family="Montserrat",
-        size=36,
-        weight=ft.FontWeight.BOLD,
-        color=BLACK,
-    )
-
-
-def body(text: str):
-    return ft.Text(
-        text,
-        font_family="Montserrat",
-        size=22,
-        color=BLACK,
-    )
+H1 = 72
+H2 = 36
+BODY = 22
+SMALL = 16

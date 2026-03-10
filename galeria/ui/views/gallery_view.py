@@ -11,7 +11,7 @@ from galeria.ui.components.placeholders_row import placeholders_row
 from galeria.ui.controllers.gallery_controller import GalleryController
 from galeria.ui.controllers.gallery_scroll_controller import GalleryScrollController
 from galeria.ui.layout.root_layout import RootLayout
-from galeria.ui.theme.typography import heading_h1
+from galeria.ui.theme.styles import heading_h1
 from galeria.ui.views.super_view import SuperDetail
 
 
@@ -110,6 +110,7 @@ class GalleryView(ft.Container):
             detail = SuperDetail(
                 super_data=super_data,
                 image_path=Path(f"images/supers/{super_data.foto}"),
+                timeline_path=None,
                 on_request_close=lambda: self.root.hide_overlay(detail),
             )
             self.root.show_overlay(detail)
