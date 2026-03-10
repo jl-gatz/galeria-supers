@@ -18,6 +18,8 @@ class SuperRepository(InterfaceSuperRepository):
                 id=s["id"],
                 nome=s["nome"],
                 foto=s["foto"],
+                timeline=s["timeline"],
+                timeline_points=s["timeline_points"],
                 historias=s["historias"],
             )
             for s in raw
@@ -31,6 +33,8 @@ class SuperRepository(InterfaceSuperRepository):
                 id=v["id"],
                 nome=v["nome"],
                 foto=v["foto"],
+                timeline=s["timeline"],
+                timeline_points=s["timeline_points"],
                 historias=v["historias"],
             )
             for k, v in raw.items()
