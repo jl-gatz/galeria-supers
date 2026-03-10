@@ -5,6 +5,8 @@ from typing import Any
 
 import flet as ft
 
+from galeria.ui.theme import spacing
+from galeria.ui.theme.colors import PRIMARY_RED
 from galeria.ui.theme.styles import body, heading_h2
 
 
@@ -13,8 +15,8 @@ class SuperHeader(ft.Container):
 
         self.text_list = ft.ListView(
             # expand=True,
-            height=300,
-            spacing=12,
+            height=433,
+            spacing=spacing.MD,
             controls=[],
         )
 
@@ -29,17 +31,17 @@ class SuperHeader(ft.Container):
 
         text_area = ft.Column(
             expand=True,
-            spacing=15,
+            spacing=spacing.MD,
             controls=[
                 heading_h2(nome),
-                ft.Divider(),
+                ft.Divider(color=PRIMARY_RED, thickness=3),
                 self.text_list,
             ],
         )
 
         layout = ft.Row(
             expand=True,
-            spacing=40,
+            spacing=spacing.XXL,
             vertical_alignment=ft.CrossAxisAlignment.START,
             controls=[
                 image,

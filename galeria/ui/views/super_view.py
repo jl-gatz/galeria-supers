@@ -1,5 +1,6 @@
 from collections.abc import Callable
 from pathlib import Path
+from typing import override
 
 import flet as ft
 from domain.models import Super
@@ -50,6 +51,8 @@ class SuperDetail(ft.Container):
             seconds=AUTO_TIME_VIEW_BACK,
             on_timeout=self._timeout_close,
         )
+
+        self.timeout.start()
 
         # Layout principal
         layout = ft.Container(
@@ -117,6 +120,8 @@ class SuperDetail(ft.Container):
 
     def _refresh_slide(self):
         """Atualiza o texto do slide atual."""
+        if not getattr(self, "_mounted", False):
+            return
         self.header.update_text(self.slides.current)
 
     def next(self, e=None):
@@ -136,7 +141,11 @@ class SuperDetail(ft.Container):
         self._on_request_close()
 
     def _handle_user_activity(self, e=None):
-        self.timeout.cancel()
+        self.timeout.restart()
 
     def _timeout_close(self):
         self._on_request_close()
+
+    @override
+    def did_mount(self):
+        self._mounted = True

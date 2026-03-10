@@ -29,6 +29,8 @@ def main(page: ft.Page):
 
     page.add(root)
 
+    page.scroll = ft.ScrollMode.HIDDEN
+
 
 # Utilizando app ao invés de run, por conta da chamada para assets
 ft.app(target=main, assets_dir="assets")  # type: ignore
