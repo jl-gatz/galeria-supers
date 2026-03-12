@@ -94,7 +94,7 @@ class GalleryView(ft.Container):
                 placeholders,
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=60,
+            spacing=self.SPACING,
         )
 
         # Container final que define a largura máxima e centraliza tudo

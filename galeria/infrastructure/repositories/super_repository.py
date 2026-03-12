@@ -2,9 +2,8 @@
 
 import json
 
-from core.paths import SUPERS_JSON
-from domain.models import Super
-
+from galeria.core.paths import SUPERS_JSON
+from galeria.domain.models import Super
 from galeria.domain.super_repository import InterfaceSuperRepository
 
 
@@ -33,8 +32,8 @@ class SuperRepository(InterfaceSuperRepository):
                 id=v["id"],
                 nome=v["nome"],
                 foto=v["foto"],
-                timeline=s["timeline"],
-                timeline_points=s["timeline_points"],
+                timeline=v["timeline"],
+                timeline_points=v["timeline_points"],
                 historias=v["historias"],
             )
             for k, v in raw.items()

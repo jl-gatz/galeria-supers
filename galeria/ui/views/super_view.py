@@ -3,12 +3,12 @@ from pathlib import Path
 from typing import override
 
 import flet as ft
-from domain.models import Super
 
 from galeria.core.config import (
     ANIMATE_OPACITY,
     AUTO_TIME_VIEW_BACK,
 )
+from galeria.domain.models import Super
 from galeria.ui.components.responsive_timeline import ResponsiveTimeline
 from galeria.ui.components.super_header import SuperHeader
 from galeria.ui.controllers.auto_time_controller import AutoTimeoutController
@@ -27,6 +27,10 @@ class SuperDetail(ft.Container):
         self._image_path = image_path
         self._timeline_path = timeline_path
         self._on_request_close = on_request_close
+
+        # Desliga scroll no componente
+        self.scroll = ft.ScrollMode.HIDDEN
+        self.expand = True
 
         # Controller dos slides
         self.slides = SlideController(self._super.historias)  # Ajuste o nome do campo
