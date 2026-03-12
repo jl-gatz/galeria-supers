@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from pathlib import Path
 
 import flet as ft
@@ -8,7 +9,6 @@ from galeria.ui.components.gallery_row import GalleryRow
 from galeria.ui.components.logos_row import logos_row
 from galeria.ui.components.navigation_arrow import right_arrow
 from galeria.ui.components.placeholders_row import placeholders_row
-from galeria.ui.controllers.gallery_controller import GalleryController
 from galeria.ui.controllers.gallery_scroll_controller import GalleryScrollController
 from galeria.ui.layout.root_layout import RootLayout
 from galeria.ui.theme.styles import heading_h1
@@ -26,6 +26,7 @@ class GalleryView(ft.Container):
     def __init__(
         self,
         page: ft.Page,
+        supers: Sequence[Super],
         root_layout: RootLayout,
         logo_detic: str = LOGO_DETIC,
         logo_unicamp: str = LOGO_UNICAMP,
@@ -35,11 +36,10 @@ class GalleryView(ft.Container):
         super().__init__(expand=True)
 
         self.root = root_layout
-        controller = GalleryController()
 
         # Galeria rolável
         self.gallery_row = GalleryRow(
-            supers=controller.get_supers(),
+            supers=supers,
             card_width=self.CARD_WIDTH,
             spacing=self.SPACING,
             on_card_click=self.abrir_super,
