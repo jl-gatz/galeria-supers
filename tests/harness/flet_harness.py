@@ -2,47 +2,62 @@
 
 import asyncio
 
-from .control_query import find_by_id, find_by_text, find_by_type
-from .interactions import click
-from .tree_inspector import inspect_tree
+from .tree_inspector import TreeInspector
 
 
 class FletTestHarness:
-    def __init__(self):
+    def __init__(self, page):
+
+        self.page = page
         self.root = None
+        self.inspector = None
 
-    async def mount(self, component):
+    # -------------------------
+    # mount component
+    # -------------------------
 
-        self.root = component
-        await asyncio.sleep(0)  # Apenas para tornar o método async
-        return component
+    async def mount(self, control):
 
-    def debug_tree(self):
+        self.root = control
 
-        inspect_tree(self.root)
+        self.page.add(control)
 
-    def find(self, control_type):
-        return find_by_type(self.root, control_type)
+        # simula lifecycle
+        if hasattr(control, "did_mount"):
+            control.did_mount()
 
-    def get_by_id(self, cid):
+        await self.flush()
 
-        control = find_by_id(self.root, cid)
+        self.inspector = TreeInspector(control)
 
-        if control is None:
-            raise AssertionError(f"Control id={cid} not found")
+    # -------------------------
+    # async flush
+    # -------------------------
 
-        return control
+    async def flush(self):
 
-    def get_by_text(self, text):
+        await asyncio.sleep(0)
 
-        controls = find_by_text(self.root, text)
+    # -------------------------
+    # query helpers
+    # -------------------------
 
-        if not controls:
-            raise AssertionError(f"Text '{text}' not found")
+    def find(self, cls):
 
-        return controls[0]
+        return self.inspector.find(cls)
 
-    def click(self, cid):
+    def count(self, cls):
 
-        control = self.get_by_id(cid)
-        click(control)
+        return self.inspector.count(cls)
+
+    def one(self, cls):
+
+        return self.inspector.one(cls)
+
+    # -------------------------
+    # debug
+    # -------------------------
+
+    def print_tree(self):
+
+        self.inspector.print_tree()

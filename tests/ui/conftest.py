@@ -1,6 +1,7 @@
 # tests/ui/conftest.py
 
 
+import flet as ft
 import pytest
 
 from galeria.ui.views.gallery_view import GalleryView
@@ -47,8 +48,8 @@ def super_detail():
 
 
 @pytest.fixture
-def gallery_view():
+def gallery_view(fake_page: ft.Page):
 
     supers = SuperFactory.batch(12)
 
-    return GalleryView(supers=supers, on_select=lambda s: None)
+    return GalleryView(supers=supers, root_layout=None, page=fake_page)

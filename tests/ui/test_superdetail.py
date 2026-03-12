@@ -10,7 +10,7 @@ async def test_superdetail_structure(harness: FletTestHarness, super_detail: Sup
     # await asyncio.sleep(0)
     await harness.mount(super_detail)
 
-    harness.debug_tree()
+    harness.print_tree()
 
     headers = harness.find(SuperHeader)
 
