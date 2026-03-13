@@ -75,7 +75,7 @@ class GalleryView(ft.Container):
         arrow_container = ft.Container(
             content=right_arrow(on_click=lambda _: self.page.run_task(self.scroll_controller.next)),
             alignment=ft.Alignment.CENTER,
-            margin=ft.margin.only(top=20),
+            margin=ft.Margin.only(top=20),
         )
 
         # Linha com os dois logotipos (alinhados à direita)

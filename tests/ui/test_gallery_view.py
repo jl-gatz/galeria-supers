@@ -1,71 +1,65 @@
 import pytest
 
 from galeria.ui.components.gallery_row import GalleryRow
-from galeria.ui.views.gallery_view import GalleryView
 from tests.harness.flet_harness import FletTestHarness
 
 
 @pytest.mark.asyncio
-async def test_gallery_view_structure(harness: FletTestHarness, gallery_view: GalleryView):
+async def test_gallery_view_structure(mounted_gallery: FletTestHarness):
     """
-    Testa se o layout básico de GalleryView foi montado
+    Verifica se GalleryRow está contida na árvore da GalleryView
     """
-    await harness.mount(gallery_view)
 
-    harness.print_tree()
+    gallery = mounted_gallery.one("GalleryView")
 
-    rows = harness.find(GalleryRow)
-
-    assert len(rows) > 0
-
-
-@pytest.mark.asyncio
-async def test_gallery_renders_all_supers(harness: FletTestHarness, gallery_view: GalleryView):
-    """
-    Testa se todos os supers foram renderizados corretamente
-    """
-    await harness.mount(gallery_view)
-
-    rows = harness.find(GalleryRow)
-
-    gallery_row = rows[0]
-
-    images = list(gallery_row.controls)
+    rows = mounted_gallery.find_descendants(gallery, "GalleryRow")
 
     assert len(rows) == 1
-    assert len(rows[0].controls) == 12
-    assert len(images) == 12
 
 
 # @pytest.mark.asyncio
-# async def test_gallery_contains_super_names(harness: FletTestHarness, gallery_view: GalleryView):
+# async def test_gallery_structure_tree(mounted_gallery: FletTestHarness):
 #     """
-#     Teste de conteúdo por nome do super
+#     Verifica a estrutura interna da galeria
 #     """
-#     await harness.mount(gallery_view)
+#     assert mounted_gallery.count_path(["GalleryRow", "Image"]) == 12
 
-#     control = harness.find("Super 3")
 
-#     assert control is not None
+# @pytest.mark.asyncio
+# async def test_gallery_renders_all_supers(mounted_gallery: FletTestHarness):
+#     """
+#     Verifica se todos os supers foram renderizados
+#     """
+#     mounted_gallery.assert_list_rendered(GalleryRow, 12)
+#     assert mounted_gallery.count_select("GalleryRow Image") == 12
 
 
 @pytest.mark.asyncio
-async def test_gallery_rows_distribution(harness: FletTestHarness, gallery_view: GalleryView):
+async def test_gallery_row_contains_supers(mounted_gallery: FletTestHarness):
     """
-    Teste de layout; verifica se foi criada uma gallery row
+    Verifica se a row contém os supers
     """
-    await harness.mount(gallery_view)
+    row = mounted_gallery.one(GalleryRow)
 
-    rows = harness.find(GalleryRow)
-
-    assert len(rows) >= 1
+    assert len(row.controls) == 12
 
 
-@pytest.mark.asyncio
-async def test_gallery_tree_snapshot(harness: FletTestHarness, gallery_view: GalleryView):
-    """
-    Função para salvar a saída da árvore de componentes
-    """
-    await harness.mount(gallery_view)
+# @pytest.mark.asyncio
+# async def test_selector_engine(mounted_gallery: FletTestHarness):
+#     """
+#     Testa o engine de seletores
+#     """
+#     assert mounted_gallery.count_select("GalleryRow") == 1
+#     assert mounted_gallery.count_select("GalleryRow Image") == 12
 
-    harness.print_tree()
+
+# @pytest.mark.asyncio
+# async def test_logos_row(mounted_gallery: FletTestHarness):
+#     """
+#     Verifica se os logos foram renderizados corretamente
+#     """
+#     logos = mounted_gallery.find_where(
+#         lambda n: n.__class__.__name__ == "Image" and "logo" in n.src
+#     )
+
+#     assert len(logos) == 2

@@ -30,5 +30,5 @@ def placeholders_row(left_active: bool = False, right_active: bool = False):
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         ),
-        margin=ft.margin.only(top=20),
+        margin=ft.Margin.only(top=20),
     )
