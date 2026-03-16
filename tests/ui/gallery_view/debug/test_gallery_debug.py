@@ -1,6 +1,6 @@
 import pytest
 
-from tests.harness.flet_harness import FletTestHarness
+from tests.harness import FletTestHarness
 
 
 @pytest.mark.debug

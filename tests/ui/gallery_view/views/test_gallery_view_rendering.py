@@ -1,7 +1,7 @@
 import pytest
 
 from galeria.ui.components.gallery_row import GalleryRow
-from tests.harness.flet_harness import FletTestHarness
+from tests.harness import FletTestHarness
 
 
 @pytest.mark.asyncio

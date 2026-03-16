@@ -1,9 +1,12 @@
 # tests/harness/rich_debug.py
 
+from difflib import unified_diff
+
+from rich.columns import Columns
 from rich.console import Console
-from rich.diff import Diff
 from rich.panel import Panel
 from rich.pretty import Pretty
+from rich.syntax import Syntax
 from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
@@ -12,15 +15,38 @@ console = Console()
 
 
 class RichDebug:
+    # -------------------------
+
+    @staticmethod
+    def _tree_to_lines(root, inspector):
+        """
+        Converte árvore de controles em linhas de texto.
+        """
+
+        lines = []
+
+        def walk(node, depth=0):
+            indent = "  " * depth
+            lines.append(f"{indent}{node.__class__.__name__}")
+
+            for child in inspector.children(node):
+                walk(child, depth + 1)
+
+        walk(root)
+
+        return lines
+
+    # -------------------------
+
     @staticmethod
     def print_tree(root, inspector):
         """
-        Renderiza a árvore de componentes
+        Renderiza árvore de controles.
         """
 
         def build(node, branch):
-            label = f"[bold cyan]{node.__class__.__name__}[/]"
 
+            label = f"[bold cyan]{node.__class__.__name__}[/]"
             child_branch = branch.add(label)
 
             for child in inspector.children(node):
@@ -38,7 +64,7 @@ class RichDebug:
     @staticmethod
     def print_query(results):
         """
-        Mostra resultado de uma query
+        Mostra resultado de query.
         """
 
         table = Table(title="Query Results")
@@ -61,12 +87,12 @@ class RichDebug:
     @staticmethod
     def print_node(node):
         """
-        Mostra detalhes de um controle
+        Mostra detalhes de um controle.
         """
 
         panel = Panel(
             Pretty(node),
-            title=f"{node.__class__.__name__}",
+            title=node.__class__.__name__,
             border_style="green",
         )
 
@@ -77,7 +103,7 @@ class RichDebug:
     @staticmethod
     def print_controls_table(nodes):
         """
-        Tabela com controles encontrados
+        Tabela com controles encontrados.
         """
 
         table = Table(title="Controls")
@@ -106,21 +132,59 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def print_snapshot_diff(expected, actual):
+    def print_snapshot_diff(expected_root, actual_root, inspector):
         """
-        Mostra diff entre snapshots
+        Mostra diff entre duas árvores.
         """
 
-        diff = Diff(expected, actual)
+        expected_lines = RichDebug._tree_to_lines(expected_root, inspector)
+        actual_lines = RichDebug._tree_to_lines(actual_root, inspector)
 
-        console.print(Panel(diff, title="Snapshot Diff"))
+        # painel lado a lado
+        expected_panel = Panel(
+            "\n".join(expected_lines),
+            title="Expected Tree",
+            border_style="green",
+        )
+
+        actual_panel = Panel(
+            "\n".join(actual_lines),
+            title="Actual Tree",
+            border_style="red",
+        )
+
+        console.print(Columns([expected_panel, actual_panel]))
+
+        # diff textual
+        diff = unified_diff(
+            expected_lines, actual_lines, fromfile="expected", tofile="actual", lineterm=""
+        )
+
+        diff_text = "\n".join(diff)
+
+        if diff_text:
+            console.print(
+                Panel(
+                    Syntax(diff_text, "diff"),
+                    title="Tree Diff",
+                    border_style="yellow",
+                )
+            )
+        else:
+            console.print(
+                Panel(
+                    "Trees are identical",
+                    title="Tree Diff",
+                    border_style="green",
+                )
+            )
 
     # -------------------------
 
     @staticmethod
     def highlight_selector(selector):
         """
-        Destaque visual do selector
+        Destaque visual de selector.
         """
 
         text = Text(selector, style="bold magenta")

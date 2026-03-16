@@ -1,5 +1,6 @@
 # tests/debug/__init__.py
 
+from .render_summary import render_summary
 from .rich_debug import RichDebug
 from .rich_node import render_node
 from .rich_query import render_query
@@ -11,5 +12,6 @@ __all__ = [
     "render_node",
     "render_query",
     "render_snapshot_diff",
+    "render_summary",
     "render_tree",
 ]
