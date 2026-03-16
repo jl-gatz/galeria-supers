@@ -14,5 +14,5 @@ def logos_row(logo1: Path, logo2: Path):
             alignment=ft.MainAxisAlignment.END,
             spacing=20,
         ),
-        margin=ft.margin.only(top=20, bottom=10),
+        margin=ft.Margin.only(top=20, bottom=10),
     )

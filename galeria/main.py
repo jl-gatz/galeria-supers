@@ -19,7 +19,7 @@ def main(page: ft.Page):
     supers = use_case.executar()
 
     # Criamos a galeria primeiro
-    gallery = GalleryView(supers, root_layout=None)  # type: ignore
+    gallery = GalleryView(supers=supers, page=page, root_layout=None)  # type: ignore
 
     # Agora criamos o root passando a galeria
     root = RootLayout(gallery)

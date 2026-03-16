@@ -2,7 +2,8 @@ from collections.abc import Callable
 from pathlib import Path
 
 import flet as ft
-from domain.models import Super
+
+from galeria.domain.models import Super
 
 
 class SuperCard(ft.Container):

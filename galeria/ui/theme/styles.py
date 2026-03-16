@@ -1,8 +1,9 @@
 from typing import Any
 
 import flet as ft
-from ui.theme.colors import BLACK
-from ui.theme.typography import BODY, FONT, H1, H2
+
+from galeria.ui.theme.colors import BLACK
+from galeria.ui.theme.typography import BODY, FONT, H1, H2
 
 
 def heading_h1(text: str, **kwargs: Any):

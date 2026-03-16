@@ -1,0 +1,43 @@
+GalleryView
+  Container
+    Column
+      Text
+      Stack
+        Container
+          GalleryRow
+            Container
+              Image (src='images/supers//images/super0.png')
+            Container
+              Image (src='images/supers//images/super1.png')
+            Container
+              Image (src='images/supers//images/super2.png')
+            Container
+              Image (src='images/supers//images/super3.png')
+            Container
+              Image (src='images/supers//images/super4.png')
+            Container
+              Image (src='images/supers//images/super5.png')
+            Container
+              Image (src='images/supers//images/super6.png')
+            Container
+              Image (src='images/supers//images/super7.png')
+            Container
+              Image (src='images/supers//images/super8.png')
+            Container
+              Image (src='images/supers//images/super9.png')
+            Container
+              Image (src='images/supers//images/super10.png')
+            Container
+              Image (src='images/supers//images/super11.png')
+      Container
+        Container
+          IconButton
+      Container
+        Row
+          Image (src='images/logos/logo-detic-4x.png')
+          Image (src='images/logos/Logo_Unicamp__0.png')
+      Container
+        Row
+          Container
+          Container
+          Container

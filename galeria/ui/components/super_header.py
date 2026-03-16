@@ -13,11 +13,14 @@ from galeria.ui.theme.styles import body, heading_h2
 class SuperHeader(ft.Container):
     def __init__(self, image_src: str, nome: str, texto_inicial: str = "", **kwargs: Any):
 
+        self.scroll = ft.ScrollMode.HIDDEN
+
         self.text_list = ft.ListView(
             # expand=True,
             height=433,
-            spacing=spacing.MD,
+            spacing=spacing.LG,
             controls=[],
+            # auto_scroll=True,
         )
 
         self._set_paragraphs(texto_inicial)
