@@ -4,15 +4,13 @@ from typing import override
 
 import flet as ft
 
-from galeria.core.config import (
+from galeria.core import (
     ANIMATE_OPACITY,
     AUTO_TIME_VIEW_BACK,
 )
-from galeria.domain.models import Super
-from galeria.ui.components.responsive_timeline import ResponsiveTimeline
-from galeria.ui.components.super_header import SuperHeader
-from galeria.ui.controllers.auto_time_controller import AutoTimeoutController
-from galeria.ui.controllers.slide_controller import SlideController
+from galeria.domain import Super
+from galeria.ui.components import ResponsiveTimeline, SuperHeader
+from galeria.ui.controllers import AutoTimeoutController, SlideController
 
 
 class SuperDetail(ft.Container):

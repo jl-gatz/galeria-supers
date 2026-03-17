@@ -1,17 +1,16 @@
+# galeria/ui/views/gallery_view.py
+
 from collections.abc import Sequence
 from pathlib import Path
 
 import flet as ft
 
-from galeria.core.paths import LOGO_DETIC, LOGO_UNICAMP
-from galeria.infrastructure.repositories.super_repository import Super
-from galeria.ui.components.gallery_row import GalleryRow
-from galeria.ui.components.logos_row import logos_row
-from galeria.ui.components.navigation_arrow import right_arrow
-from galeria.ui.components.placeholders_row import placeholders_row
-from galeria.ui.controllers.gallery_scroll_controller import GalleryScrollController
-from galeria.ui.layout.root_layout import RootLayout
-from galeria.ui.theme.styles import heading_h1
+from galeria.core import LOGO_DETIC, LOGO_UNICAMP
+from galeria.domain import Super
+from galeria.ui.components import GalleryRow, logos_row, placeholders_row, right_arrow
+from galeria.ui.controllers import GalleryScrollController
+from galeria.ui.layout import RootLayout
+from galeria.ui.theme import h1
 from galeria.ui.views.super_view import SuperDetail
 
 
@@ -36,6 +35,7 @@ class GalleryView(ft.Container):
         super().__init__(expand=True)
 
         self.root = root_layout
+        self.supers = supers
 
         # Galeria rolável
         self.gallery_row = GalleryRow(
@@ -87,7 +87,7 @@ class GalleryView(ft.Container):
         # Layout principal (coluna)
         layout = ft.Column(
             [
-                heading_h1("Galeria de Superintendentes"),
+                h1("Galeria de Superintendentes"),
                 gallery_stack,
                 arrow_container,
                 logos,

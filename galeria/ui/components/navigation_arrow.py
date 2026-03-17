@@ -1,5 +1,7 @@
 import flet as ft
 
+from galeria.ui.theme import spacing
+
 
 def right_arrow(on_click: ft.Control):
     return ft.Container(
@@ -7,7 +9,7 @@ def right_arrow(on_click: ft.Control):
         alignment=ft.Alignment.BOTTOM_RIGHT,
         content=ft.IconButton(
             icon=ft.Icons.ARROW_FORWARD,
-            icon_size=48,
+            icon_size=spacing.XXL,
             on_click=on_click,
         ),
     )
