@@ -4,8 +4,8 @@ from typing import Any
 
 import pytest
 
-from tests.harness.flet_harness import FletTestHarness
-from tests.stubs.fake_page import FakePage
+from tests.harness import FletTestHarness
+from tests.stubs import FakePage
 
 
 @pytest.fixture

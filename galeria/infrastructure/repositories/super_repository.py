@@ -2,9 +2,8 @@
 
 import json
 
-from galeria.core.paths import SUPERS_JSON
-from galeria.domain.models import Super
-from galeria.domain.super_repository import InterfaceSuperRepository
+from galeria.core import SUPERS_JSON
+from galeria.domain import InterfaceSuperRepository, Super
 
 
 class SuperRepository(InterfaceSuperRepository):

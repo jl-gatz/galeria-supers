@@ -3,7 +3,8 @@ from pathlib import Path
 
 import flet as ft
 
-from galeria.domain.models import Super
+from galeria.domain import Super
+from galeria.ui.theme import BODY, spacing
 
 
 class SuperCard(ft.Container):
@@ -27,7 +28,7 @@ class SuperCard(ft.Container):
                 ),
                 ft.Text(
                     super_data.nome,
-                    size=20,
+                    size=BODY,
                     text_align=ft.TextAlign.CENTER,
                 ),
             ],
@@ -36,7 +37,7 @@ class SuperCard(ft.Container):
 
         super().__init__(
             content=content,
-            padding=20,
+            padding=spacing.LG,
             on_click=self._handle_click,
         )
 

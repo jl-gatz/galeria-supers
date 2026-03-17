@@ -5,9 +5,7 @@ from typing import Any
 
 import flet as ft
 
-from galeria.ui.theme import spacing
-from galeria.ui.theme.colors import PRIMARY_RED
-from galeria.ui.theme.styles import body, heading_h2
+from galeria.ui.theme import PRIMARY_RED, body, h2, spacing
 
 
 class SuperHeader(ft.Container):
@@ -36,7 +34,7 @@ class SuperHeader(ft.Container):
             expand=True,
             spacing=spacing.MD,
             controls=[
-                heading_h2(nome),
+                h2(nome),
                 ft.Divider(color=PRIMARY_RED, thickness=3),
                 self.text_list,
             ],

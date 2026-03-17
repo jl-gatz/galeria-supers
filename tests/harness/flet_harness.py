@@ -1,12 +1,12 @@
+# tests/harness/flet_harness.py
+
 from pathlib import Path
 
 import flet as ft
 
-from tests.debug.rich_node import render_node
-from tests.debug.rich_query import render_query
-from tests.debug.rich_tree import render_tree
+from tests.debug import render_node, render_query, render_summary, render_tree
 from tests.harness.tree_inspector import TreeInspector
-from tests.stubs.fake_page import FakePage
+from tests.stubs import FakePage
 
 
 class FletTestHarness:
@@ -153,6 +153,9 @@ class FletTestHarness:
         """
         return self.inspector.count_path(path)
 
+    def all_nodes(self):
+        return list(self.inspector.walk())
+
     def _ensure_mounted(self):
         """
         Garante que um componente foi montado antes de executar queries.
@@ -242,12 +245,17 @@ class FletTestHarness:
         """
         render_tree(self.root, self.inspector)
 
-    def rich_query(self, selector):
+    def rich_query(self, selector: str | None = None):
         """
         Renderiza visualmente os resultados de uma query.
         """
+
+        if selector is None:
+            render_summary(self.all_nodes())
+            return
+
         nodes = self.select(selector)
-        render_query(nodes)
+        render_query(nodes, title=f"Query: {selector}")
 
     def rich_node(self, node):
         """

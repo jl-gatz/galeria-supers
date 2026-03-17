@@ -6,10 +6,9 @@ import pytest
 import pytest_asyncio
 
 from galeria.ui.views.gallery_view import GalleryView
-from tests.factories.super_detail_factory import SuperDetailFactory
-from tests.factories.super_factory import SuperFactory
-from tests.fixtures.super_data import FakeSuperData
-from tests.harness.flet_harness import FletTestHarness
+from tests.factories import SuperDetailFactory, SuperFactory
+from tests.fixtures import FakeSuperData
+from tests.harness import FletTestHarness
 
 
 @pytest.fixture

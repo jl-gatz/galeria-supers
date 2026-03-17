@@ -1,0 +1,21 @@
+SuperDetail
+  GestureDetector
+    Container
+      Column
+        SuperHeader
+          Row
+            Image (src='tests/assets/test_image.png')
+            Column
+              Text
+              Divider
+              ListView
+                Text
+        ResponsiveTimeline
+          Image (src='tests/assets/test_timeline.png')
+        Row
+          Button
+            str
+          Button
+            str
+        OutlinedButton
+          str

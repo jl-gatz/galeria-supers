@@ -1,8 +1,10 @@
+from typing import Any
+
 import flet as ft
 
 
 class GalleryRow(ft.Row):
-    def __init__(self, supers, card_width, spacing, on_card_click):
+    def __init__(self, supers: Any, card_width: int, spacing: int, on_card_click: ft.Control):
         self.supers = supers
         self.card_width = card_width
 
@@ -21,7 +23,7 @@ class GalleryRow(ft.Row):
             on_click=lambda e: on_card_click(super_data),
             content=ft.Image(
                 src=f"images/supers/{super_data.foto}",
-                fit="cover",
+                fit=ft.BoxFit.COVER,
                 height=400,
             ),
         )
