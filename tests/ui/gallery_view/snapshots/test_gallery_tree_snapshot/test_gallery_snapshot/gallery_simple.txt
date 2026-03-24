@@ -1,0 +1,10 @@
+Gallery
+├── Title("Galeria de Superintendentes")
+├── Cards
+│    ├── Card(Ada)
+│    ├── Card(Alan)
+│    ├── Card(Bell)
+│    └── Card(None)
+├── Arrow
+├── Logos(detic, unicamp)
+└── Placeholders

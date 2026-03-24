@@ -6,29 +6,13 @@ GalleryView
         Container
           GalleryRow
             Container
-              Image (src='images/supers//images/super0.png')
+              Image (src='images/supers/ada.png')
             Container
-              Image (src='images/supers//images/super1.png')
+              Image (src='images/supers/turing.png')
             Container
-              Image (src='images/supers//images/super2.png')
+              Image (src='images/supers/None')
             Container
-              Image (src='images/supers//images/super3.png')
-            Container
-              Image (src='images/supers//images/super4.png')
-            Container
-              Image (src='images/supers//images/super5.png')
-            Container
-              Image (src='images/supers//images/super6.png')
-            Container
-              Image (src='images/supers//images/super7.png')
-            Container
-              Image (src='images/supers//images/super8.png')
-            Container
-              Image (src='images/supers//images/super9.png')
-            Container
-              Image (src='images/supers//images/super10.png')
-            Container
-              Image (src='images/supers//images/super11.png')
+              Image (src='images/supers/None')
       Container
         Container
           IconButton

@@ -23,6 +23,7 @@ vulture = "^2.15"
 pytest-asyncio = "^1.3.0"
 taskipy = "^1.14.1"
 rich = "^14.3.3"
+pytest-snapshot = "^0.9.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -67,10 +68,11 @@ docstring-code-format = true
 lint = "ruff check ."
 pre_format = "ruff check . --fix"
 format = "ruff format ."
-run = 'python main.py'
-runb = 'python galeria/main.py'
-pre_test = 'task lint'
+run = "python main.py"
+runb = "python galeria/main.py"
+pre_test = "task lint"
 test = 'pytest -m "not debug" -s -x --cov=galeria -vv'
-debug = 'pytest -m debug -s'
-post_test = 'coverage html'
+debug = "pytest -m debug -s"
+post_test = "coverage html"
 typecheck = "pyright"
+snap = "pytest --snapshot-update"

@@ -1,0 +1,389 @@
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [],
+          "props": {
+            "col": 12,
+            "color": "#161819",
+            "disabled": false,
+            "enable_interactive_selection": true,
+            "expand_loose": false,
+            "font_family": "Montserrat",
+            "italic": false,
+            "opacity": 1.0,
+            "rtl": false,
+            "selection_cursor_width": 2.0,
+            "show_selection_cursor": false,
+            "size": 72,
+            "size_change_interval": 10,
+            "value": "Galeria de Superintendentes",
+            "visible": true
+          },
+          "type": "Text"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "props": {
+                        "col": 12,
+                        "disabled": false,
+                        "expand_loose": false,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true,
+                        "width": 275
+                      },
+                      "type": "Container"
+                    },
+                    {
+                      "children": [],
+                      "props": {
+                        "col": 12,
+                        "disabled": false,
+                        "expand_loose": false,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true,
+                        "width": 275
+                      },
+                      "type": "Container"
+                    },
+                    {
+                      "children": [],
+                      "props": {
+                        "col": 12,
+                        "disabled": false,
+                        "expand_loose": false,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true,
+                        "width": 275
+                      },
+                      "type": "Container"
+                    },
+                    {
+                      "children": [],
+                      "props": {
+                        "col": 12,
+                        "disabled": false,
+                        "expand_loose": false,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true,
+                        "width": 275
+                      },
+                      "type": "Container"
+                    }
+                  ],
+                  "props": {
+                    "auto_scroll": false,
+                    "card_width": 275,
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "intrinsic_height": false,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "run_spacing": 10,
+                    "scroll_interval": 10,
+                    "size_change_interval": 10,
+                    "spacing": 60,
+                    "tight": false,
+                    "visible": true,
+                    "wrap": false
+                  },
+                  "type": "GalleryRow"
+                }
+              ],
+              "props": {
+                "col": 12,
+                "disabled": false,
+                "expand_loose": false,
+                "height": 360,
+                "ignore_interactions": false,
+                "ink": false,
+                "opacity": 1.0,
+                "rtl": false,
+                "size_change_interval": 10,
+                "visible": true,
+                "width": 1615
+              },
+              "type": "Container"
+            }
+          ],
+          "props": {
+            "col": 12,
+            "disabled": false,
+            "expand_loose": false,
+            "height": 360,
+            "opacity": 1.0,
+            "rtl": false,
+            "size_change_interval": 10,
+            "visible": true,
+            "width": 1655
+          },
+          "type": "Stack"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "props": {
+                    "autofocus": false,
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "icon": 66001,
+                    "icon_size": 48,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "visible": true
+                  },
+                  "type": "IconButton"
+                }
+              ],
+              "props": {
+                "col": 12,
+                "disabled": false,
+                "expand": true,
+                "expand_loose": false,
+                "ignore_interactions": false,
+                "ink": false,
+                "opacity": 1.0,
+                "rtl": false,
+                "size_change_interval": 10,
+                "visible": true
+              },
+              "type": "Container"
+            }
+          ],
+          "props": {
+            "col": 12,
+            "disabled": false,
+            "expand_loose": false,
+            "ignore_interactions": false,
+            "ink": false,
+            "opacity": 1.0,
+            "rtl": false,
+            "size_change_interval": 10,
+            "visible": true
+          },
+          "type": "Container"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "props": {
+                    "anti_alias": false,
+                    "col": 12,
+                    "disabled": false,
+                    "exclude_from_semantics": false,
+                    "expand_loose": false,
+                    "gapless_playback": false,
+                    "height": 120,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "visible": true
+                  },
+                  "type": "Image"
+                },
+                {
+                  "children": [],
+                  "props": {
+                    "anti_alias": false,
+                    "col": 12,
+                    "disabled": false,
+                    "exclude_from_semantics": false,
+                    "expand_loose": false,
+                    "gapless_playback": false,
+                    "height": 120,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "visible": true
+                  },
+                  "type": "Image"
+                }
+              ],
+              "props": {
+                "auto_scroll": false,
+                "col": 12,
+                "disabled": false,
+                "expand_loose": false,
+                "intrinsic_height": false,
+                "opacity": 1.0,
+                "rtl": false,
+                "run_spacing": 10,
+                "scroll_interval": 10,
+                "size_change_interval": 10,
+                "spacing": 20,
+                "tight": false,
+                "visible": true,
+                "wrap": false
+              },
+              "type": "Row"
+            }
+          ],
+          "props": {
+            "col": 12,
+            "disabled": false,
+            "expand_loose": false,
+            "ignore_interactions": false,
+            "ink": false,
+            "opacity": 1.0,
+            "rtl": false,
+            "size_change_interval": 10,
+            "visible": true
+          },
+          "type": "Container"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "props": {
+                    "border_radius": 10,
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "height": 80,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "visible": false,
+                    "width": 80
+                  },
+                  "type": "Container"
+                },
+                {
+                  "children": [],
+                  "props": {
+                    "col": 12,
+                    "disabled": false,
+                    "expand": true,
+                    "expand_loose": false,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "visible": true
+                  },
+                  "type": "Container"
+                },
+                {
+                  "children": [],
+                  "props": {
+                    "border_radius": 10,
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "height": 80,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "visible": false,
+                    "width": 80
+                  },
+                  "type": "Container"
+                }
+              ],
+              "props": {
+                "auto_scroll": false,
+                "col": 12,
+                "disabled": false,
+                "expand_loose": false,
+                "intrinsic_height": false,
+                "opacity": 1.0,
+                "rtl": false,
+                "run_spacing": 10,
+                "scroll_interval": 10,
+                "size_change_interval": 10,
+                "spacing": 10,
+                "tight": false,
+                "visible": true,
+                "wrap": false
+              },
+              "type": "Row"
+            }
+          ],
+          "props": {
+            "col": 12,
+            "disabled": false,
+            "expand_loose": false,
+            "ignore_interactions": false,
+            "ink": false,
+            "opacity": 1.0,
+            "rtl": false,
+            "size_change_interval": 10,
+            "visible": true
+          },
+          "type": "Container"
+        }
+      ],
+      "props": {
+        "auto_scroll": false,
+        "col": 12,
+        "disabled": false,
+        "expand_loose": false,
+        "intrinsic_width": false,
+        "opacity": 1.0,
+        "rtl": false,
+        "run_spacing": 10,
+        "scroll_interval": 10,
+        "size_change_interval": 10,
+        "spacing": 60,
+        "tight": false,
+        "visible": true,
+        "wrap": false
+      },
+      "type": "Column"
+    }
+  ],
+  "props": {
+    "col": 12,
+    "disabled": false,
+    "expand_loose": false,
+    "ignore_interactions": false,
+    "ink": false,
+    "opacity": 1.0,
+    "padding": 20,
+    "rtl": false,
+    "size_change_interval": 10,
+    "visible": true,
+    "width": 1800
+  },
+  "type": "Container"
+}
