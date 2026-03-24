@@ -5,8 +5,9 @@ import flet as ft
 import pytest
 import pytest_asyncio
 
+from galeria.domain import SuperService
 from galeria.ui.views.gallery_view import GalleryView
-from tests.factories import SuperDetailFactory, SuperFactory
+from tests.factories import SuperDetailFactory
 from tests.fixtures import FakeSuperData
 from tests.harness import FletTestHarness
 
@@ -49,11 +50,11 @@ def super_detail():
 
 
 @pytest.fixture
-def gallery_view(fake_page: ft.Page):
+def gallery_view(fake_page: ft.Page, service: SuperService):
 
-    supers = SuperFactory.batch(12)
+    # supers = SuperFactory.batch(12)
 
-    return GalleryView(supers=supers, root_layout=None, page=fake_page)
+    return GalleryView(service=service, root_layout=None, page=fake_page)
 
 
 @pytest_asyncio.fixture
