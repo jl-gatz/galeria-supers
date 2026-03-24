@@ -1,12 +1,11 @@
 # galeria/ui/views/gallery_view.py
 
 from collections.abc import Sequence
-from pathlib import Path
 
 import flet as ft
 
 from galeria.core import LOGO_DETIC, LOGO_UNICAMP
-from galeria.domain import Super
+from galeria.domain import Super, SuperService
 from galeria.ui.components import GalleryRow, logos_row, placeholders_row, right_arrow
 from galeria.ui.controllers import GalleryScrollController
 from galeria.ui.layout import RootLayout
@@ -25,7 +24,7 @@ class GalleryView(ft.Container):
     def __init__(
         self,
         page: ft.Page,
-        supers: Sequence[Super],
+        service: SuperService,
         root_layout: RootLayout,
         logo_detic: str = LOGO_DETIC,
         logo_unicamp: str = LOGO_UNICAMP,
@@ -35,11 +34,12 @@ class GalleryView(ft.Container):
         super().__init__(expand=True)
 
         self.root = root_layout
-        self.supers = supers
+        self.service = service
+        self.supers: Sequence[Super] = service.listar_supers()
 
         # Galeria rolável
         self.gallery_row = GalleryRow(
-            supers=supers,
+            supers=self.supers,
             card_width=self.CARD_WIDTH,
             spacing=self.SPACING,
             on_card_click=self.abrir_super,
@@ -106,12 +106,14 @@ class GalleryView(ft.Container):
         )
 
     def abrir_super(self, super_data: Super):
-        if super_data.nome != "_blank":  # há um quadro "vazio" vindo do json
-            detail = SuperDetail(
-                super_data=super_data,
-                image_path=Path(f"images/supers/{super_data.foto}"),
-                timeline_path=None,
-                on_request_close=lambda: self.root.hide_overlay(detail),
-            )
-            self.root.show_overlay(detail)
-            detail.fade_in()
+        if not self.service.pode_abrir(super_data):
+            return  # há um quadro "vazio" vindo do json
+
+        detail = SuperDetail(
+            super_data=super_data,
+            image_path=self.service.build_image_path(super_data),
+            timeline_path=self.service.build_timeline_path(super_data),
+            on_request_close=lambda: self.root.hide_overlay(detail),
+        )
+        self.root.show_overlay(detail)
+        detail.fade_in()

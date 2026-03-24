@@ -9,7 +9,7 @@ from typing import Any
 class Super:
     id: str
     nome: str
-    foto: Path
-    timeline: Path
+    foto: Path | None
+    timeline: Path | None
     timeline_points: dict[str, Any]
     historias: list[str]

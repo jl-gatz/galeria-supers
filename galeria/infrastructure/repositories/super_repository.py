@@ -1,12 +1,14 @@
 # infrastructure/repositories/super_repository.py
 
 import json
+from typing import override
 
 from galeria.core import SUPERS_JSON
 from galeria.domain import InterfaceSuperRepository, Super
 
 
 class SuperRepository(InterfaceSuperRepository):
+    @override
     def listar(self) -> list[Super]:
         with open(SUPERS_JSON, encoding="utf-8") as f:
             raw = json.load(f)
@@ -23,6 +25,7 @@ class SuperRepository(InterfaceSuperRepository):
             for s in raw
         ]
 
+    @override
     def obter_por_id(self, super_id: str) -> Super | None:
         raw = self.listar()
 
