@@ -10,6 +10,7 @@ from galeria.domain import Super
 from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
 from galeria.ui.components import GalleryRow, logos_row, placeholders_row, right_arrow
 from galeria.ui.controllers import GalleryScrollController
+from galeria.ui.controllers.super_detail_controller import SuperDetailController
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme import h1
 from galeria.ui.views.super_view import SuperDetail
@@ -109,11 +110,19 @@ class GalleryView(ft.Container):
 
     def abrir_super(self, super_data: Super) -> None:
         if not self.service.pode_abrir(super_data):
-            return  # há um quadro "vazio" vindo do json
+            return
+
+        controller = SuperDetailController(super_data)
+
+        detail = None  # placeholder
+
+        def handle_close():
+            self.root.hide_overlay(detail)
 
         detail = SuperDetail(
-            super_data=super_data,
-            on_request_close=lambda: self.root.hide_overlay(detail),
+            controller=controller,
+            on_request_close=handle_close,
         )
+
         self.root.show_overlay(detail)
         detail.fade_in()

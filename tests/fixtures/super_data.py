@@ -2,14 +2,13 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 
 @dataclass
 class FakeSuperData:
     id: str
     nome: str
-    image_path: Path
-    timeline_path: Path
-    timeline_points: dict[str, Any]
+    foto: Path
+    timeline: Path
+    timeline_points: list[dict[str, float]] | None
     historias: list[str]

@@ -11,12 +11,14 @@ from .snapshot_config import SnapshotConfig
 # ==========================================
 # ENTRYPOINT
 # ==========================================
+print(get_children)
+print(walk)
 
 
 def serialize_tree(view, config: SnapshotConfig) -> Any:
     root = getattr(view, "content", None)
 
-    if not root:
+    if root is None:
         return "Gallery"
 
     # modo legado (teu formato atual em texto)

@@ -47,8 +47,8 @@ class SuperDetail(ft.Container):
             expand=True,
         )
 
-        # Timeline
-        ResponsiveTimeline(
+        # Timeline view
+        self.timeline_view = ResponsiveTimeline(
             image_src=self.timeline["image_src"],
             points=self.timeline["points"],
             on_select=self._goto_slide,
@@ -70,7 +70,7 @@ class SuperDetail(ft.Container):
                 spacing=40,
                 controls=[
                     self.header,
-                    self.timeline,
+                    self.timeline_view,
                     ft.Row(
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=40,

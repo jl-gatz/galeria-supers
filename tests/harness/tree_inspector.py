@@ -3,6 +3,8 @@
 
 from rich.tree import Tree
 
+from tests.utils.tree_helpers import get_children
+
 
 class TreeInspector:
     """
@@ -62,24 +64,26 @@ class TreeInspector:
             Lista de filhos diretos do controle.
         """
 
-        kids = []
+        # kids = []
+        # items = getattr(control, "items", None)
 
-        if hasattr(control, "controls") and control.controls:
-            kids.extend(control.controls)
+        # if hasattr(control, "controls") and control.controls:
+        #     kids.extend(control.controls)
 
-        if hasattr(control, "content") and control.content:
-            kids.append(control.content)
+        # if hasattr(control, "content") and control.content:
+        #     kids.append(control.content)
 
-        if hasattr(control, "items") and control.items:
-            kids.extend(control.items)
+        # if not callable(items) and isinstance(items, list):
+        #     kids.extend(items)
 
-        if hasattr(control, "tabs") and control.tabs:
-            kids.extend(control.tabs)
+        # if hasattr(control, "tabs") and control.tabs:
+        #     kids.extend(control.tabs)
 
-        if hasattr(control, "actions") and control.actions:
-            kids.extend(control.actions)
+        # if hasattr(control, "actions") and control.actions:
+        #     kids.extend(control.actions)
 
-        return [k for k in kids if k]
+        # return [k for k in kids if k]
+        return get_children(control)
 
     # -------------------------
     # traversal
@@ -103,7 +107,8 @@ class TreeInspector:
             Cada nó da árvore.
         """
 
-        node = node or self.root
+        if node is None:
+            node = self.root
 
         yield node
 

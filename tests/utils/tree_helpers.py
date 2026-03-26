@@ -1,4 +1,5 @@
 # tests/utils/tree_helpers.py
+from typing import Any
 
 
 def walk(control):
@@ -7,17 +8,35 @@ def walk(control):
         yield from walk(child)
 
 
+def _safe(value: Any):
+    """Ignora métodos e valores inválidos."""
+    if callable(value):
+        return None
+    return value
+
+
 def get_children(control):
     children = []
 
-    if hasattr(control, "content") and control.content:
-        children.append(control.content)
+    # 🔹 content (filho único)
+    content = _safe(getattr(control, "content", None))
+    if content is not None:
+        children.append(content)
 
-    if hasattr(control, "controls") and control.controls:
-        children.extend(control.controls)
+    # 🔹 controls (lista)
+    controls = _safe(getattr(control, "controls", None))
+    if isinstance(controls, list):
+        children.extend(controls)
 
-    if hasattr(control, "items") and control.items:
-        children.extend(control.items)
+    # 🔹 items (alguns widgets usam isso)
+    items = _safe(getattr(control, "items", None))
+    if isinstance(items, list):
+        children.extend(items)
+
+    # 🔹 fallback interno (Flet às vezes usa)
+    _controls = _safe(getattr(control, "_controls", None))
+    if isinstance(_controls, list):
+        children.extend(_controls)
 
     return children
 

@@ -19,7 +19,7 @@ class SuperDetailController:
         if isinstance(path, Path):
             return path.as_posix()
 
-        return path
+        return str(path)
 
     # -------------------------
     # 🎯 Dados para a View
@@ -30,11 +30,11 @@ class SuperDetailController:
 
     @property
     def image_src(self) -> str | None:
-        return self._to_src(self._super.image_path)
+        return self._to_src(self._super.foto)
 
     @property
     def timeline_src(self) -> str | None:
-        return self._to_src(self._super.timeline_path)
+        return self._to_src(self._super.timeline)
 
     @property
     def timeline_points(self):

@@ -2,6 +2,11 @@
 
 from unittest.mock import Mock, patch
 
+import flet as ft
+
+from galeria.domain import Super
+from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
+from galeria.ui.layout import RootLayout
 from galeria.ui.views import GalleryView
 
 # ================================
@@ -80,18 +85,26 @@ def test_on_request_close_fecha_overlay(fake_page, fake_service, fake_root):
 # ================================
 # 🔍 GARANTE USO DO SERVICE
 # ================================
-
-
-def test_usa_service_para_paths(fake_page, fake_service, fake_root):
+def test_abre_super_quando_permitido(
+    fake_page: ft.Page,
+    fake_service: GalleryServiceLike,
+    fake_root: RootLayout,
+) -> None:
     fake_service.pode_abrir = Mock(return_value=True)
-    fake_service.build_image_path = Mock(return_value="img.png")
-    fake_service.build_timeline_path = Mock(return_value="timeline.json")
 
-    view = GalleryView(page=fake_page, service=fake_service, root_layout=fake_root)
-    super_data = Mock()
+    view = GalleryView(
+        page=fake_page,
+        service=fake_service,
+        root_layout=fake_root,
+    )
 
-    with patch("galeria.ui.views.gallery_view.SuperDetail"):
+    super_data: Super = Mock()
+
+    with patch("galeria.ui.views.gallery_view.SuperDetail") as mock_detail:
         view.abrir_super(super_data)
 
-        fake_service.build_image_path.assert_called_once_with(super_data)
-        fake_service.build_timeline_path.assert_called_once_with(super_data)
+        fake_service.pode_abrir.assert_called_once_with(super_data)
+        mock_detail.assert_called_once()
+
+        detail_instance = mock_detail.return_value
+        assert fake_root.overlay_shown == detail_instance
