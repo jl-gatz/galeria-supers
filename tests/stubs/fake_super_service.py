@@ -47,3 +47,6 @@ class FakeSuperService:
 
     def build_timeline_path(self, super_data: Super) -> Path | None:
         return self._timeline_path_fn(super_data)
+
+    def is_blank(self, super_data: Super) -> bool:
+        return super_data.nome == "_blank"

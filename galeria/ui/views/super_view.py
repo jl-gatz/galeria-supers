@@ -45,7 +45,7 @@ class SuperDetail(ft.Container):
 
         # Cabeçalho
         self.header = SuperHeader(
-            image_src=str(self._image_path),
+            image_src=str(self._image_path) if self._image_path else None,
             nome=self._super.nome,
             texto_inicial=self.controller.current,
             expand=True,
@@ -53,7 +53,7 @@ class SuperDetail(ft.Container):
 
         # Timeline
         self.timeline = ResponsiveTimeline(
-            image_src=str(self._timeline_path),
+            image_src=str(self._timeline_path) if self._timeline_path else None,
             points=self._super.timeline_points or [],
             on_select=self._goto_slide,
         )

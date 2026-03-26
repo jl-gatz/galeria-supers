@@ -1,12 +1,13 @@
 # tests/conftest.py
 
 import asyncio
+from collections.abc import Generator
 from pathlib import Path
-from typing import Any
 
 import pytest
 
 from galeria.domain import Super, SuperService
+from galeria.domain.protocols.super_service_like import SuperServiceLike
 from tests.harness import FletTestHarness
 from tests.stubs.builders import super_stub_one
 from tests.stubs.fake_page import FakePage
@@ -17,26 +18,26 @@ from tests.stubs.fake_super_service import FakeSuperService
 
 # === HARNESSES / INFRA DE TESTE (UI) =========================
 @pytest.fixture
-def fake_page():
+def fake_page() -> FakePage:
     """Página fake para componentes Flet"""
     return FakePage()
 
 
 @pytest.fixture
-def fake_root():
+def fake_root() -> FakeRoot:
     """Root fake para overlays e navegação"""
     return FakeRoot()
 
 
 @pytest.fixture
-def harness(fake_page: Any):
+def harness(fake_page: FakePage) -> FletTestHarness:
     """Harness para montar componentes Flet"""
     return FletTestHarness(fake_page)
 
 
 # === EVENT LOOP (FLET / ASYNC) ===============================
 @pytest.fixture(scope="session")
-def event_loop():
+def event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
     """
     Event loop global para testes (necessário para Flet).
     """
@@ -87,7 +88,7 @@ def supers_sample() -> list[Super]:
 
 # === REPOSITORIES / SERVICES REAIS ===========================
 @pytest.fixture
-def service(supers_sample: list[Super]):
+def service(supers_sample: list[Super]) -> SuperService:
     """Service real com repositório fake"""
     repo = FakeSuperRepository(supers_sample)
     return SuperService(repository=repo)
@@ -95,7 +96,7 @@ def service(supers_sample: list[Super]):
 
 # === STUBS / FAKES DE ALTO NÍVEL =============================
 @pytest.fixture
-def fake_service():
+def fake_service() -> SuperServiceLike:
     """
     Service totalmente fake (controle total nos testes de view)
     """
