@@ -1,6 +1,8 @@
 # ui/controllers/slide_controller.py
 class SlideController:
-    def __init__(self, historias: list[str]):
+    def __init__(self, historias: list[str]) -> None:
+        if not historias:
+            raise ValueError("historias cannot be empty")
         self._historias = historias
         self._index = 0
 

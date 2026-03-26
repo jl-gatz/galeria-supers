@@ -1,8 +1,6 @@
 # galeria/domain/services.py
 
 
-from pathlib import Path
-
 from .models import Super
 from .super_repository import InterfaceSuperRepository
 
@@ -47,19 +45,3 @@ class SuperService:
         Define se o card pode ser clicado/aberto.
         """
         return not self.is_blank(super_data)
-
-    # -------------------------
-    # helpers para UI
-    # -------------------------
-
-    def build_image_path(self, super_data: Super) -> Path | None:
-        if self.is_blank(super_data):
-            return None  # ou placeholder padrão futuramente
-        return Path(f"images/supers/{super_data.foto}")
-
-    def build_timeline_path(self, super_data: Super) -> Path | None:
-        if self.is_blank(super_data):
-            return None
-        if not super_data.timeline:
-            return None
-        return Path(super_data.timeline)

@@ -1,5 +1,4 @@
 from collections.abc import Callable
-from pathlib import Path
 from typing import override
 
 import flet as ft
@@ -8,7 +7,6 @@ from galeria.core import (
     ANIMATE_OPACITY,
     AUTO_TIME_VIEW_BACK,
 )
-from galeria.domain import Super
 from galeria.ui.behaviors.auto_close_behavior import AutoCloseBehavior
 from galeria.ui.components import ResponsiveTimeline, SuperHeader
 from galeria.ui.controllers.super_detail_controller import SuperDetailController
@@ -17,18 +15,13 @@ from galeria.ui.controllers.super_detail_controller import SuperDetailController
 class SuperDetail(ft.Container):
     def __init__(
         self,
-        super_data: Super,
-        image_path: Path,
-        timeline_path: Path,
+        controller: SuperDetailController,
         on_request_close: Callable[[], None],
     ):
-        self._super = super_data
-        self._image_path = image_path
-        self._timeline_path = timeline_path
         self._on_request_close = on_request_close
 
         # 🧠 Controller
-        self.controller = SuperDetailController(self._super)
+        self.controller = controller
 
         # ⏱️ Timeout
         self.auto_close = AutoCloseBehavior(
@@ -43,18 +36,21 @@ class SuperDetail(ft.Container):
         self.scroll = ft.ScrollMode.HIDDEN
         self.expand = True
 
+        # Timeline
+        self.timeline = self.controller.timeline
+
         # Cabeçalho
         self.header = SuperHeader(
-            image_src=str(self._image_path) if self._image_path else None,
-            nome=self._super.nome,
+            image_src=self.controller.image_src,
+            nome=self.controller.nome,
             texto_inicial=self.controller.current,
             expand=True,
         )
 
         # Timeline
-        self.timeline = ResponsiveTimeline(
-            image_src=str(self._timeline_path) if self._timeline_path else None,
-            points=self._super.timeline_points or [],
+        ResponsiveTimeline(
+            image_src=self.timeline["image_src"],
+            points=self.timeline["points"],
             on_select=self._goto_slide,
         )
 

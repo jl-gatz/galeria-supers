@@ -1,12 +1,55 @@
+from pathlib import Path
+
+from galeria.domain.protocols.super_like import SuperLike
 from galeria.ui.controllers import SlideController
 
 
 class SuperDetailController:
-    def __init__(self, super_data):
-        # mantém compatível com o que você já usa
+    def __init__(self, super_data: SuperLike) -> None:
         self._super = super_data
         self._slides = SlideController(super_data.historias)
 
+    # -------------------------
+    # 🧱 Helpers internos
+    # -------------------------
+    def _to_src(self, path: Path | str | None) -> str | None:
+        if path is None:
+            return None
+
+        if isinstance(path, Path):
+            return path.as_posix()
+
+        return path
+
+    # -------------------------
+    # 🎯 Dados para a View
+    # -------------------------
+    @property
+    def nome(self) -> str:
+        return self._super.nome
+
+    @property
+    def image_src(self) -> str | None:
+        return self._to_src(self._super.image_path)
+
+    @property
+    def timeline_src(self) -> str | None:
+        return self._to_src(self._super.timeline_path)
+
+    @property
+    def timeline_points(self):
+        return self._super.timeline_points or []
+
+    @property
+    def timeline(self) -> dict:
+        return {
+            "image_src": self.timeline_src,
+            "points": self.timeline_points,
+        }
+
+    # -------------------------
+    # 🎞 Slides
+    # -------------------------
     @property
     def current(self) -> str:
         return self._slides.current

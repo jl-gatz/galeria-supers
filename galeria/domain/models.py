@@ -11,5 +11,5 @@ class Super:
     nome: str
     foto: Path | None
     timeline: Path | None
-    timeline_points: dict[str, Any]
-    historias: list[str]
+    timeline_points: dict[str, Any] | None
+    historias: list[str] | None

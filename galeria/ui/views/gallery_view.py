@@ -1,11 +1,13 @@
 # galeria/ui/views/gallery_view.py
 
 from collections.abc import Sequence
+from pathlib import Path
 
 import flet as ft
 
 from galeria.core import LOGO_DETIC, LOGO_UNICAMP
-from galeria.domain import Super, SuperService
+from galeria.domain import Super
+from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
 from galeria.ui.components import GalleryRow, logos_row, placeholders_row, right_arrow
 from galeria.ui.controllers import GalleryScrollController
 from galeria.ui.layout import RootLayout
@@ -24,17 +26,17 @@ class GalleryView(ft.Container):
     def __init__(
         self,
         page: ft.Page,
-        service: SuperService,
+        service: GalleryServiceLike,
         root_layout: RootLayout,
-        logo_detic: str = LOGO_DETIC,
-        logo_unicamp: str = LOGO_UNICAMP,
+        logo_detic: Path = Path(LOGO_DETIC),
+        logo_unicamp: Path = Path(LOGO_UNICAMP),
         show_placeholder_left: bool = False,
         show_placeholder_right: bool = False,
     ):
         super().__init__(expand=True)
 
-        self.root = root_layout
-        self.service = service
+        self.root: RootLayout = root_layout
+        self.service: GalleryServiceLike = service
         self.supers: Sequence[Super] = service.listar_supers()
 
         # Galeria rolável
@@ -105,14 +107,12 @@ class GalleryView(ft.Container):
             padding=self.PADDING,
         )
 
-    def abrir_super(self, super_data: Super):
+    def abrir_super(self, super_data: Super) -> None:
         if not self.service.pode_abrir(super_data):
             return  # há um quadro "vazio" vindo do json
 
         detail = SuperDetail(
             super_data=super_data,
-            image_path=self.service.build_image_path(super_data),
-            timeline_path=self.service.build_timeline_path(super_data),
             on_request_close=lambda: self.root.hide_overlay(detail),
         )
         self.root.show_overlay(detail)

@@ -1,0 +1,23 @@
+# domain/protocols/super_service_like.py
+
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Protocol
+
+from galeria.domain import Super
+
+
+class SuperServiceLike(Protocol):
+    # leitura
+    def listar_supers(self) -> Sequence[Super]: ...
+
+    # def listar_supers_visiveis(self) -> list[Super]: ...
+    # def obter_super(self, super_id: str) -> Super | None: ...
+
+    # regras de domínio
+    def is_blank(self, super_data: Super) -> bool: ...
+    def pode_abrir(self, super_data: Super) -> bool: ...
+
+    # helpers para UI
+    def build_image_path(self, super_data: Super) -> Path | None: ...
+    def build_timeline_path(self, super_data: Super) -> Path | None: ...

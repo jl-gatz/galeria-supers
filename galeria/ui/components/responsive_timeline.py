@@ -1,11 +1,12 @@
 # ui/components/responsive_timeline.py
+
 import flet as ft
 
 
 class ResponsiveTimeline(ft.Stack):
     def __init__(
         self,
-        image_src: str,
+        image_src: str | None,
         points: list[dict],
         on_select: ft.Control,
         width: int = 1200,
@@ -19,7 +20,7 @@ class ResponsiveTimeline(ft.Stack):
         self._height = height
 
         timeline_img = ft.Image(
-            src=image_src,
+            src=str(image_src) if image_src else "images/placeholder.png",
             width=width,
             height=height,
             fit=ft.BoxFit.CONTAIN,

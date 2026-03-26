@@ -7,21 +7,35 @@ from .config import (
     SCROLL_DURATION,
     SCROLL_RESET_DURATION,
 )
-from .paths import ASSETS_DIR, BASE_DIR, DATA_DIR, LOGO_DETIC, LOGO_UNICAMP, PHOTOS_DIR, SUPERS_JSON
+from .paths import (
+    ASSETS_DIR,
+    ASSETS_URL,
+    BASE_DIR,
+    DATA_DIR,
+    IMAGES_URL,
+    LOGO_DETIC,
+    LOGO_UNICAMP,
+    PHOTOS_DIR,
+    SUPERS_JSON,
+    TIMELINE_URL,
+)
 
 __all__ = [
     "ANIMATE_OPACITY",
     "APP_TITLE",
     "ASSETS_DIR",
+    "ASSETS_URL",
     "AUTO_TIME_VIEW_BACK",
     "BASE_DIR",
     "DATA_DIR",
     "DETAIL_TIMEOUT_SECONDS",
     "FADE_OUT_ASYNC_SLEEP",
+    "IMAGES_URL",
     "LOGO_DETIC",
     "LOGO_UNICAMP",
     "PHOTOS_DIR",
     "SCROLL_DURATION",
     "SCROLL_RESET_DURATION",
     "SUPERS_JSON",
+    "TIMELINE_URL",
 ]

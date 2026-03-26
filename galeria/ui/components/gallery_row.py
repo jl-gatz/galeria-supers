@@ -22,7 +22,7 @@ class GalleryRow(ft.Row):
             width=self.card_width,
             on_click=lambda e: on_card_click(super_data),
             content=ft.Image(
-                src=f"images/supers/{super_data.foto}",
+                src=str(super_data.foto).replace("\\", "/"),
                 fit=ft.BoxFit.COVER,
                 height=400,
             ),

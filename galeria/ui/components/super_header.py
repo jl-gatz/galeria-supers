@@ -9,7 +9,7 @@ from galeria.ui.theme import PRIMARY_RED, body, h2, spacing
 
 
 class SuperHeader(ft.Container):
-    def __init__(self, image_src: str, nome: str, texto_inicial: str = "", **kwargs: Any):
+    def __init__(self, image_src: str | None, nome: str, texto_inicial: str = "", **kwargs: Any):
 
         self.scroll = ft.ScrollMode.HIDDEN
 
@@ -24,7 +24,7 @@ class SuperHeader(ft.Container):
         self._set_paragraphs(texto_inicial)
 
         image = ft.Image(
-            src=image_src,
+            src=image_src or "images/placeholder.png",
             width=380,
             border_radius=20,
             fit=ft.BoxFit.COVER,
