@@ -2,7 +2,12 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+
+
+@dataclass(frozen=True, slots=True)
+class TimelinePoint:
+    x: float
+    y: float
 
 
 @dataclass(frozen=True, slots=True)
@@ -11,5 +16,5 @@ class Super:
     nome: str
     foto: Path | None
     timeline: Path | None
-    timeline_points: dict[str, Any]
-    historias: list[str]
+    timeline_points: list[TimelinePoint] | None
+    historias: list[str] | None

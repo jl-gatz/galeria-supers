@@ -3,7 +3,7 @@
 import json
 from typing import override
 
-from galeria.core import SUPERS_JSON
+from galeria.core import IMAGES_URL, SUPERS_JSON
 from galeria.domain import InterfaceSuperRepository, Super
 
 
@@ -17,7 +17,7 @@ class SuperRepository(InterfaceSuperRepository):
             Super(
                 id=s["id"],
                 nome=s["nome"],
-                foto=s["foto"],
+                foto=IMAGES_URL / s["foto"],
                 timeline=s["timeline"],
                 timeline_points=s["timeline_points"],
                 historias=s["historias"],

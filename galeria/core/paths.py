@@ -9,3 +9,8 @@ PHOTOS_DIR = BASE_DIR / "assets" / "images" / "supers"
 SUPERS_JSON = DATA_DIR / "supers.json"
 LOGO_DETIC = "images/logos/logo-detic-4x.png"
 LOGO_UNICAMP = "images/logos/Logo_Unicamp__0.png"
+
+# Verificar paths, posteriormente
+ASSETS_URL = Path("assets")  # ou só "images" dependendo do Flet
+IMAGES_URL = Path("images/supers")
+TIMELINE_URL = Path("images/timelines")

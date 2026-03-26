@@ -6,13 +6,13 @@ GalleryView
         Container
           GalleryRow
             Container
-              Image (src='images/supers/ada.png')
+              Image (src='ada.png')
             Container
-              Image (src='images/supers/turing.png')
+              Image (src='turing.png')
             Container
-              Image (src='images/supers/None')
+              Image (src='None')
             Container
-              Image (src='images/supers/None')
+              Image (src='None')
       Container
         Container
           IconButton

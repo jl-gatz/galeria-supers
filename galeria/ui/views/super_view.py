@@ -1,5 +1,4 @@
 from collections.abc import Callable
-from pathlib import Path
 from typing import override
 
 import flet as ft
@@ -8,53 +7,52 @@ from galeria.core import (
     ANIMATE_OPACITY,
     AUTO_TIME_VIEW_BACK,
 )
-from galeria.domain import Super
+from galeria.ui.behaviors.auto_close_behavior import AutoCloseBehavior
 from galeria.ui.components import ResponsiveTimeline, SuperHeader
-from galeria.ui.controllers import AutoTimeoutController, SlideController
+from galeria.ui.controllers.super_detail_controller import SuperDetailController
 
 
 class SuperDetail(ft.Container):
     def __init__(
         self,
-        super_data: Super,
-        image_path: Path,
-        timeline_path: Path,
+        controller: SuperDetailController,
         on_request_close: Callable[[], None],
     ):
-        self._super = super_data
-        self._image_path = image_path
-        self._timeline_path = timeline_path
         self._on_request_close = on_request_close
 
-        # Desliga scroll no componente
-        self.scroll = ft.ScrollMode.HIDDEN
-        self.expand = True
+        # 🧠 Controller
+        self.controller = controller
 
-        # Controller dos slides
-        self.slides = SlideController(self._super.historias)  # Ajuste o nome do campo
-
-        # Cabeçalho com imagem, título e texto rolável
-        self.header = SuperHeader(
-            image_src=str(self._image_path),
-            nome=self._super.nome,
-            texto_inicial=self.slides.current,  # string
-            expand=True,
-        )
-
-        # Linha do tempo interativa
-        self.timeline = ResponsiveTimeline(
-            image_src=str(self._timeline_path),
-            points=self._super.timeline_points or [],
-            on_select=self._goto_slide,
-        )
-
-        # Timeout para retorno automático
-        self.timeout = AutoTimeoutController(
+        # ⏱️ Timeout
+        self.auto_close = AutoCloseBehavior(
             seconds=AUTO_TIME_VIEW_BACK,
             on_timeout=self._timeout_close,
         )
 
-        self.timeout.start()
+        # ⚠️ Mantido por compatibilidade (vamos remover depois)
+        self.slides = self.controller._slides
+
+        # Design scroll no componente
+        self.scroll = ft.ScrollMode.HIDDEN
+        self.expand = True
+
+        # Timeline
+        self.timeline = self.controller.timeline
+
+        # Cabeçalho
+        self.header = SuperHeader(
+            image_src=self.controller.image_src,
+            nome=self.controller.nome,
+            texto_inicial=self.controller.current,
+            expand=True,
+        )
+
+        # Timeline view
+        self.timeline_view = ResponsiveTimeline(
+            image_src=self.timeline["image_src"],
+            points=self.timeline["points"],
+            on_select=self._goto_slide,
+        )
 
         # Layout principal
         layout = ft.Container(
@@ -72,7 +70,7 @@ class SuperDetail(ft.Container):
                 spacing=40,
                 controls=[
                     self.header,
-                    self.timeline,
+                    self.timeline_view,
                     ft.Row(
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=40,
@@ -99,10 +97,12 @@ class SuperDetail(ft.Container):
                 content=layout,
             ),
         )
-        self.timeout.start()
+
+        # 🔥 Mantém comportamento atual
+        self.auto_close.start()
 
     # -------------------------
-    # Animações
+    # 🎬 Animações (mantidas)
     # -------------------------
     def fade_in(self) -> None:
         self.opacity = 0
@@ -110,44 +110,54 @@ class SuperDetail(ft.Container):
 
         self.opacity = 1
         self.update()
-        # Inicia depois do fade -->
-        self.timeout.start()
+
+        self.auto_close.start()
 
     def fade_out(self) -> None:
-        # Cancela antes da aplicação do fade_out
-        self.timeout.cancel()
-
+        self.auto_close.stop()
         self.opacity = 0
         self.update()
 
+    # -------------------------
+    # 🔄 Atualização de slide
+    # -------------------------
     def _refresh_slide(self):
-        """Atualiza o texto do slide atual."""
         if not getattr(self, "_mounted", False):
             return
-        self.header.update_text(self.slides.current)
 
+        self.header.update_text(self.controller.current)
+
+    # -------------------------
+    # 🎯 Navegação
+    # -------------------------
     def next(self, e=None):
-        if self.slides.next():
+        if self.controller.next():
             self._refresh_slide()
 
     def prev(self, e=None):
-        if self.slides.prev():
+        if self.controller.prev():
             self._refresh_slide()
 
     def _goto_slide(self, index: int):
-        self._handle_user_activity()
-        if self.slides.goto(index):
+        self._handle_user_activity(None)
+        if self.controller.goto(index):
             self._refresh_slide()
 
+    # -------------------------
+    # 🔙 Ações externas
+    # -------------------------
     def _handle_voltar(self, e):
         self._on_request_close()
 
     def _handle_user_activity(self, e=None):
-        self.timeout.restart()
+        self.auto_close.reset()
 
     def _timeout_close(self):
         self._on_request_close()
 
+    # -------------------------
+    # 🔁 Lifecycle
+    # -------------------------
     @override
     def did_mount(self):
         self._mounted = True

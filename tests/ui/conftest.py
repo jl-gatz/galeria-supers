@@ -8,21 +8,18 @@ import pytest_asyncio
 from galeria.domain import SuperService
 from galeria.ui.views.gallery_view import GalleryView
 from tests.factories import SuperDetailFactory
-from tests.fixtures import FakeSuperData
 from tests.harness import FletTestHarness
+from tests.stubs.fake_super_data import FakeSuperData
 
 
 @pytest.fixture
 def super_data():
+    return FakeSuperData()
 
-    return FakeSuperData(
-        id=1,
-        nome="Test Hero",
-        foto="tests/assets/test_image.png",
-        timeline="tests/assets/test_timeline.png",
-        timeline_points=None,
-        historias=["None", "Nenhum"],
-    )
+
+# @pytest.fixture
+# def super_detail_controller(fake_super):
+#     return SuperDetailController(fake_super)
 
 
 @pytest.fixture
@@ -46,7 +43,12 @@ def timeline_path():
 
 @pytest.fixture
 def super_detail():
-    return SuperDetailFactory.build()
+    return SuperDetailFactory.build(auto_start=False)
+
+
+@pytest.fixture
+def super_detail_with_data():
+    return lambda **kwargs: SuperDetailFactory.build(**kwargs)
 
 
 @pytest.fixture

@@ -1,9 +1,11 @@
 # main.py
 
+
 import flet as ft
 from infrastructure.repositories.super_repository import SuperRepository
 from ui.config.page_config import configurar_page
 
+from galeria.core import ASSETS_URL
 from galeria.domain import SuperService
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme import setup_theme
@@ -32,4 +34,4 @@ def main(page: ft.Page):
 
 
 # Utilizando app ao invés de run, por conta da chamada para assets
-ft.app(target=main, assets_dir="assets")  # type: ignore
+ft.app(target=main, assets_dir=str(ASSETS_URL))  # type: ignore
