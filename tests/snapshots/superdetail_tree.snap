@@ -10,8 +10,7 @@ SuperDetail
               Divider
               ListView
                 Text
-        ResponsiveTimeline
-          Image (src='tests/assets/test_timeline.png')
+        dict
         Row
           Button
             str
