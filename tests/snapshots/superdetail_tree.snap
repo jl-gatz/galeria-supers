@@ -10,11 +10,14 @@ SuperDetail
               Divider
               ListView
                 Text
-        Row
+              Container
+        NavigationControls
           IconButton
           IconButton
-        ResponsiveTimeline
-          Image (src='tests/assets/test_timeline.png')
         Container
-          OutlinedButton
-            str
+          Stack
+            ResponsiveTimeline
+              Image (src='tests/assets/test_timeline.png')
+            Container
+              OutlinedButton
+                str
