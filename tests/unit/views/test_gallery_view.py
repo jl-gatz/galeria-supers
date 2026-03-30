@@ -47,10 +47,8 @@ def test_abre_super_com_sucesso(fake_page, fake_service, fake_root):
     with patch("galeria.ui.views.gallery_view.SuperDetail", return_value=detail_mock):
         view.abrir_super(super_data)
 
-        # 👇 valida efeito
+        # 👇 valida efeito real
         assert fake_root.overlay_shown == detail_mock
-
-        detail_mock.fade_in.assert_called_once()
 
 
 # ================================

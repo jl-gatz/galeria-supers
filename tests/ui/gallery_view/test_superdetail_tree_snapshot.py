@@ -1,3 +1,5 @@
+from unittest.mock import PropertyMock, patch
+
 import pytest
 
 from galeria.ui.views.super_view import SuperDetail
@@ -9,12 +11,15 @@ async def test_superdetail_tree_snapshot(
     harness: FletTestHarness,
     super_detail: SuperDetail,
 ):
-    await harness.mount(super_detail)
+    with patch.object(type(super_detail), "page", new_callable=PropertyMock) as mock_page:
+        mock_page.return_value = harness.page
 
-    # 🔧 garantir lifecycle
-    super_detail.did_mount()
+        await harness.mount(super_detail)
 
-    # 🔧 garantir visibilidade
-    super_detail.opacity = 1
+        # lifecycle
+        super_detail.did_mount()
 
-    harness.assert_tree_snapshot("superdetail_tree")
+        # visibilidade
+        super_detail.opacity = 1
+
+        harness.assert_tree_snapshot("superdetail_tree")

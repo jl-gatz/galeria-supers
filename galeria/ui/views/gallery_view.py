@@ -125,4 +125,4 @@ class GalleryView(ft.Container):
         )
 
         self.root.show_overlay(detail)
-        detail.fade_in()
+        detail._fade_in()
