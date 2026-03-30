@@ -45,4 +45,4 @@ async def test_superdetail_has_navigation_buttons(
 
     await harness.mount(super_detail)
 
-    assert harness.count("Button") >= 2
+    assert harness.count("IconButton") >= 2

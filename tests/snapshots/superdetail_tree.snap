@@ -10,12 +10,11 @@ SuperDetail
               Divider
               ListView
                 Text
+        Row
+          IconButton
+          IconButton
         ResponsiveTimeline
           Image (src='tests/assets/test_timeline.png')
-        Row
-          Button
+        Container
+          OutlinedButton
             str
-          Button
-            str
-        OutlinedButton
-          str

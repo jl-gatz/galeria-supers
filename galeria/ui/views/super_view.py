@@ -10,6 +10,8 @@ from galeria.core import (
 from galeria.ui.behaviors.auto_close_behavior import AutoCloseBehavior
 from galeria.ui.components import ResponsiveTimeline, SuperHeader
 from galeria.ui.controllers.super_detail_controller import SuperDetailController
+from galeria.ui.theme import PRIMARY_RED, spacing
+from galeria.ui.theme.colors import RED_55
 
 
 class SuperDetail(ft.Container):
@@ -47,6 +49,35 @@ class SuperDetail(ft.Container):
             expand=True,
         )
 
+        # Navigation Row (setas à direita, abaixo do texto)
+        self.navigation_row = ft.Row(
+            controls=[
+                ft.IconButton(
+                    icon=ft.Icons.CHEVRON_LEFT,
+                    icon_size=spacing.LG,
+                    tooltip="Anterior",
+                    style=ft.ButtonStyle(
+                        bgcolor={
+                            ft.ControlState.HOVERED: RED_55,
+                        },
+                    ),
+                    on_click=self.prev,
+                ),
+                ft.IconButton(
+                    icon=ft.Icons.CHEVRON_RIGHT,
+                    icon_size=spacing.LG,
+                    tooltip="Próximo",
+                    style=ft.ButtonStyle(
+                        bgcolor={
+                            ft.ControlState.HOVERED: RED_55,
+                        },
+                    ),
+                    on_click=self.next,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.END,
+        )
+
         # Timeline view
         self.timeline_view = ResponsiveTimeline(
             image_src=self.timeline["image_src"],
@@ -70,18 +101,20 @@ class SuperDetail(ft.Container):
                 spacing=40,
                 controls=[
                     self.header,
+                    self.navigation_row,
                     self.timeline_view,
-                    ft.Row(
-                        alignment=ft.MainAxisAlignment.CENTER,
-                        spacing=40,
-                        controls=[
-                            ft.Button("Anterior", on_click=self.prev),
-                            ft.Button("Próximo", on_click=self.next),
-                        ],
-                    ),
-                    ft.OutlinedButton(
-                        "Voltar",
-                        on_click=self._handle_voltar,
+                    ft.Container(
+                        content=ft.OutlinedButton(
+                            "Voltar",
+                            style=ft.ButtonStyle(
+                                color=PRIMARY_RED,
+                                bgcolor={
+                                    ft.ControlState.HOVERED: RED_55,
+                                },
+                            ),
+                            on_click=self._handle_voltar,
+                        ),
+                        alignment=ft.Alignment.BOTTOM_RIGHT,
                     ),
                 ],
             ),
