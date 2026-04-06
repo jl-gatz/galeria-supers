@@ -2,7 +2,7 @@
   {
     "id": 1,
     "nome": "Alfredo Fernandes de Almeida",
-    "foto": "01-prof-alfredo.png",
+    "foto": "01-prof-alfredo__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -18,7 +18,7 @@
   {
     "id": 2,
     "nome": "Odelar Leite Linhares",
-    "foto": "02-prof-odelar.png",
+    "foto": "02-prof-odelar__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -50,7 +50,7 @@
   {
     "id": 4,
     "nome": "Luiz Roberto de Castro Siqueira",
-    "foto": "04-prof-siqueira.png",
+    "foto": "04-prof-siqueira__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -66,7 +66,7 @@
   {
     "id": 5,
     "nome": "Hilton Silveira Pinto",
-    "foto": "05-prof-hilton.png",
+    "foto": "05-prof-hilton__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -82,7 +82,7 @@
   {
     "id": 6,
     "nome": "Hans Kurt Edmund Liesenberg",
-    "foto": "06-prof-hans.png",
+    "foto": "06-prof-hans__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -98,7 +98,7 @@
   {
     "id": 7,
     "nome": "Luiz Eduardo Buzato",
-    "foto": "07-prof-buzato.png",
+    "foto": "07-prof-buzato__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -114,7 +114,7 @@
   {
     "id": 8,
     "nome": "Marco Aurélio Amaral Henriques",
-    "foto": "08-prof-marco.png",
+    "foto": "08-prof-marco__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -130,7 +130,7 @@
   {
     "id": 9,
     "nome": "José Raimundo de Oliveira",
-    "foto": "09-prof-raimundo.png",
+    "foto": "09-prof-raimundo__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
@@ -146,7 +146,7 @@
   {
     "id": 10,
     "nome": "Sandro Rigo",
-    "foto": "10-prof-sandro.png",
+    "foto": "10-prof-sandro__transp.png",
     "timeline": "",
     "timeline_points": [
       { "x": 0.10, "y": 0.70 },
