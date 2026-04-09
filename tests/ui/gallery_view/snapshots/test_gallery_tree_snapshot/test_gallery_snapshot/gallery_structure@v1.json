@@ -32,110 +32,164 @@
                     {
                       "children": [],
                       "props": {
+                        "anti_alias": false,
                         "col": 12,
                         "disabled": false,
+                        "exclude_from_semantics": false,
                         "expand_loose": false,
-                        "ignore_interactions": false,
-                        "ink": false,
-                        "nome": "Ada",
+                        "gapless_playback": false,
+                        "height": 400,
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
-                        "type": "card",
-                        "visible": true,
-                        "width": 275
+                        "visible": true
                       },
-                      "type": "Container"
-                    },
-                    {
-                      "children": [],
-                      "props": {
-                        "col": 12,
-                        "disabled": false,
-                        "expand_loose": false,
-                        "ignore_interactions": false,
-                        "ink": false,
-                        "nome": "Alan",
-                        "opacity": 1.0,
-                        "rtl": false,
-                        "size_change_interval": 10,
-                        "type": "card",
-                        "visible": true,
-                        "width": 275
-                      },
-                      "type": "Container"
-                    },
-                    {
-                      "children": [],
-                      "props": {
-                        "col": 12,
-                        "disabled": false,
-                        "expand_loose": false,
-                        "ignore_interactions": false,
-                        "ink": false,
-                        "nome": "Bell",
-                        "opacity": 1.0,
-                        "rtl": false,
-                        "size_change_interval": 10,
-                        "type": "card",
-                        "visible": true,
-                        "width": 275
-                      },
-                      "type": "Container"
-                    },
-                    {
-                      "children": [],
-                      "props": {
-                        "col": 12,
-                        "disabled": false,
-                        "expand_loose": false,
-                        "ignore_interactions": false,
-                        "ink": false,
-                        "nome": "_blank",
-                        "opacity": 1.0,
-                        "rtl": false,
-                        "size_change_interval": 10,
-                        "type": "card",
-                        "visible": true,
-                        "width": 275
-                      },
-                      "type": "Container"
+                      "type": "Image"
                     }
                   ],
                   "props": {
-                    "auto_scroll": false,
-                    "card_width": 275,
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,
-                    "intrinsic_height": false,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "nome": "Ada",
                     "opacity": 1.0,
                     "rtl": false,
-                    "run_spacing": 10,
-                    "scroll_interval": 10,
                     "size_change_interval": 10,
-                    "spacing": 60,
-                    "tight": false,
+                    "type": "card",
                     "visible": true,
-                    "wrap": false
+                    "width": 275
                   },
-                  "type": "GalleryRow"
+                  "type": "Container"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "props": {
+                        "anti_alias": false,
+                        "col": 12,
+                        "disabled": false,
+                        "exclude_from_semantics": false,
+                        "expand_loose": false,
+                        "gapless_playback": false,
+                        "height": 400,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true
+                      },
+                      "type": "Image"
+                    }
+                  ],
+                  "props": {
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "nome": "Alan",
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "type": "card",
+                    "visible": true,
+                    "width": 275
+                  },
+                  "type": "Container"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "props": {
+                        "anti_alias": false,
+                        "col": 12,
+                        "disabled": false,
+                        "exclude_from_semantics": false,
+                        "expand_loose": false,
+                        "gapless_playback": false,
+                        "height": 400,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true
+                      },
+                      "type": "Image"
+                    }
+                  ],
+                  "props": {
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "nome": "Bell",
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "type": "card",
+                    "visible": true,
+                    "width": 275
+                  },
+                  "type": "Container"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "props": {
+                        "anti_alias": false,
+                        "col": 12,
+                        "disabled": false,
+                        "exclude_from_semantics": false,
+                        "expand_loose": false,
+                        "gapless_playback": false,
+                        "height": 400,
+                        "opacity": 1.0,
+                        "rtl": false,
+                        "size_change_interval": 10,
+                        "visible": true
+                      },
+                      "type": "Image"
+                    }
+                  ],
+                  "props": {
+                    "col": 12,
+                    "disabled": false,
+                    "expand_loose": false,
+                    "ignore_interactions": false,
+                    "ink": false,
+                    "nome": "_blank",
+                    "opacity": 1.0,
+                    "rtl": false,
+                    "size_change_interval": 10,
+                    "type": "card",
+                    "visible": true,
+                    "width": 275
+                  },
+                  "type": "Container"
                 }
               ],
               "props": {
+                "auto_scroll": false,
+                "card_width": 275,
                 "col": 12,
                 "disabled": false,
                 "expand_loose": false,
-                "height": 360,
-                "ignore_interactions": false,
-                "ink": false,
+                "intrinsic_height": false,
                 "opacity": 1.0,
                 "rtl": false,
+                "run_spacing": 10,
+                "scroll_interval": 10,
                 "size_change_interval": 10,
+                "spacing": 60,
+                "tight": false,
                 "visible": true,
-                "width": 1615
+                "wrap": false
               },
-              "type": "Container"
+              "type": "GalleryRow"
             }
           ],
           "props": {
@@ -143,13 +197,15 @@
             "disabled": false,
             "expand_loose": false,
             "height": 360,
+            "ignore_interactions": false,
+            "ink": false,
             "opacity": 1.0,
             "rtl": false,
             "size_change_interval": 10,
             "visible": true,
-            "width": 1655
+            "width": 1615
           },
-          "type": "Stack"
+          "type": "Container"
         },
         {
           "children": [
@@ -178,7 +234,6 @@
               "props": {
                 "col": 12,
                 "disabled": false,
-                "expand": true,
                 "expand_loose": false,
                 "ignore_interactions": false,
                 "ink": false,
@@ -188,27 +243,22 @@
                 "size_change_interval": 10,
                 "visible": true
               },
-              "type": "Container"
+              "type": "FloatingNavButton"
             }
           ],
           "props": {
-            "auto_scroll": false,
             "col": 12,
             "disabled": false,
             "expand_loose": false,
-            "intrinsic_height": false,
+            "ignore_interactions": false,
+            "ink": false,
             "opacity": 1.0,
             "rtl": false,
-            "run_spacing": 10,
-            "scroll_interval": 10,
             "size_change_interval": 10,
-            "spacing": 10,
-            "tight": false,
             "visible": true,
-            "width": 1655,
-            "wrap": false
+            "width": 1655
           },
-          "type": "Row"
+          "type": "Container"
         },
         {
           "children": [

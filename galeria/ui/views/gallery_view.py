@@ -7,8 +7,8 @@ import flet as ft
 
 from galeria.core import LOGO_DETIC, LOGO_UNICAMP
 from galeria.domain import Super
-from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
-from galeria.ui.components import GalleryRow, fab_forward, logos_row, placeholders_row
+from galeria.domain.protocols import GalleryServiceLike
+from galeria.ui.components import FloatingNavButton, GalleryRow, logos_row, placeholders_row
 from galeria.ui.controllers import GalleryScrollController, SuperDetailController
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme import h1
@@ -39,7 +39,7 @@ class GalleryView(ft.Container):
         self.service: GalleryServiceLike = service
         self.supers: Sequence[Super] = service.listar_supers()
 
-        # Galeria rolável
+        # 🎯 Galeria rolável
         self.gallery_row = GalleryRow(
             supers=self.supers,
             card_width=self.CARD_WIDTH,
@@ -55,59 +55,60 @@ class GalleryView(ft.Container):
             padding=self.PADDING,
         )
 
-        # Container dos cards
-        cards_container = ft.Container(
+        # 🧩 Subcomponentes
+        self.gallery_stack = self._build_gallery()
+        self.logos = logos_row(logo_detic, logo_unicamp)
+        self.placeholders = placeholders_row(
+            show_placeholder_left,
+            show_placeholder_right,
+        )
+
+        # 🧱 Layout principal
+        self.content = ft.Container(
+            content=self._build_main_column(),
+            width=self.MAX_WIDTH,
+            alignment=ft.Alignment.TOP_CENTER,
+            padding=self.PADDING,
+        )
+
+    # ==========================================================
+    # 🔧 BUILDERS
+    # ==========================================================
+
+    def _build_gallery(self):
+        return ft.Container(
             width=self.scroll_controller.group_width(),
             height=self.CARD_HEIGHT,
             content=self.gallery_row,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
         )
 
-        # Stack da galeria (para efeitos futuros como fade)
-        gallery_stack = ft.Stack(
-            [
-                cards_container,
-                # right_fade(),
-            ],
-            width=self.scroll_controller.group_width() + 2 * self.PADDING,
-            height=self.CARD_HEIGHT,
-        )
-
-        # 🔥 FAB EM LINHA DEDICADA (entre galeria e logos)
-        fab_row = ft.Row(
-            [
-                fab_forward(
-                    on_click=lambda _: self.page.run_task(self.scroll_controller.next),
-                    key="gallery_next",
-                )
-            ],
-            alignment=ft.MainAxisAlignment.END,
-            width=self.scroll_controller.group_width() + 2 * self.PADDING,
-        )
-
-        # Logos e placeholders
-        logos = logos_row(logo_detic, logo_unicamp)
-        placeholders = placeholders_row(show_placeholder_left, show_placeholder_right)
-
-        # Layout principal
-        layout = ft.Column(
-            [
+    def _build_main_column(self):
+        return ft.Column(
+            controls=[
                 h1("Galeria de Superintendentes"),
-                gallery_stack,
-                fab_row,
-                logos,
-                placeholders,
+                self._build_gallery(),
+                self._build_fab(),
+                self.logos,
+                self.placeholders,
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             spacing=self.SPACING,
         )
 
-        self.content = ft.Container(
-            content=layout,
-            width=self.MAX_WIDTH,
-            alignment=ft.Alignment.TOP_CENTER,
-            padding=self.PADDING,
+    def _build_fab(self):
+        return ft.Container(
+            content=FloatingNavButton.forward(
+                on_click=lambda _: self.page.run_task(self.scroll_controller.next),
+                key="gallery_next",
+            ),
+            width=self.scroll_controller.group_width() + 2 * self.PADDING,
+            alignment=ft.Alignment.CENTER_RIGHT,
         )
+
+    # ==========================================================
+    # 🎯 INTERAÇÕES
+    # ==========================================================
 
     def abrir_super(self, super_data: Super) -> None:
         if not self.service.pode_abrir(super_data):

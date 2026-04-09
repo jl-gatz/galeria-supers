@@ -2,19 +2,18 @@ GalleryView
   Container
     Column
       Text
-      Stack
-        Container
-          GalleryRow
-            Container
-              Image (src='ada.png')
-            Container
-              Image (src='turing.png')
-            Container
-              Image (src='None')
-            Container
-              Image (src='None')
-      Row
-        Container
+      Container
+        GalleryRow
+          Container
+            Image (src='ada.png')
+          Container
+            Image (src='turing.png')
+          Container
+            Image (src='None')
+          Container
+            Image (src='None')
+      Container
+        FloatingNavButton
           FloatingActionButton (key='gallery_next')
       Container
         Row

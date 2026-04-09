@@ -4,7 +4,12 @@ import flet as ft
 
 from galeria.core.config import ANIMATE_OPACITY, AUTO_TIME_VIEW_BACK
 from galeria.ui.behaviors import AutoCloseBehavior
-from galeria.ui.components import NavigationControls, ResponsiveTimeline, SuperHeader, fab_back
+from galeria.ui.components import (
+    FloatingNavButton,
+    NavigationControls,
+    ResponsiveTimeline,
+    SuperHeader,
+)
 from galeria.ui.controllers import SuperDetailController
 
 
@@ -103,7 +108,10 @@ class SuperDetail(ft.Container):
         )
 
     def _build_fab(self):
-        return fab_back(on_click=self._handle_voltar, key="detail_back")
+        return FloatingNavButton.back(
+            on_click=self._handle_voltar,
+            key="detail_back",
+        )
 
     # =========================================================
     # 🧩 SUBCOMPONENTES

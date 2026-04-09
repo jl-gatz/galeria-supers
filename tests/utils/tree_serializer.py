@@ -118,7 +118,7 @@ def _extract_props(node) -> dict[str, Any]:
         if isinstance(value, (str, int, float, bool)):
             props[attr] = value
 
-    print(getattr(node, "src", None))
+    # print(getattr(node, "src", None))
 
     return props
 
