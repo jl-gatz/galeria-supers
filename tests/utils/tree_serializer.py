@@ -4,15 +4,15 @@ from typing import Any
 
 import flet as ft
 
-from tests.utils.tree_helpers import get_children, walk
+from tests.utils.tree_helpers import get_children
 
 from .snapshot_config import SnapshotConfig
 
 # ==========================================
 # ENTRYPOINT
 # ==========================================
-print(get_children)
-print(walk)
+# print(get_children)
+# print(walk)
 
 
 def serialize_tree(view, config: SnapshotConfig) -> Any:
@@ -78,9 +78,33 @@ def _serialize_node(node, config: SnapshotConfig, depth: int) -> dict | None:
 def _extract_props(node) -> dict[str, Any]:
     props = {}
 
-    # heurística simples (segura)
+    # 🔥 CASO ESPECIAL: super_data (Cards)
+    if hasattr(node, "super_data"):
+        nome = getattr(node.super_data, "nome", None)
+        if nome:
+            props["nome"] = nome
+
+    if hasattr(node, "data") and isinstance(node.data, dict):
+        props.update(node.data)
+
+    # 🔥 CASO ESPECIAL: Image src
+    if hasattr(node, "src") and isinstance(node.src, str):
+        props["src"] = node.src
+
+    # 🔥 CASO ESPECIAL: Text value
+    if hasattr(node, "value") and isinstance(node.value, str):
+        props["value"] = node.value
+
+    # 🔥 CASO ESPECIAL: key (importante!)
+    if hasattr(node, "key") and isinstance(node.key, str):
+        props["key"] = node.key
+
+    # 🔹 fallback genérico (mantém o que você já tem)
     for attr in dir(node):
         if attr.startswith("_"):
+            continue
+
+        if attr in props:  # 👈 evita sobrescrever
             continue
 
         try:
@@ -88,12 +112,13 @@ def _extract_props(node) -> dict[str, Any]:
         except Exception:
             continue
 
-        # evita métodos / objetos complexos
         if callable(value):
             continue
 
         if isinstance(value, (str, int, float, bool)):
             props[attr] = value
+
+    print(getattr(node, "src", None))
 
     return props
 
@@ -101,38 +126,42 @@ def _extract_props(node) -> dict[str, Any]:
 # ==========================================
 # LEGACY MODE (SERIALIZER ATUAL)
 # ==========================================
+def _dict_to_simple_text(node: dict, indent: int = 0) -> list[str]:
+    """Converte o dicionário do novo serializador no formato textual antigo."""
+    lines = []
+    prefix = "| " * indent if indent > 0 else ""
+    node_type = node.get("type", "Unknown")
+    props = node.get("props", {})
+
+    # Título especial (se for Text)
+    if node_type == "Text" and "value" in props:
+        lines.append(f"{prefix}Title('{props['value']}')")
+    elif node_type == "FloatingActionButton":
+        lines.append(f"{prefix}FAB")
+    elif node_type == "Image" and "src" in props:
+        # Extrai nome do arquivo para simular Card (se necessário)
+        filename = props["src"].split("/")[-1]
+        name = filename.split(".")[0].capitalize()
+        lines.append(f"{prefix}Card({name})")
+    else:
+        # Fallback genérico
+        lines.append(f"{prefix}{node_type}")
+
+    # Processa filhos recursivamente
+    for child in node.get("children", []):
+        lines.extend(_dict_to_simple_text(child, indent + 1))
+
+    return lines
 
 
 def _serialize_legacy(root) -> str:
-    nodes = list(walk(root))
+    # Usa o novo serializador com uma config padrão
+    config = SnapshotConfig(use_legacy_layout=False, max_depth=None, include_props=True)
+    tree_dict = _serialize_node(root, config, depth=0)
+    if tree_dict is None:
+        return "Gallery"
     lines = ["Gallery"]
-
-    # TITLE
-    title = next((c.value for c in nodes if isinstance(c, ft.Text)), None)
-    if title:
-        lines.append(f"├── Title('{title}')")
-
-    # CARDS
-    cards = extract_cards(nodes)
-    if cards:
-        lines.append("├── Cards")
-        for i, card in enumerate(cards):
-            prefix = "│   ├──" if i < len(cards) - 1 else "│   └──"
-            lines.append(f"{prefix} Card({card})")
-
-    # ARROW
-    if any(isinstance(c, ft.IconButton) for c in nodes):
-        lines.append("├── Arrow")
-
-    # LOGOS
-    logos = extract_logos(nodes)
-    if logos:
-        lines.append(f"├── Logos({', '.join(logos)})")
-
-    # PLACEHOLDERS
-    if has_placeholders(nodes):
-        lines.append("└── Placeholders")
-
+    lines.extend(_dict_to_simple_text(tree_dict, indent=1))
     return "\n".join(lines)
 
 
@@ -142,21 +171,19 @@ def _serialize_legacy(root) -> str:
 
 
 def extract_cards(nodes):
+    print(f"[DEBUG] Nós recebidos: {[type(n).__name__ for n in nodes[:10]]}")
     cards = []
-
     for c in nodes:
         if hasattr(c, "super_data"):
-            nome = getattr(c.super_data, "nome", None)
-            if nome:
-                cards.append(nome)
-
+            name = getattr(c, "super_data", None)
+            if name:
+                cards.append(name)
         elif hasattr(c, "src") and c.src:
-            filename = c.src.split("/")[-1]
-            nome = filename.split(".")[0]
-
-            if nome not in ("detic", "unicamp"):
-                cards.append(nome.capitalize())
-
+            # Se for Image, extrai nome do arquivo
+            filename = c.src.split("/")[-1]  # mais robusto
+            name = filename.split(".")[0].capitalize()
+            if name not in ("detic", "unicamp"):
+                cards.append(name)
     return cards
 
 

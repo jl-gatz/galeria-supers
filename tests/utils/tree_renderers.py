@@ -5,6 +5,7 @@ import flet as ft
 from tests.utils.tree_helpers import (
     extract_cards,
     extract_logos,
+    extract_navigation,
     has_placeholders,
     walk,
 )
@@ -32,9 +33,20 @@ def render_simple_tree(view) -> str:
             prefix = "│    ├──" if i < len(cards) - 1 else "│    └──"
             lines.append(f"{prefix} Card({card})")
 
-    # ARROW
+    # ARROW (não existe mais)
     if any(isinstance(c, ft.IconButton) for c in nodes):
         lines.append("├── Arrow")
+
+    # FAB
+    nav = extract_navigation(nodes)
+
+    if nav:
+        for key in nav:
+            if key and key.startswith(("gallery-", "timeline-", "detail-")):
+                lines.append(f"├── FAB({key})")
+
+    if any(isinstance(c, ft.FloatingActionButton) for c in nodes):
+        lines.append("├── FAB")
 
     # LOGOS
     logos = extract_logos(nodes)

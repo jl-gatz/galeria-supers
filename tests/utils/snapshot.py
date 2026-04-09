@@ -17,13 +17,7 @@ def assert_tree_snapshot(
     tree = serialize_tree(view, config)
 
     for mode in modes:
-        if mode == "simple":
-            # 🔹 simple usa a view (por enquanto)
-            output = registry.render(mode, view)
-            filename = f"{name}_{mode}.txt"
-        else:
-            # 🔹 estrutura (fonte da verdade)
-            output = registry.render(mode, tree)
-            filename = f"{name}_{config.version}.json"
+        output = registry.render(mode, tree)
+        filename = f"{name}_{mode}.txt" if mode == "simple" else f"{name}_{config.version}.json"
 
         snapshot.assert_match(output, filename)
