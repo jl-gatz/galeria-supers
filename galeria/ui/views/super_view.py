@@ -3,11 +3,9 @@ from collections.abc import Callable
 import flet as ft
 
 from galeria.core.config import ANIMATE_OPACITY, AUTO_TIME_VIEW_BACK
-from galeria.ui.behaviors.auto_close_behavior import AutoCloseBehavior
-from galeria.ui.components import ResponsiveTimeline, SuperHeader
-from galeria.ui.components.navigation_controls import NavigationControls
-from galeria.ui.controllers.super_detail_controller import SuperDetailController
-from galeria.ui.theme import PRIMARY_RED
+from galeria.ui.behaviors import AutoCloseBehavior
+from galeria.ui.components import NavigationControls, ResponsiveTimeline, SuperHeader, fab_back
+from galeria.ui.controllers import SuperDetailController
 
 
 class SuperDetail(ft.Container):
@@ -105,17 +103,7 @@ class SuperDetail(ft.Container):
         )
 
     def _build_fab(self):
-        return ft.Container(
-            alignment=ft.Alignment.BOTTOM_RIGHT,
-            padding=20,
-            content=ft.FloatingActionButton(
-                icon=ft.Icons.ARROW_BACK,
-                tooltip="Voltar",
-                bgcolor=PRIMARY_RED,
-                foreground_color=ft.Colors.WHITE,
-                on_click=self._handle_voltar,
-            ),
-        )
+        return fab_back(on_click=self._handle_voltar, key="detail_back")
 
     # =========================================================
     # 🧩 SUBCOMPONENTES
