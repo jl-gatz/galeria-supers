@@ -13,9 +13,9 @@ GalleryView
               Image (src='None')
             Container
               Image (src='None')
-      Container
+      Row
         Container
-          IconButton
+          FloatingActionButton (key='gallery_next')
       Container
         Row
           Image (src='images/logos/logo-detic-4x.png')

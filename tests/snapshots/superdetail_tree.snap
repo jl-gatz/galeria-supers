@@ -18,4 +18,4 @@ SuperDetail
           ResponsiveTimeline
             Image (src='images/placeholder.png')
           Container
-            FloatingActionButton
+            FloatingActionButton (key='detail_back')
