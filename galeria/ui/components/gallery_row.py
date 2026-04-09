@@ -21,6 +21,7 @@ class GalleryRow(ft.Row):
         return ft.Container(
             width=self.card_width,
             on_click=lambda e: on_card_click(super_data),
+            data={"type": "card", "nome": super_data.nome},
             content=ft.Image(
                 src=str(super_data.foto).replace("\\", "/"),
                 fit=ft.BoxFit.COVER,

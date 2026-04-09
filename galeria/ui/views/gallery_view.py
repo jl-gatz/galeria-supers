@@ -8,9 +8,8 @@ import flet as ft
 from galeria.core import LOGO_DETIC, LOGO_UNICAMP
 from galeria.domain import Super
 from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
-from galeria.ui.components import GalleryRow, logos_row, placeholders_row, right_arrow
-from galeria.ui.controllers import GalleryScrollController
-from galeria.ui.controllers.super_detail_controller import SuperDetailController
+from galeria.ui.components import GalleryRow, fab_forward, logos_row, placeholders_row
+from galeria.ui.controllers import GalleryScrollController, SuperDetailController
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme import h1
 from galeria.ui.views.super_view import SuperDetail
@@ -53,10 +52,10 @@ class GalleryView(ft.Container):
             visible_cards=self.VISIBLE_CARDS,
             card_width=self.CARD_WIDTH,
             spacing=self.SPACING,
-            padding=self.PADDING,  # opcional, se o controlador precisar
+            padding=self.PADDING,
         )
 
-        # Container que envolve a galeria (sem padding extra por enquanto)
+        # Container dos cards
         cards_container = ft.Container(
             width=self.scroll_controller.group_width(),
             height=self.CARD_HEIGHT,
@@ -64,35 +63,38 @@ class GalleryView(ft.Container):
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
         )
 
-        # Stack para sobrepor o fade
+        # Stack da galeria (para efeitos futuros como fade)
         gallery_stack = ft.Stack(
             [
                 cards_container,
-                # right_fade(),  # descomente se necessário
+                # right_fade(),
             ],
             width=self.scroll_controller.group_width() + 2 * self.PADDING,
             height=self.CARD_HEIGHT,
         )
 
-        # Seta de navegação (abaixo da galeria)
-        arrow_container = ft.Container(
-            content=right_arrow(on_click=lambda _: self.page.run_task(self.scroll_controller.next)),
-            alignment=ft.Alignment.CENTER,
-            margin=ft.Margin.only(top=20),
+        # 🔥 FAB EM LINHA DEDICADA (entre galeria e logos)
+        fab_row = ft.Row(
+            [
+                fab_forward(
+                    on_click=lambda _: self.page.run_task(self.scroll_controller.next),
+                    key="gallery_next",
+                )
+            ],
+            alignment=ft.MainAxisAlignment.END,
+            width=self.scroll_controller.group_width() + 2 * self.PADDING,
         )
 
-        # Linha com os dois logotipos (alinhados à direita)
+        # Logos e placeholders
         logos = logos_row(logo_detic, logo_unicamp)
-
-        # Linha inferior com placeholders (um à esquerda, um à direita)
         placeholders = placeholders_row(show_placeholder_left, show_placeholder_right)
 
-        # Layout principal (coluna)
+        # Layout principal
         layout = ft.Column(
             [
                 h1("Galeria de Superintendentes"),
                 gallery_stack,
-                arrow_container,
+                fab_row,
                 logos,
                 placeholders,
             ],
@@ -100,7 +102,6 @@ class GalleryView(ft.Container):
             spacing=self.SPACING,
         )
 
-        # Container final que define a largura máxima e centraliza tudo
         self.content = ft.Container(
             content=layout,
             width=self.MAX_WIDTH,
@@ -125,4 +126,4 @@ class GalleryView(ft.Container):
         )
 
         self.root.show_overlay(detail)
-        detail.fade_in()
+        detail._fade_in()

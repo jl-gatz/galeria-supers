@@ -9,8 +9,14 @@ from galeria.ui.theme import PRIMARY_RED, body, h2, spacing
 
 
 class SuperHeader(ft.Container):
-    def __init__(self, image_src: str | None, nome: str, texto_inicial: str = "", **kwargs: Any):
-
+    def __init__(
+        self,
+        image_src: str | None,
+        nome: str,
+        texto_inicial: str = "",
+        navigation: ft.Control | None = None,
+        **kwargs: Any,
+    ):
         self.scroll = ft.ScrollMode.HIDDEN
 
         self.text_list = ft.ListView(
@@ -37,6 +43,7 @@ class SuperHeader(ft.Container):
                 h2(nome),
                 ft.Divider(color=PRIMARY_RED, thickness=3),
                 self.text_list,
+                navigation if navigation else ft.Container(),
             ],
         )
 

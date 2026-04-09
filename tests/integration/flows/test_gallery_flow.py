@@ -23,7 +23,6 @@ def test_sequencia_abrir_fechar_abrir_outro(fake_page, fake_service, fake_root):
         view.abrir_super(super_1)
 
         assert fake_root.overlay_shown == detail_1
-        detail_1.fade_in.assert_called_once()
 
         # captura callback do primeiro
         _, kwargs_1 = SuperDetailMock.call_args_list[0]
@@ -38,7 +37,6 @@ def test_sequencia_abrir_fechar_abrir_outro(fake_page, fake_service, fake_root):
         view.abrir_super(super_2)
 
         assert fake_root.overlay_shown == detail_2
-        detail_2.fade_in.assert_called_once()
 
 
 def test_fechar_antigo_nao_afeta_novo(fake_page, fake_service, fake_root):

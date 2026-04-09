@@ -1,21 +1,21 @@
 SuperDetail
-  GestureDetector
-    Container
-      Column
-        SuperHeader
-          Row
-            Image (src='tests/assets/test_image.png')
-            Column
-              Text
-              Divider
-              ListView
-                Text
-        ResponsiveTimeline
-          Image (src='tests/assets/test_timeline.png')
+  Container
+    Column
+      SuperHeader
         Row
-          Button
-            str
-          Button
-            str
-        OutlinedButton
-          str
+          Image (src='tests/assets/test_image.png')
+          Column
+            Text
+            Divider
+            ListView
+              Text
+            Container
+      NavigationControls
+        IconButton
+        IconButton
+      Container
+        Stack
+          ResponsiveTimeline
+            Image (src='images/placeholder.png')
+          Container
+            FloatingActionButton (key='detail_back')

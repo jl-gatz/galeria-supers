@@ -1,6 +1,5 @@
 # tests/utils/renderers/simple_renderer.py
 
-import flet as ft
 
 from tests.utils.tree_helpers import (
     extract_cards,
@@ -9,24 +8,29 @@ from tests.utils.tree_helpers import (
     walk,
 )
 
+# def walk(node):
+#     yield node
+#     for child in node.get("children", []):
+#         yield from walk(child)
 
-def render_simple(view_or_tree) -> str:
-    # se vier tree, ignoramos (por enquanto usamos view)
-    view = view_or_tree
 
-    root = getattr(view, "content", None)
-    if not root:
-        return "Gallery"
-
-    nodes = list(walk(root))
+def render_simple(tree) -> str:
+    nodes = list(walk(tree))
     lines = ["Gallery"]
 
     # TITLE
-    title = next((c.value for c in nodes if isinstance(c, ft.Text)), None)
+    title = next(
+        (
+            n.get("props", {}).get("value")
+            for n in nodes
+            if n["type"] == "Text" and n.get("props", {}).get("value")
+        ),
+        None,
+    )
     if title:
         lines.append(f'├── Title("{title}")')
 
-    # CARDS
+    # CARDS (mantém sua lógica adaptada)
     cards = extract_cards(nodes)
     if cards:
         lines.append("├── Cards")
@@ -34,9 +38,9 @@ def render_simple(view_or_tree) -> str:
             prefix = "│    ├──" if i < len(cards) - 1 else "│    └──"
             lines.append(f"{prefix} Card({card})")
 
-    # ARROW
-    if any(isinstance(c, ft.IconButton) for c in nodes):
-        lines.append("├── Arrow")
+    # FAB / ARROW 🔥 (agora funciona)
+    if any(n["type"] == "FloatingActionButton" for n in nodes):
+        lines.append("├── FAB")
 
     # LOGOS
     logos = extract_logos(nodes)

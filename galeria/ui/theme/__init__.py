@@ -1,4 +1,4 @@
-from .colors import BACKGROUND, BLACK, GRAY, PRIMARY_RED
+from .colors import BACKGROUND, BLACK, GRAY, PRIMARY_RED, RED_50, RED_55, RED_DARK
 from .spacing import LG, MD, SM, UL, XL, XS, XXL
 from .styles import body, h1, h2
 from .theme import setup_theme
@@ -15,6 +15,9 @@ __all__ = [
     "LG",
     "MD",
     "PRIMARY_RED",
+    "RED_50",
+    "RED_55",
+    "RED_DARK",
     "SM",
     "SMALL",
     "UL",

@@ -37,9 +37,11 @@
                         "expand_loose": false,
                         "ignore_interactions": false,
                         "ink": false,
+                        "nome": "Ada",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
+                        "type": "card",
                         "visible": true,
                         "width": 275
                       },
@@ -53,9 +55,11 @@
                         "expand_loose": false,
                         "ignore_interactions": false,
                         "ink": false,
+                        "nome": "Alan",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
+                        "type": "card",
                         "visible": true,
                         "width": 275
                       },
@@ -69,9 +73,11 @@
                         "expand_loose": false,
                         "ignore_interactions": false,
                         "ink": false,
+                        "nome": "Bell",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
+                        "type": "card",
                         "visible": true,
                         "width": 275
                       },
@@ -85,9 +91,11 @@
                         "expand_loose": false,
                         "ignore_interactions": false,
                         "ink": false,
+                        "nome": "_blank",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
+                        "type": "card",
                         "visible": true,
                         "width": 275
                       },
@@ -151,17 +159,20 @@
                   "children": [],
                   "props": {
                     "autofocus": false,
+                    "bgcolor": "#E10514",
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,
+                    "foreground_color": "white",
                     "icon": 66001,
-                    "icon_size": 48,
+                    "mini": false,
                     "opacity": 1.0,
                     "rtl": false,
                     "size_change_interval": 10,
+                    "tooltip": "Avançar",
                     "visible": true
                   },
-                  "type": "IconButton"
+                  "type": "FloatingActionButton"
                 }
               ],
               "props": {
@@ -172,6 +183,7 @@
                 "ignore_interactions": false,
                 "ink": false,
                 "opacity": 1.0,
+                "padding": 20,
                 "rtl": false,
                 "size_change_interval": 10,
                 "visible": true
@@ -180,17 +192,23 @@
             }
           ],
           "props": {
+            "auto_scroll": false,
             "col": 12,
             "disabled": false,
             "expand_loose": false,
-            "ignore_interactions": false,
-            "ink": false,
+            "intrinsic_height": false,
             "opacity": 1.0,
             "rtl": false,
+            "run_spacing": 10,
+            "scroll_interval": 10,
             "size_change_interval": 10,
-            "visible": true
+            "spacing": 10,
+            "tight": false,
+            "visible": true,
+            "width": 1655,
+            "wrap": false
           },
-          "type": "Container"
+          "type": "Row"
         },
         {
           "children": [
@@ -206,9 +224,11 @@
                     "expand_loose": false,
                     "gapless_playback": false,
                     "height": 120,
+                    "nome": "detic",
                     "opacity": 1.0,
                     "rtl": false,
                     "size_change_interval": 10,
+                    "type": "logo",
                     "visible": true
                   },
                   "type": "Image"
@@ -223,9 +243,11 @@
                     "expand_loose": false,
                     "gapless_playback": false,
                     "height": 120,
+                    "nome": "unicamp",
                     "opacity": 1.0,
                     "rtl": false,
                     "size_change_interval": 10,
+                    "type": "logo",
                     "visible": true
                   },
                   "type": "Image"

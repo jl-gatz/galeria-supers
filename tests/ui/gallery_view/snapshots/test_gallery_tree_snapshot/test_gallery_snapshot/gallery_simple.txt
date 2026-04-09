@@ -4,7 +4,7 @@ Gallery
 │    ├── Card(Ada)
 │    ├── Card(Alan)
 │    ├── Card(Bell)
-│    └── Card(None)
-├── Arrow
+│    └── Card(_blank)
+├── FAB
 ├── Logos(detic, unicamp)
 └── Placeholders

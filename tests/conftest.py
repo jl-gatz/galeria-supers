@@ -24,9 +24,9 @@ def fake_page() -> FakePage:
 
 
 @pytest.fixture
-def fake_root() -> FakeRoot:
+def fake_root(fake_page: FakePage) -> FakeRoot:
     """Root fake para overlays e navegação"""
-    return FakeRoot()
+    return FakeRoot(fake_page)
 
 
 @pytest.fixture
