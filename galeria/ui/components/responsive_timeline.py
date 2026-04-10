@@ -1,43 +1,48 @@
 # ui/components/responsive_timeline.py
 
+from typing import override
+
 import flet as ft
 
 
-class ResponsiveTimeline(ft.Stack):
-    def __init__(
-        self,
-        image_src: str | None,
-        points: list[dict],
-        on_select: ft.Control,
-        width: int = 1200,
-        height: int = 260,
-    ):
-        super().__init__(width=width, height=height)
+class ResponsiveTimeline(ft.Container):
+    def __init__(self, image_src, points, on_select, height=260):
+        super().__init__(expand=True, height=height)
 
         self._points = points
         self._on_select = on_select
-        self._width = width
-        self._height = height
+        self._image_src = image_src
 
-        timeline_img = ft.Image(
+        self.content = ft.Stack(expand=True)
+
+        self._image = ft.Image(
             src=str(image_src) if image_src else "images/placeholder.png",
-            width=width,
-            height=height,
             fit=ft.BoxFit.CONTAIN,
+            expand=True,
         )
 
-        self.controls = [timeline_img]
-        self.controls += self._build_hotspots()
+        self.content.controls.append(self._image)
 
-    def _build_hotspots(self):
+    @override
+    def did_mount(self):
+        self.page.on_resize = self._handle_resize
+        self._rebuild()
 
-        hotspots = []
+    def _handle_resize(self, e):
+        self._rebuild()
+
+    def _rebuild(self):
+        stack = self.content
+        stack.controls = [self._image]
+
+        width = self.width or self.page.width
+        height = self.height
 
         for idx, point in enumerate(self._points):
-            px = point["x"] * self._width
-            py = point["y"] * self._height
+            px = point["x"] * width
+            py = point["y"] * height
 
-            hotspots.append(
+            stack.controls.append(
                 ft.Container(
                     left=px - 20,
                     top=py - 20,
@@ -49,4 +54,4 @@ class ResponsiveTimeline(ft.Stack):
                 )
             )
 
-        return hotspots
+        self.update()

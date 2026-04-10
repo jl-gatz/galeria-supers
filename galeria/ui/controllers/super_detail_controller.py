@@ -1,6 +1,8 @@
+# ui/controllers/super_detail_controller.py
+
 from pathlib import Path
 
-from galeria.domain.protocols.super_like import SuperLike
+from galeria.domain.protocols import SuperLike
 from galeria.ui.controllers import SlideController
 
 
