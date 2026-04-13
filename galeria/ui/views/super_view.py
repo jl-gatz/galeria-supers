@@ -7,9 +7,9 @@ from galeria.ui.behaviors import AutoCloseBehavior
 from galeria.ui.components import (
     FloatingNavButton,
     NavigationControls,
-    ResponsiveTimeline,
     SuperHeader,
 )
+from galeria.ui.components.timeline.timeline_component import TimelineComponent
 from galeria.ui.controllers import SuperDetailController
 
 
@@ -37,13 +37,13 @@ class SuperDetail(ft.Container):
         self.alignment = ft.Alignment.CENTER
         self.animate_opacity = ft.Animation(ANIMATE_OPACITY)
 
-        # 📊 Dados
-        self.timeline = self.controller.timeline
+        # 🎨 Timeline
+        self.timeline = TimelineComponent(self.controller.timeline)
+        self.timeline_view = self.timeline.build()
 
         # 🧩 Componentes principais
         self.header = self._build_header()
         self.navigation = self._build_navigation()
-        self.timeline_view = self._build_timeline()
 
         # 🧱 Layout
         self.content = self._build_layout()
@@ -96,8 +96,13 @@ class SuperDetail(ft.Container):
         )
 
     def _build_timeline_section(self):
+        # DEBUG: printa os pontos para verificar se estão corretos
+        # print(self.controller.timeline_points)
+
         return ft.Container(
             expand=True,
+            height=300,
+            # bgcolor=ft.Colors.RED_100,
             content=ft.Stack(
                 expand=True,
                 controls=[
@@ -130,15 +135,6 @@ class SuperDetail(ft.Container):
             on_prev=self.prev,
             on_next=self.next,
         )
-
-    def _build_timeline(self):
-        timeline_view = ResponsiveTimeline(
-            image_src=None,
-            points=self.timeline["points"],
-            on_select=self._goto_slide,
-        )
-        timeline_view.expand = True
-        return timeline_view
 
     # =========================================================
     # 🎮 INTERAÇÕES
@@ -186,3 +182,9 @@ class SuperDetail(ft.Container):
     def did_mount(self):
         self._mounted = True
         self._fade_in()
+        # 🔥 usa a timeline já renderizada
+        self.timeline.view.update_path("M 0 150 L 800 150")
+        print(self.timeline_view.width, self.timeline_view.height)
+
+        # 🎬 anima timeline
+        self.timeline.animate()
