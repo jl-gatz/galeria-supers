@@ -3,3 +3,5 @@ omit =
     galeria/ui/components/super_card.py
     tests/*
     */migrations/*
+    galeria/_examples/*
+    
