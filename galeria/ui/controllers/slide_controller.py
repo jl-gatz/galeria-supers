@@ -1,4 +1,6 @@
 # ui/controllers/slide_controller.py
+
+
 class SlideController:
     def __init__(self, historias: list[str]) -> None:
         if not historias:

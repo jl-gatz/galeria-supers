@@ -1,6 +1,8 @@
+# ui/controllers/super_detail_controller.py
+
 from pathlib import Path
 
-from galeria.domain.protocols.super_like import SuperLike
+from galeria.domain.protocols import SuperLike
 from galeria.ui.controllers import SlideController
 
 
@@ -40,12 +42,12 @@ class SuperDetailController:
     def timeline_points(self):
         return self._super.timeline_points or []
 
-    @property
-    def timeline(self) -> dict:
-        return {
-            "image_src": self.timeline_src,
-            "points": self.timeline_points,
-        }
+    # @property
+    # def timeline(self) -> dict:
+    #     return {
+    #         "image_src": self.timeline_src,
+    #         "points": self.timeline_points,
+    #     }
 
     # -------------------------
     # 🎞 Slides
@@ -62,3 +64,7 @@ class SuperDetailController:
 
     def goto(self, index: int) -> bool:
         return self._slides.goto(index)
+
+    # def sync_timeline_with_slide(self):
+    #     index = self._slides.index  # ou como você controla isso
+    #     self._timeline_ctrl.active_index = index

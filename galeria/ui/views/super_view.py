@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from typing import override
 
 import flet as ft
 
@@ -7,9 +8,15 @@ from galeria.ui.behaviors import AutoCloseBehavior
 from galeria.ui.components import (
     FloatingNavButton,
     NavigationControls,
-    ResponsiveTimeline,
     SuperHeader,
 )
+from galeria.ui.components.timeline.controller.timeline_controller import TimelineController
+from galeria.ui.components.timeline.models.timeline_model import TimelineModel
+from galeria.ui.components.timeline.utils.path_builder import PathBuilder
+from galeria.ui.components.timeline.utils.timeline_mapper import extract_points_from_super
+from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
+from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
+from galeria.ui.components.timeline.view.timeline_view import TimelineView
 from galeria.ui.controllers import SuperDetailController
 
 
@@ -37,13 +44,23 @@ class SuperDetail(ft.Container):
         self.alignment = ft.Alignment.CENTER
         self.animate_opacity = ft.Animation(ANIMATE_OPACITY)
 
-        # 📊 Dados
-        self.timeline = self.controller.timeline
+        # 🎨 Timeline
+        points = extract_points_from_super(self.controller.timeline_points)
+        model = TimelineModel(points)
+
+        timeline_controller = TimelineController(model)
+
+        renderer = TimelineRenderer(TimelineStyle())
+
+        self.timeline_view = TimelineView(
+            controller=timeline_controller,
+            path_builder=PathBuilder(),
+            renderer=renderer,
+        )
 
         # 🧩 Componentes principais
         self.header = self._build_header()
         self.navigation = self._build_navigation()
-        self.timeline_view = self._build_timeline()
 
         # 🧱 Layout
         self.content = self._build_layout()
@@ -96,12 +113,17 @@ class SuperDetail(ft.Container):
         )
 
     def _build_timeline_section(self):
+        # DEBUG: printa os pontos para verificar se estão corretos
+        # print(self.controller.timeline_points)
+
         return ft.Container(
             expand=True,
+            height=300,
+            # bgcolor=ft.Colors.RED_100,
             content=ft.Stack(
                 expand=True,
                 controls=[
-                    self.timeline_view,
+                    self.timeline_view.control,
                     self._build_fab(),
                 ],
             ),
@@ -130,15 +152,6 @@ class SuperDetail(ft.Container):
             on_prev=self.prev,
             on_next=self.next,
         )
-
-    def _build_timeline(self):
-        timeline_view = ResponsiveTimeline(
-            image_src=None,
-            points=self.timeline["points"],
-            on_select=self._goto_slide,
-        )
-        timeline_view.expand = True
-        return timeline_view
 
     # =========================================================
     # 🎮 INTERAÇÕES
@@ -182,7 +195,8 @@ class SuperDetail(ft.Container):
     # =========================================================
     # 🎬 LIFECYCLE
     # =========================================================
-
+    @override
     def did_mount(self):
         self._mounted = True
         self._fade_in()
+        self.timeline_view.refresh()
