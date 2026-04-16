@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from typing import override
 
 import flet as ft
 
@@ -9,7 +10,13 @@ from galeria.ui.components import (
     NavigationControls,
     SuperHeader,
 )
-from galeria.ui.components.timeline.timeline_component import TimelineComponent
+from galeria.ui.components.timeline.controller.timeline_controller import TimelineController
+from galeria.ui.components.timeline.models.timeline_model import TimelineModel
+from galeria.ui.components.timeline.utils.path_builder import PathBuilder
+from galeria.ui.components.timeline.utils.timeline_mapper import extract_points_from_super
+from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
+from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
+from galeria.ui.components.timeline.view.timeline_view import TimelineView
 from galeria.ui.controllers import SuperDetailController
 
 
@@ -38,8 +45,18 @@ class SuperDetail(ft.Container):
         self.animate_opacity = ft.Animation(ANIMATE_OPACITY)
 
         # 🎨 Timeline
-        self.timeline = TimelineComponent(self.controller.timeline)
-        self.timeline_view = self.timeline.build()
+        points = extract_points_from_super(self.controller.timeline_points)
+        model = TimelineModel(points)
+
+        timeline_controller = TimelineController(model)
+
+        renderer = TimelineRenderer(TimelineStyle())
+
+        self.timeline_view = TimelineView(
+            controller=timeline_controller,
+            path_builder=PathBuilder(),
+            renderer=renderer,
+        )
 
         # 🧩 Componentes principais
         self.header = self._build_header()
@@ -106,7 +123,7 @@ class SuperDetail(ft.Container):
             content=ft.Stack(
                 expand=True,
                 controls=[
-                    self.timeline_view,
+                    self.timeline_view.control,
                     self._build_fab(),
                 ],
             ),
@@ -178,13 +195,8 @@ class SuperDetail(ft.Container):
     # =========================================================
     # 🎬 LIFECYCLE
     # =========================================================
-
+    @override
     def did_mount(self):
         self._mounted = True
         self._fade_in()
-        # 🔥 usa a timeline já renderizada
-        self.timeline.view.update_path("M 0 150 L 800 150")
-        print(self.timeline_view.width, self.timeline_view.height)
-
-        # 🎬 anima timeline
-        self.timeline.animate()
+        self.timeline_view.refresh()

@@ -1,95 +1,118 @@
 # galeria/ui/components/timeline/controller/timeline_controller.py
 
-import time
 
-from ..models.timeline_point import TimelinePoint
-from ..utils.curve_generator import catmull_rom_to_segments
-from ..utils.path_builder import build_partial_path
-from ..view.timeline_view import TimelineView
+import asyncio
+import math
 
 
 class TimelineController:
-    WIDTH = 800
-    HEIGHT = 300
+    def __init__(self, model):
+        self.model = model
 
-    def __init__(self, view: "TimelineView"):
+        # estado público (consumido pela view)
+        self.progress = 0.0
+        self.active_index = 0
+
+        # controle interno
+        self._animation_done = False
+        self._running = False
+        self._task = None
+
+        self.view = None
+
+    # -------------------------
+    # binding
+    # -------------------------
+    def bind_view(self, view):
         self.view = view
-        self.points: list[TimelinePoint] = []
-        self.segments = []
-        self.progress: float = 0.0
-        self.is_animating: bool = False
 
-    # ===============================
-    # 🔹 Setup
-    # ===============================
+    # -------------------------
+    # controle da animação
+    # -------------------------
+    def start(self):
+        """Inicia (ou reinicia) a animação."""
+        self.progress = 0.0
+        self._animation_done = False
+        self._running = True
 
-    def set_points(self, points: list[TimelinePoint]) -> None:
-        if len(points) < 2:
-            self.points = []
-            self.segments = []
+        self._ensure_loop()
+
+    def stop(self):
+        """Para a animação."""
+        self._running = False
+        self._animation_done = True
+
+    def reset(self):
+        """Reseta sem iniciar."""
+        self.progress = 0.0
+        self.active_index = 0
+        self._animation_done = False
+        self._running = False
+
+        if self.view:
+            self.view.refresh()
+
+    # -------------------------
+    # loop
+    # -------------------------
+    def _ensure_loop(self):
+        if not self.view:
             return
 
-        valid_points = []
-
-        for p in points:
-            if (
-                isinstance(p.x, (int, float))
-                and isinstance(p.y, (int, float))
-                and 0.0 <= p.x <= 1.0
-                and 0.0 <= p.y <= 1.0
-            ):
-                # 🔥 ESCALA AQUI
-                scaled = TimelinePoint(
-                    year=p.year,
-                    label=p.label,
-                    x=p.x * self.WIDTH,
-                    y=p.y * self.HEIGHT,
-                )
-                valid_points.append(scaled)
-
-        if len(valid_points) < 2:
-            self.points = []
-            self.segments = []
+        page = getattr(self.view.control, "page", None)
+        if not page:
             return
 
-        self.points = sorted(valid_points, key=lambda p: p.year)
-
-        self.segments = catmull_rom_to_segments(self.points)
-
-    # ===============================
-    # 🎬 Animation
-    # ===============================
-
-    def start(self, duration: float = 1.5) -> None:
-        if not self.segments:
+        # evita múltiplos loops concorrentes
+        if self._task:
             return
 
-        self.is_animating = True
+        self._task = page.run_task(self._loop)
 
-        steps = 60
-        delay = duration / steps
+    async def _loop(self):
+        try:
+            while self._running and not self._animation_done:
+                self.tick()
+                await asyncio.sleep(0.016)  # ~60 FPS
+        finally:
+            self._task = None
 
-        for i in range(steps + 1):
-            if not self.is_animating:
-                break
+    # -------------------------
+    # lógica de animação
+    # -------------------------
+    def tick(self):
+        if not self._running or self._animation_done:
+            return
 
-            # 🔹 progresso normalizado
-            t = i / steps
-            t = max(0.0, min(1.0, t))
+        # progresso linear
+        self.progress = min(1.0, self.progress + 0.02)
 
-            # 🔹 ease-in-out
-            progress = t * t * (3 - 2 * t)
-            progress = max(0.0, min(1.0, progress))
+        if self.progress >= 1.0:
+            self.progress = 1.0
+            self._animation_done = True
 
-            self.progress = progress
+        # print("TICK:", self.progress)
 
-            # 🔹 gera path seguro
-            path = build_partial_path(self.segments, progress)
+        self._update_active_index()
 
-            # 🔹 atualiza view
-            self.view.update_path(path)
+        if self.view:
+            self.view.refresh()
 
-            time.sleep(delay)
+    def _update_active_index(self):
+        total = len(self.model.points)
 
-    def stop(self) -> None:
-        self.is_animating = False
+        if total <= 1:
+            self.active_index = 0
+            return
+
+        self.active_index = int(self.progress * (total - 1))
+
+    # -------------------------
+    # easing (opcional)
+    # -------------------------
+    def get_eased_progress(self):
+        """
+        Retorna progress com easing (ease-in-out).
+        Não altera o estado interno.
+        """
+        return 0.5 - 0.5 * math.cos(self.progress * math.pi)

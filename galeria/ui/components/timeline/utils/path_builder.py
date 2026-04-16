@@ -3,74 +3,115 @@
 
 import math
 
-Segment = dict[str, tuple[float, float]]
 
+class PathBuilder:
+    def __init__(self, mode="smooth", tension=0.5):
+        self.mode = mode
+        self.tension = tension
 
-def _safe(n: float) -> float:
-    """Evita NaN / infinito (causa do erro do Flutter)."""
-    if math.isnan(n) or math.isinf(n):
-        return 0.0
-    return n
+    # =========================================================
+    # 🛡️ PROTEÇÕES
+    # =========================================================
 
-
-def _clamp01(n: float) -> float:
-    return max(0.0, min(1.0, n))
-
-
-def build_partial_path(segments: list[Segment], progress: float) -> str:
-    """
-    Gera path SVG parcial baseado no progresso (0..1).
-    Seguro contra valores inválidos.
-    """
-
-    if not segments:
-        return ""
-
-    progress = _clamp01(progress)
-
-    total = len(segments)
-    current = progress * total
-
-    full_segments = int(current)
-    remainder = current - full_segments
-
-    path: list[str] = []
-
-    # 🔹 Move inicial
-    x0, y0 = segments[0]["start"]
-    path.append(f"M {_safe(x0):.3f},{_safe(y0):.3f}")
-
-    # 🔹 Segmentos completos
-    for i in range(full_segments):
-        s = segments[i]
-
-        cp1x, cp1y = s["cp1"]
-        cp2x, cp2y = s["cp2"]
-        ex, ey = s["end"]
-
-        path.append(
-            f"C {_safe(cp1x):.3f},{_safe(cp1y):.3f} "
-            f"{_safe(cp2x):.3f},{_safe(cp2y):.3f} "
-            f"{_safe(ex):.3f},{_safe(ey):.3f}"
+    def _is_valid(self, x, y):
+        return (
+            x is not None
+            and y is not None
+            and not math.isnan(x)
+            and not math.isnan(y)
+            and math.isfinite(x)
+            and math.isfinite(y)
         )
 
-    # 🔹 Segmento parcial
-    if full_segments < total:
-        s = segments[full_segments]
+    def _sanitize_points(self, points):
+        return [p for p in points if self._is_valid(p[0], p[1])]
 
-        sx, sy = s["start"]
-        ex, ey = s["end"]
+    # =========================================================
+    # 🎯 ENTRYPOINT
+    # =========================================================
 
-        # interpolação linear segura
-        px = sx + (ex - sx) * remainder
-        py = sy + (ey - sy) * remainder
+    def build_path(self, points):
+        # print("RAW:", points)
 
-        path.append(f"L {_safe(px):.3f},{_safe(py):.3f}")
+        pts = self._sanitize_points(points)
 
-    result = " ".join(path)
+        # print("SANITIZED:", pts)
 
-    # 🔥 DEBUG opcional
-    if "nan" in result.lower():
-        print("🚨 PATH INVÁLIDO:", result)
+        if len(pts) < 2:
+            return pts
 
-    return result
+        if self.mode == "linear":
+            return pts
+
+        if self.mode == "smooth":
+            return self._catmull_rom(pts)
+
+        if self.mode == "infinity":
+            return self._infinity_curve(pts)
+
+        return pts
+
+    # =========================================================
+    # 🧵 CATMULL-ROM SPLINE (suave)
+    # =========================================================
+
+    def _catmull_rom(self, pts, segments=20):
+        curve = []
+
+        for i in range(len(pts) - 1):
+            p0 = pts[i - 1] if i > 0 else pts[i]
+            p1 = pts[i]
+            p2 = pts[i + 1]
+            p3 = pts[i + 2] if i + 2 < len(pts) else pts[i + 1]
+
+            for t in range(segments):
+                t /= segments
+                t2 = t * t
+                t3 = t2 * t
+
+                x = 0.5 * (
+                    (2 * p1[0])
+                    + (-p0[0] + p2[0]) * t
+                    + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * t2
+                    + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * t3
+                )
+
+                y = 0.5 * (
+                    (2 * p1[1])
+                    + (-p0[1] + p2[1]) * t
+                    + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * t2
+                    + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * t3
+                )
+
+                if self._is_valid(x, y):
+                    curve.append((x, y))
+
+        curve.append(pts[-1])
+        return curve
+
+    # =========================================================
+    # ♾️ CURVA INFINITA (estética)
+    # =========================================================
+
+    def _infinity_curve(self, pts, segments=40):
+        curve = []
+
+        for i in range(len(pts) - 1):
+            x1, y1 = pts[i]
+            x2, y2 = pts[i + 1]
+
+            for t in range(segments):
+                alpha = t / segments
+
+                x = x1 + (x2 - x1) * alpha
+
+                # 🔥 assinatura visual
+                amplitude = min(40, abs(x2 - x1) * 0.3)
+
+                y = y1 + (y2 - y1) * alpha + math.sin(alpha * math.pi * 2) * amplitude
+
+                if self._is_valid(x, y):
+                    curve.append((x, y))
+
+        curve.append(pts[-1])
+        return curve
