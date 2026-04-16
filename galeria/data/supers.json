@@ -6,9 +6,9 @@
     "foto": "01-prof-alfredo__transp.png",
     "timeline": "",
     "timeline_points": [
-      { "year": 1967, "label": "ingresso", "x": 0.08, "y": 0.72 },
-      { "year": 1968, "label": "destaque", "x": 0.38, "y": 0.45 },
-      { "year": 1969, "label": "aposentadoria", "x": 0.82, "y": 0.68 }
+      { "year": 1967, "label": "ingresso", "x": 0.08, "y": 0.96 },
+      { "year": 1968, "label": "destaque", "x": 0.38, "y": 0.05 },
+      { "year": 1969, "label": "aposentadoria", "x": 0.82, "y": 0.55 }
     ],
     "historias": [
       "Alfredo assumiu a superintendência em 1899...",
@@ -23,9 +23,9 @@
     "timeline": "",
     "timeline_points": [
       { "year": 1969, "label": "ingresso", "x": 0.12, "y": 0.66 },
-      { "year": 1970, "label": "promoção", "x": 0.35, "y": 0.52 },
-      { "year": 1971, "label": "projeto", "x": 0.60, "y": 0.38 },
-      { "year": 1972, "label": "aposentadoria", "x": 0.88, "y": 0.70 }
+      { "year": 1970, "label": "promoção", "x": 0.35, "y": 0.08 },
+      { "year": 1971, "label": "projeto", "x": 0.60, "y": 0.95 },
+      { "year": 1972, "label": "aposentadoria", "x": 0.88, "y": 0.25 }
     ],
     "historias": [
       "Odelar foi o primeiro Odelar a ocupar o cargo...",
@@ -40,12 +40,12 @@
     "timeline": "",
     "timeline_points": [
       { "year": 1972, "label": "ingresso", "x": 0.05, "y": 0.75 },
-      { "year": 1974, "label": "marco", "x": 0.18, "y": 0.55 },
-      { "year": 1979, "label": "expansão", "x": 0.30, "y": 0.40 },
-      { "year": 1983, "label": "liderança", "x": 0.45, "y": 0.60 },
-      { "year": 1984, "label": "projeto", "x": 0.58, "y": 0.42 },
-      { "year": 1985, "label": "conquista", "x": 0.70, "y": 0.55 },
-      { "year": 1987, "label": "legado", "x": 0.85, "y": 0.65 }
+      { "year": 1974, "label": "marco", "x": 0.18, "y": 0.08 },
+      { "year": 1979, "label": "expansão", "x": 0.30, "y": 0.95 },
+      { "year": 1983, "label": "liderança", "x": 0.45, "y": 0.35 },
+      { "year": 1984, "label": "projeto", "x": 0.58, "y": 0.75 },
+      { "year": 1985, "label": "conquista", "x": 0.70, "y": 0.15 },
+      { "year": 1987, "label": "legado", "x": 0.85, "y": 0.75 }
     ],
     "historias": [
       "Nelson assumiu a superintendência em 1972, em um período de grandes transformações institucionais...",
@@ -59,10 +59,10 @@
     "foto": "04-prof-siqueira__transp.png",
     "timeline": "",
     "timeline_points": [
-      { "year": 1987, "label": "ingresso", "x": 0.10, "y": 0.70 },
-      { "year": 1988, "label": "projeto", "x": 0.32, "y": 0.48 },
-      { "year": 1989, "label": "coordenação", "x": 0.55, "y": 0.60 },
-      { "year": 1990, "label": "aposentadoria", "x": 0.80, "y": 0.72 }
+      { "year": 1987, "label": "ingresso", "x": 0.10, "y": 0.95 },
+      { "year": 1988, "label": "projeto", "x": 0.32, "y": 0.25 },
+      { "year": 1989, "label": "coordenação", "x": 0.55, "y": 0.65 },
+      { "year": 1990, "label": "aposentadoria", "x": 0.80, "y": 0.45 }
     ],
     "historias": [
       "Luiz Roberto tomou posse em 1987, trazendo uma visão inovadora para a gestão pública...",
@@ -76,11 +76,11 @@
     "foto": "05-prof-hilton__transp.png",
     "timeline": "",
     "timeline_points": [
-      { "year": 1990, "label": "ingresso", "x": 0.07, "y": 0.68 },
-      { "year": 1992, "label": "destaque", "x": 0.22, "y": 0.50 },
+      { "year": 1990, "label": "ingresso", "x": 0.07, "y": 0.78 },
+      { "year": 1992, "label": "destaque", "x": 0.22, "y": 0.10 },
       { "year": 1995, "label": "expansão", "x": 0.40, "y": 0.35 },
-      { "year": 1996, "label": "liderança", "x": 0.62, "y": 0.55 },
-      { "year": 1988, "label": "legado", "x": 0.88, "y": 0.65 }
+      { "year": 1996, "label": "liderança", "x": 0.62, "y": 0.65 },
+      { "year": 1988, "label": "legado", "x": 0.88, "y": 0.38 }
     ],
     "historias": [
       "Hilton assumiu em 1990, com forte atuação na modernização tecnológica...",
@@ -94,9 +94,9 @@
     "foto": "06-prof-hans__transp.png",
     "timeline": "",
     "timeline_points": [
-      { "year": 1998, "label": "ingresso", "x": 0.09, "y": 0.72 },
-      { "year": 1999, "label": "pesquisa", "x": 0.30, "y": 0.44 },
-      { "year": 2000, "label": "inovação", "x": 0.52, "y": 0.38 },
+      { "year": 1998, "label": "ingresso", "x": 0.09, "y": 0.95 },
+      { "year": 1999, "label": "pesquisa", "x": 0.30, "y": 0.22 },
+      { "year": 2000, "label": "inovação", "x": 0.52, "y": 0.77 },
       { "year": 2002, "label": "reconhecimento", "x": 0.74, "y": 0.60 }
     ],
     "historias": [
@@ -111,10 +111,10 @@
     "foto": "07-prof-buzato__transp.png",
     "timeline": "",
     "timeline_points": [
-      { "year": 2002, "label": "ingresso", "x": 0.15, "y": 0.65 },
-      { "year": 2003, "label": "projeto", "x": 0.40, "y": 0.45 },
-      { "year": 2004, "label": "liderança", "x": 0.65, "y": 0.55 },
-      { "year": 2005, "label": "atualidade", "x": 0.90, "y": 0.70 }
+      { "year": 2002, "label": "ingresso", "x": 0.15, "y": 0.85 },
+      { "year": 2003, "label": "projeto", "x": 0.40, "y": 0.15 },
+      { "year": 2004, "label": "liderança", "x": 0.65, "y": 0.75 },
+      { "year": 2005, "label": "atualidade", "x": 0.90, "y": 0.45 }
     ],
     "historias": [
       "Luiz Eduardo assumiu o cargo em 2002, trazendo foco em inovação e governança...",
@@ -129,9 +129,9 @@
     "timeline": "",
     "timeline_points": [
       { "year": 2005, "label": "ingresso", "x": 0.05, "y": 0.70 },
-      { "year": 2006, "label": "destaque", "x": 0.25, "y": 0.50 },
-      { "year": 2008, "label": "expansão", "x": 0.45, "y": 0.35 },
-      { "year": 2012, "label": "liderança", "x": 0.68, "y": 0.55 },
+      { "year": 2006, "label": "destaque", "x": 0.25, "y": 0.12 },
+      { "year": 2008, "label": "expansão", "x": 0.45, "y": 0.55 },
+      { "year": 2012, "label": "liderança", "x": 0.68, "y": 0.22 },
       { "year": 2013, "label": "atualidade", "x": 0.88, "y": 0.68 }
     ],
     "historias": [
@@ -147,7 +147,7 @@
     "timeline": "",
     "timeline_points": [
       { "year": 2013, "label": "ingresso", "x": 0.10, "y": 0.72 },
-      { "year": 2014, "label": "projeto", "x": 0.33, "y": 0.48 },
+      { "year": 2014, "label": "projeto", "x": 0.33, "y": 0.09 },
       { "year": 2016, "label": "liderança", "x": 0.58, "y": 0.52 },
       { "year": 2017, "label": "legado", "x": 0.82, "y": 0.66 }
     ],
@@ -163,10 +163,10 @@
     "foto": "10-prof-sandro__transp.png",
     "timeline": "",
     "timeline_points": [
-      { "year": 2017, "label": "ingresso", "x": 0.10, "y": 0.72 },
-      { "year": 2019, "label": "projeto", "x": 0.33, "y": 0.48 },
+      { "year": 2017, "label": "ingresso", "x": 0.10, "y": 0.88 },
+      { "year": 2019, "label": "projeto", "x": 0.33, "y": 0.18 },
       { "year": 2020, "label": "liderança", "x": 0.58, "y": 0.52 },
-      { "year": 2021, "label": "legado", "x": 0.82, "y": 0.66 }
+      { "year": 2021, "label": "legado", "x": 0.82, "y": 0.75 }
     ],
     "historias": [
       "Sandro iniciou sua gestão em 2017, com foco na transformação digital...",
