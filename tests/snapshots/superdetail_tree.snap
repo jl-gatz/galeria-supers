@@ -15,8 +15,7 @@ SuperDetail
         IconButton
       Container
         Stack
-          ResponsiveTimeline
-            Stack
-              Image (src='images/placeholder.png')
+          TimelineContainer
+            Canvas
           FloatingNavButton
             FloatingActionButton (key='detail_back')

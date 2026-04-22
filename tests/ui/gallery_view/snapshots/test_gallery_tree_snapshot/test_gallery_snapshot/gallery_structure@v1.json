@@ -32,162 +32,106 @@
                     {
                       "children": [],
                       "props": {
-                        "anti_alias": false,
                         "col": 12,
                         "disabled": false,
-                        "exclude_from_semantics": false,
                         "expand_loose": false,
-                        "gapless_playback": false,
-                        "height": 400,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "nome": "Ada",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
-                        "visible": true
+                        "type": "card",
+                        "visible": true,
+                        "width": 300
                       },
-                      "type": "Image"
-                    }
-                  ],
-                  "props": {
-                    "col": 12,
-                    "disabled": false,
-                    "expand_loose": false,
-                    "ignore_interactions": false,
-                    "ink": false,
-                    "nome": "Ada",
-                    "opacity": 1.0,
-                    "rtl": false,
-                    "size_change_interval": 10,
-                    "type": "card",
-                    "visible": true,
-                    "width": 275
-                  },
-                  "type": "Container"
-                },
-                {
-                  "children": [
+                      "type": "Container"
+                    },
                     {
                       "children": [],
                       "props": {
-                        "anti_alias": false,
                         "col": 12,
                         "disabled": false,
-                        "exclude_from_semantics": false,
                         "expand_loose": false,
-                        "gapless_playback": false,
-                        "height": 400,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "nome": "Alan",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
-                        "visible": true
+                        "type": "card",
+                        "visible": true,
+                        "width": 300
                       },
-                      "type": "Image"
-                    }
-                  ],
-                  "props": {
-                    "col": 12,
-                    "disabled": false,
-                    "expand_loose": false,
-                    "ignore_interactions": false,
-                    "ink": false,
-                    "nome": "Alan",
-                    "opacity": 1.0,
-                    "rtl": false,
-                    "size_change_interval": 10,
-                    "type": "card",
-                    "visible": true,
-                    "width": 275
-                  },
-                  "type": "Container"
-                },
-                {
-                  "children": [
+                      "type": "Container"
+                    },
                     {
                       "children": [],
                       "props": {
-                        "anti_alias": false,
                         "col": 12,
                         "disabled": false,
-                        "exclude_from_semantics": false,
                         "expand_loose": false,
-                        "gapless_playback": false,
-                        "height": 400,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "nome": "Bell",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
-                        "visible": true
+                        "type": "card",
+                        "visible": true,
+                        "width": 300
                       },
-                      "type": "Image"
-                    }
-                  ],
-                  "props": {
-                    "col": 12,
-                    "disabled": false,
-                    "expand_loose": false,
-                    "ignore_interactions": false,
-                    "ink": false,
-                    "nome": "Bell",
-                    "opacity": 1.0,
-                    "rtl": false,
-                    "size_change_interval": 10,
-                    "type": "card",
-                    "visible": true,
-                    "width": 275
-                  },
-                  "type": "Container"
-                },
-                {
-                  "children": [
+                      "type": "Container"
+                    },
                     {
                       "children": [],
                       "props": {
-                        "anti_alias": false,
                         "col": 12,
                         "disabled": false,
-                        "exclude_from_semantics": false,
                         "expand_loose": false,
-                        "gapless_playback": false,
-                        "height": 400,
+                        "ignore_interactions": false,
+                        "ink": false,
+                        "nome": "_blank",
                         "opacity": 1.0,
                         "rtl": false,
                         "size_change_interval": 10,
-                        "visible": true
+                        "type": "card",
+                        "visible": true,
+                        "width": 300
                       },
-                      "type": "Image"
+                      "type": "Container"
                     }
                   ],
                   "props": {
+                    "auto_scroll": false,
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,
-                    "ignore_interactions": false,
-                    "ink": false,
-                    "nome": "_blank",
+                    "intrinsic_height": false,
                     "opacity": 1.0,
                     "rtl": false,
+                    "run_spacing": 10,
+                    "scroll_interval": 10,
                     "size_change_interval": 10,
-                    "type": "card",
+                    "spacing": 165,
+                    "tight": false,
                     "visible": true,
-                    "width": 275
+                    "wrap": false
                   },
-                  "type": "Container"
+                  "type": "Row"
                 }
               ],
               "props": {
-                "auto_scroll": false,
-                "card_width": 275,
+                "card_width": 300,
                 "col": 12,
                 "disabled": false,
                 "expand_loose": false,
-                "intrinsic_height": false,
+                "ignore_interactions": false,
+                "ink": false,
                 "opacity": 1.0,
                 "rtl": false,
-                "run_spacing": 10,
-                "scroll_interval": 10,
                 "size_change_interval": 10,
-                "spacing": 60,
-                "tight": false,
-                "visible": true,
-                "wrap": false
+                "visible": true
               },
               "type": "GalleryRow"
             }
@@ -196,14 +140,14 @@
             "col": 12,
             "disabled": false,
             "expand_loose": false,
-            "height": 360,
+            "height": 434,
             "ignore_interactions": false,
             "ink": false,
             "opacity": 1.0,
             "rtl": false,
             "size_change_interval": 10,
             "visible": true,
-            "width": 1615
+            "width": 1695
           },
           "type": "Container"
         },
@@ -256,7 +200,7 @@
             "rtl": false,
             "size_change_interval": 10,
             "visible": true,
-            "width": 1655
+            "width": 1735
           },
           "type": "Container"
         },
@@ -436,7 +380,7 @@
         "run_spacing": 10,
         "scroll_interval": 10,
         "size_change_interval": 10,
-        "spacing": 60,
+        "spacing": 40,
         "tight": false,
         "visible": true,
         "wrap": false

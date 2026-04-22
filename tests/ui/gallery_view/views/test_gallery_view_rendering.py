@@ -19,4 +19,4 @@ async def test_gallery_row_contains_supers(mounted_gallery: FletTestHarness):
     """
     row = mounted_gallery.one(GalleryRow)
 
-    assert len(row.controls) == 4  # Verificar fixture dos supers_sample
+    assert len(row.content.controls) == 4  # Verificar fixture dos supers_sample
