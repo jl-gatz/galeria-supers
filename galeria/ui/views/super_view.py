@@ -10,13 +10,10 @@ from galeria.ui.components import (
     NavigationControls,
     SuperHeader,
 )
-from galeria.ui.components.timeline.controller.timeline_controller import TimelineController
-from galeria.ui.components.timeline.models.timeline_model import TimelineModel
-from galeria.ui.components.timeline.utils.path_builder import PathBuilder
-from galeria.ui.components.timeline.utils.timeline_mapper import extract_points_from_super
+from galeria.ui.components.timeline import TimelineController, TimelineModel, TimelineView
+from galeria.ui.components.timeline.utils import PathBuilder, extract_points_from_super
 from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
 from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
-from galeria.ui.components.timeline.view.timeline_view import TimelineView
 from galeria.ui.controllers import SuperDetailController
 
 
