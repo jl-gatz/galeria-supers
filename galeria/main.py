@@ -8,12 +8,10 @@ from ui.config.page_config import configurar_page
 from galeria.core import ASSETS_URL
 from galeria.domain import SuperService
 from galeria.ui.layout import RootLayout
-from galeria.ui.theme import setup_theme
 from galeria.ui.views import GalleryView
 
 
 def main(page: ft.Page):
-    setup_theme(page)
     configurar_page(page)
 
     repository = SuperRepository()

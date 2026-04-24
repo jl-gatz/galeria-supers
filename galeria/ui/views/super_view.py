@@ -10,11 +10,14 @@ from galeria.ui.components import (
     NavigationControls,
     SuperHeader,
 )
+from galeria.ui.components.debug.debug_panel import ThemeDebugPanel
 from galeria.ui.components.timeline import TimelineController, TimelineModel, TimelineView
 from galeria.ui.components.timeline.utils import PathBuilder, extract_points_from_super
 from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
 from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
 from galeria.ui.controllers import SuperDetailController
+from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME
 
 
 class SuperDetail(ft.Container):
@@ -28,6 +31,12 @@ class SuperDetail(ft.Container):
         # 🎯 Dependências
         self.controller = controller
         self._on_request_close = on_request_close
+
+        # 🎨 Theme (MOVIDO PRA CIMA)
+        self.theme_manager = ThemeManager(CCUEC_THEME)
+
+        # 🧪 Painel de debug (MOVIDO PRA CIMA)
+        self.debug_panel = ThemeDebugPanel(self.theme_manager)
 
         # ⏱️ Timeout
         self.auto_close = AutoCloseBehavior(
@@ -84,17 +93,31 @@ class SuperDetail(ft.Container):
     # 🧱 BUILDERS
     # =========================================================
 
-    def _build_layout(self):
+    def _build_main_container(self):
         return ft.Container(
-            padding=60,
-            border_radius=20,
-            bgcolor=ft.Colors.WHITE,
-            shadow=ft.BoxShadow(
-                blur_radius=20,
-                spread_radius=2,
-                color=ft.Colors.BLACK_26,
+            alignment=ft.Alignment.CENTER,
+            expand=True,
+            content=ft.Container(
+                expand=True,
+                padding=60,
+                border_radius=20,
+                bgcolor=ft.Colors.WHITE,
+                shadow=ft.BoxShadow(
+                    blur_radius=20,
+                    spread_radius=2,
+                    color=ft.Colors.BLACK_26,
+                ),
+                content=self._build_main_column(),
             ),
-            content=self._build_main_column(),
+        )
+
+    def _build_layout(self):
+        return ft.Stack(
+            expand=True,
+            controls=[
+                self._build_main_container(),
+                self.debug_panel,
+            ],
         )
 
     def _build_main_column(self):
@@ -138,6 +161,7 @@ class SuperDetail(ft.Container):
 
     def _build_header(self):
         return SuperHeader(
+            theme_manager=self.theme_manager,
             image_src=self.controller.image_src,
             nome=self.controller.nome,
             texto_inicial=self.controller.current,
@@ -197,3 +221,18 @@ class SuperDetail(ft.Container):
         self._mounted = True
         self._fade_in()
         self.timeline_view.refresh()
+
+        # ⌨️ Atalho de debug
+        self.page.on_keyboard_event = self._handle_key
+
+    def toggle_theme(self, e):
+        current = self.theme_manager.theme
+        if current.title.endswith("CCUEC"):
+            self.theme_manager.set_theme(DETIC_THEME)
+        else:
+            self.theme_manager.set_theme(CCUEC_THEME)
+
+    def _handle_key(self, e: ft.KeyboardEvent):
+        if e.key == "D":
+            self.debug_panel.visible = not self.debug_panel.visible
+            self.update()
