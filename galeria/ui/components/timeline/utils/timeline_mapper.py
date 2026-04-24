@@ -4,7 +4,7 @@
 from ..models.timeline_point import TimelinePoint
 
 
-def extract_points_from_super(raw_points) -> list[TimelinePoint]:
+def extract_points_from_super(raw_points: list[dict[str, float]]) -> list[TimelinePoint]:
     """
     Recebe lista crua (do controller) e converte em TimelinePoint
     """

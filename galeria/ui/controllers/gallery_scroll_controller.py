@@ -2,7 +2,7 @@ import math
 
 import flet as ft
 
-from galeria.core.config import SCROLL_DURATION, SCROLL_RESET_DURATION
+from galeria.core.config import SCROLL_DURATION
 
 
 class GalleryScrollController:
@@ -37,15 +37,16 @@ class GalleryScrollController:
         return max(0, math.ceil(total_cards / self.visible_cards) - 1)
 
     async def _on_scroll(self, e: ft.OnScrollEvent):
-        pixels = e.pixels
-        max_scroll = e.max_scroll_extent
+        pixels = e.pixels  # noqa: F841
+        max_scroll = e.max_scroll_extent  # noqa: F841
 
-        if pixels >= max_scroll - 5:
-            self.current_page = 0
-            await self.row.scroll_to(
-                offset=0,
-                duration=SCROLL_RESET_DURATION,
-            )
+        # DESLIGADO POR ENQUANTO: reset automático ao chegar no final (pode ser confuso se o usuário quiser ir pro final)
+        # if pixels >= max_scroll - 5:
+        #     self.current_page = 0
+        #     await self.row.scroll_to(
+        #         offset=0,
+        #         duration=SCROLL_RESET_DURATION,
+        #     )
 
     async def next(self):
         if self.current_page < self.total_pages():

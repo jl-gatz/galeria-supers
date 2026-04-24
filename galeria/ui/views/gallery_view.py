@@ -16,10 +16,11 @@ from galeria.ui.views.super_view import SuperDetail
 
 
 class GalleryView(ft.Container):
-    CARD_WIDTH = 275
-    CARD_HEIGHT = 360
-    VISIBLE_CARDS = 5
-    SPACING = 60
+    CARD_WIDTH = 300
+    CARD_HEIGHT = 394
+    VISIBLE_CARDS = 4
+    V_SPACING = 40
+    H_SPACING = 165
     MAX_WIDTH = 1800
     PADDING = 20
 
@@ -43,15 +44,16 @@ class GalleryView(ft.Container):
         self.gallery_row = GalleryRow(
             supers=self.supers,
             card_width=self.CARD_WIDTH,
-            spacing=self.SPACING,
+            spacing=self.H_SPACING,
+            padding=self.V_SPACING,
             on_card_click=self.abrir_super,
         )
 
         self.scroll_controller = GalleryScrollController(
-            row=self.gallery_row,
+            row=self.gallery_row.row,  # A Row interna do GalleryRow
             visible_cards=self.VISIBLE_CARDS,
             card_width=self.CARD_WIDTH,
-            spacing=self.SPACING,
+            spacing=self.H_SPACING,
             padding=self.PADDING,
         )
 
@@ -78,7 +80,7 @@ class GalleryView(ft.Container):
     def _build_gallery(self):
         return ft.Container(
             width=self.scroll_controller.group_width(),
-            height=self.CARD_HEIGHT,
+            height=self.gallery_height(),
             content=self.gallery_row,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
         )
@@ -93,7 +95,7 @@ class GalleryView(ft.Container):
                 self.placeholders,
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=self.SPACING,
+            spacing=self.V_SPACING,
         )
 
     def _build_fab(self):
@@ -105,6 +107,9 @@ class GalleryView(ft.Container):
             width=self.scroll_controller.group_width() + 2 * self.PADDING,
             alignment=ft.Alignment.CENTER_RIGHT,
         )
+
+    def gallery_height(self):
+        return self.CARD_HEIGHT + self.V_SPACING
 
     # ==========================================================
     # 🎯 INTERAÇÕES
