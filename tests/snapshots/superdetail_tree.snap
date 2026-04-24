@@ -1,21 +1,37 @@
 SuperDetail
-  Container
-    Column
-      SuperHeader
-        Row
-          Image (src='tests/assets/test_image.png')
-          Column
-            Text
-            Divider
-            ListView
-              Text
-            Container
-      NavigationControls
-        IconButton
-        IconButton
+  Stack
+    Container
       Container
-        Stack
-          TimelineContainer
-            Canvas
-          FloatingNavButton
-            FloatingActionButton (key='detail_back')
+        Column
+          SuperHeader
+            Row
+              Image (src='tests/assets/test_image.png')
+              Column
+                Text
+                Divider
+                ListView
+                  Text
+                Container
+          NavigationControls
+            IconButton
+            IconButton
+          Container
+            Stack
+              TimelineContainer
+                Canvas
+              FloatingNavButton
+                FloatingActionButton (key='detail_back')
+    ThemeDebugPanel
+      Column
+        Text
+        Text
+        Divider
+        Switch
+        Row
+          ElevatedButton
+            str
+          ElevatedButton
+            str
+        Divider
+        TextButton
+          str
