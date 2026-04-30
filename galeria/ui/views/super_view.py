@@ -10,14 +10,12 @@ from galeria.ui.components import (
     NavigationControls,
     SuperHeader,
 )
-from galeria.ui.components.debug.debug_panel import ThemeDebugPanel
 from galeria.ui.components.timeline import TimelineController, TimelineModel, TimelineView
 from galeria.ui.components.timeline.utils import PathBuilder, extract_points_from_super
 from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
 from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
 from galeria.ui.controllers import SuperDetailController
 from galeria.ui.theme.manager import ThemeManager
-from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME
 
 
 class SuperDetail(ft.Container):
@@ -25,18 +23,17 @@ class SuperDetail(ft.Container):
         self,
         controller: SuperDetailController,
         on_request_close: Callable[[], None],
+        theme_manager: ThemeManager,
     ):
         super().__init__()
 
         # 🎯 Dependências
         self.controller = controller
         self._on_request_close = on_request_close
+        self.theme_manager = theme_manager
 
-        # 🎨 Theme (MOVIDO PRA CIMA)
-        self.theme_manager = ThemeManager(CCUEC_THEME)
-
-        # 🧪 Painel de debug (MOVIDO PRA CIMA)
-        self.debug_panel = ThemeDebugPanel(self.theme_manager)
+        # 🔗 tema reativo
+        self.theme_manager.subscribe(self.apply_theme)
 
         # ⏱️ Timeout
         self.auto_close = AutoCloseBehavior(
@@ -56,7 +53,7 @@ class SuperDetail(ft.Container):
 
         timeline_controller = TimelineController(model)
 
-        renderer = TimelineRenderer(TimelineStyle())
+        renderer = TimelineRenderer(TimelineStyle())  # 🔜 próximo passo: tematizar
 
         self.timeline_view = TimelineView(
             controller=timeline_controller,
@@ -64,18 +61,36 @@ class SuperDetail(ft.Container):
             renderer=renderer,
         )
 
-        # 🧩 Componentes principais
+        # 🧩 Componentes
         self.header = self._build_header()
         self.navigation = self._build_navigation()
 
         # 🧱 Layout
+        self.main_container = self._build_main_container()
         self.content = self._build_layout()
 
         # 🚀 Lifecycle
         self._mounted = False
 
+    # =========================================================
+    # 🎨 THEME
+    # =========================================================
+    def apply_theme(self, theme):
+        if not hasattr(self, "inner_container"):
+            return
+
+        self.inner_container.bgcolor = theme.base.surface
+        self.inner_container.shadow = ft.BoxShadow(
+            blur_radius=20,
+            spread_radius=2,
+            color=theme.ui.shadow,
+        )
+
+        if self._mounted:
+            self.update()
+
     # -------------------------
-    # 🎬 Animações (mantidas)
+    # 🎬 Animações
     # -------------------------
     def _fade_in(self) -> None:
         self.opacity = 1
@@ -94,29 +109,30 @@ class SuperDetail(ft.Container):
     # =========================================================
 
     def _build_main_container(self):
+        self.inner_container = ft.Container(
+            expand=True,
+            padding=60,
+            border_radius=20,
+            bgcolor=self.theme_manager.theme.base.surface,
+            shadow=ft.BoxShadow(
+                blur_radius=20,
+                spread_radius=2,
+                color=self.theme_manager.theme.ui.shadow,
+            ),
+            content=self._build_main_column(),
+        )
+
         return ft.Container(
             alignment=ft.Alignment.CENTER,
             expand=True,
-            content=ft.Container(
-                expand=True,
-                padding=60,
-                border_radius=20,
-                bgcolor=ft.Colors.WHITE,
-                shadow=ft.BoxShadow(
-                    blur_radius=20,
-                    spread_radius=2,
-                    color=ft.Colors.BLACK_26,
-                ),
-                content=self._build_main_column(),
-            ),
+            content=self.inner_container,
         )
 
     def _build_layout(self):
         return ft.Stack(
             expand=True,
             controls=[
-                self._build_main_container(),
-                self.debug_panel,
+                self.main_container,
             ],
         )
 
@@ -133,13 +149,9 @@ class SuperDetail(ft.Container):
         )
 
     def _build_timeline_section(self):
-        # DEBUG: printa os pontos para verificar se estão corretos
-        # print(self.controller.timeline_points)
-
         return ft.Container(
             expand=True,
             height=300,
-            # bgcolor=ft.Colors.RED_100,
             content=ft.Stack(
                 expand=True,
                 controls=[
@@ -189,16 +201,12 @@ class SuperDetail(ft.Container):
             self.auto_close.reset()
 
     def _goto_slide(self, index: int):
-        self._handle_user_activity()
         if self.controller.goto(index):
             self._refresh_slide()
 
     def _handle_voltar(self, e):
         self.auto_close.stop()
         self._on_request_close()
-
-    def _handle_user_activity(self, e=None):
-        pass  # placeholder (auto-close, etc.)
 
     def _timeout_close(self):
         self._on_request_close()
@@ -208,7 +216,7 @@ class SuperDetail(ft.Container):
     # =========================================================
 
     def _refresh_slide(self):
-        if not getattr(self, "_mounted", False):
+        if not self._mounted:
             return
 
         self.header.update_text(self.controller.current)
@@ -219,20 +227,8 @@ class SuperDetail(ft.Container):
     @override
     def did_mount(self):
         self._mounted = True
+
+        self.apply_theme(self.theme_manager.theme)
+
         self._fade_in()
         self.timeline_view.refresh()
-
-        # ⌨️ Atalho de debug
-        self.page.on_keyboard_event = self._handle_key
-
-    def toggle_theme(self, e):
-        current = self.theme_manager.theme
-        if current.title.endswith("CCUEC"):
-            self.theme_manager.set_theme(DETIC_THEME)
-        else:
-            self.theme_manager.set_theme(CCUEC_THEME)
-
-    def _handle_key(self, e: ft.KeyboardEvent):
-        if e.key == "D":
-            self.debug_panel.visible = not self.debug_panel.visible
-            self.update()

@@ -7,7 +7,6 @@ from .logos_row import logos_row
 from .navigation_controls import NavigationControls
 from .placeholders_row import placeholders_row
 from .responsive_timeline import ResponsiveTimeline
-from .super_card import SuperCard
 from .super_header import SuperHeader
 
 __all__ = [
@@ -15,7 +14,6 @@ __all__ = [
     "GalleryRow",
     "NavigationControls",
     "ResponsiveTimeline",
-    "SuperCard",
     "SuperHeader",
     "logos_row",
     "placeholders_row",

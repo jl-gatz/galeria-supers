@@ -2,37 +2,36 @@ from typing import Any
 
 import flet as ft
 
-from galeria.ui.theme.colors import BLACK
-from galeria.ui.theme.typography import BODY, FONT, H1, H2
+from .models import Theme
 
 
-def h1(text: str, **kwargs: Any):
+def h1(theme: Theme, text: str, **kwargs: Any):
     return ft.Text(
         text,
-        font_family=FONT,
-        size=H1,
+        font_family=theme.typography.font_family,
+        size=theme.typography.h1,
         weight=ft.FontWeight.BOLD,
-        color=BLACK,
+        color=theme.text.primary,
         **kwargs,
     )
 
 
-def h2(text: str, **kwargs: Any):
+def h2(theme: Theme, text: str, **kwargs: Any):
     return ft.Text(
         text,
-        font_family=FONT,
-        size=H2,
+        font_family=theme.typography.font_family,
+        size=theme.typography.h2,
         weight=ft.FontWeight.BOLD,
-        color=BLACK,
+        color=theme.text.primary,
         **kwargs,
     )
 
 
-def body(text: str, **kwargs: Any):
+def body(theme, text: str, **kwargs: Any):
     return ft.Text(
         text,
-        font_family=FONT,
-        size=BODY,
-        color=BLACK,
+        font_family=theme.typography.font_family,
+        size=theme.typography.body,
+        color=theme.text.primary,
         **kwargs,
     )

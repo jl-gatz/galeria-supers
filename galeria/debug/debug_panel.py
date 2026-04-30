@@ -1,7 +1,7 @@
 import flet as ft
 
 from galeria.ui.theme.theme import ThemeManager
-from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME
+from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME, GREENISH_THEME
 
 
 class ThemeDebugPanel(ft.Container):
@@ -9,6 +9,7 @@ class ThemeDebugPanel(ft.Container):
         super().__init__()
 
         self.theme_manager = theme_manager
+        self._mounted = False
 
         # -------------------------
         # Estado
@@ -43,6 +44,11 @@ class ThemeDebugPanel(ft.Container):
             on_click=lambda e: self._set_theme(DETIC_THEME),
         )
 
+        self.btn_greenish = ft.ElevatedButton(
+            "GREENISH",
+            on_click=lambda e: self._set_theme(GREENISH_THEME),
+        )
+
         self.btn_toggle = ft.TextButton(
             "Hide",
             on_click=self._toggle_visibility,
@@ -57,7 +63,7 @@ class ThemeDebugPanel(ft.Container):
                 self.subtitle_text,
                 ft.Divider(height=10),
                 self.auto_theme_switch,
-                ft.Row([self.btn_ccuec, self.btn_detic], spacing=6),
+                ft.Row([self.btn_ccuec, self.btn_detic, self.btn_greenish], spacing=6),
                 ft.Divider(height=10),
                 self.btn_toggle,
             ],
@@ -66,26 +72,15 @@ class ThemeDebugPanel(ft.Container):
         )
 
         # -------------------------
-        # Estilo
+        # Estilo base (neutro)
         # -------------------------
         self.padding = 12
         self.border_radius = 10
-        self.shadow = ft.BoxShadow(
-            blur_radius=12,
-            spread_radius=1,
-            color=ft.Colors.with_opacity(0.3, ft.Colors.BLACK),
-        )
-
-        # cor inicial (segura)
-        self.bgcolor = ft.Colors.with_opacity(0.85, ft.Colors.BLACK)
 
         # -------------------------
         # Binding
         # -------------------------
-        self.theme_manager.subscribe(self.on_theme_change)
-
-        # estado inicial
-        self.apply_theme(self.theme_manager.theme)
+        self.theme_manager.subscribe(self.apply_theme)
 
     # =========================================================
     # 🎛️ AÇÕES
@@ -93,42 +88,60 @@ class ThemeDebugPanel(ft.Container):
 
     def _toggle_visibility(self, e=None):
         self.visible = False
-        self.update()
+        if self._mounted:
+            self.update()
 
     def _on_toggle_auto_theme(self, e):
         value = e.control.value
         if hasattr(self.theme_manager, "set_auto_mode"):
             self.theme_manager.set_auto_mode(value)
 
-    def _set_theme(self, theme_name: str):
+    def _set_theme(self, theme):
         if hasattr(self.theme_manager, "set_theme"):
-            self.auto_theme_switch.value = False  # desliga o auto mode
-            self.theme_manager.set_theme(theme_name)
+            print("SET_THEME CALLED:", theme.title, id(theme))
+            self.auto_theme_switch.value = False
+            self.theme_manager.set_theme(theme)
 
     # =========================================================
     # 🎨 THEME
     # =========================================================
 
-    def on_theme_change(self, theme):
-        self.apply_theme(theme)
-        self.update()
-
     def apply_theme(self, theme):
-        # fundo semi-transparente baseado no tema
-        try:
-            self.bgcolor = ft.Colors.with_opacity(0.9, theme.primary)
-        except Exception:
-            self.bgcolor = ft.Colors.with_opacity(0.85, ft.Colors.BLACK)
+        if theme is None:
+            return
 
-        # textos
-        self.title_text.value = f"Theme: {getattr(theme, 'title', 'unknown')}"
-        self.title_text.color = theme.text
+        # 🎨 Fundo (surface com leve transparência)
+        self.bgcolor = ft.Colors.with_opacity(0.92, theme.base.surface)
+
+        # 🌑 Shadow consistente com o tema
+        self.shadow = ft.BoxShadow(
+            blur_radius=12,
+            spread_radius=1,
+            color=theme.ui.shadow,
+        )
+
+        # 🧾 Textos
+        self.title_text.value = f"Theme: {theme.title}"
+        self.title_text.color = theme.text.primary
 
         self.subtitle_text.value = (
-            f"primary: {getattr(theme, 'primary', '-')}\ntext: {getattr(theme, 'text', '-')}"
+            f"accent: {theme.accent.primary}\n"
+            f"surface: {theme.base.surface}\n"
+            f"text: {theme.text.primary}"
         )
-        self.subtitle_text.color = theme.text
+        self.subtitle_text.color = theme.text.secondary
 
-        # estado do switch (se existir no manager)
+        # 🔘 Estado do switch
         if hasattr(self.theme_manager, "auto_mode"):
             self.auto_theme_switch.value = self.theme_manager.auto_mode
+
+        if self._mounted:
+            self.update()
+
+    # =========================================================
+    # 🎬 LIFECYCLE
+    # =========================================================
+
+    def did_mount(self):
+        self._mounted = True
+        self.apply_theme(self.theme_manager.theme)
