@@ -1,7 +1,5 @@
 import flet as ft
 
-from galeria.ui.theme.colors import GRAY
-
 
 def right_fade():
     return ft.Container(
@@ -13,7 +11,7 @@ def right_fade():
             gradient=ft.LinearGradient(
                 begin=ft.Alignment.CENTER_LEFT,
                 end=ft.Alignment.CENTER_RIGHT,
-                colors=[ft.Colors.TRANSPARENT, GRAY],
+                colors=[ft.Colors.TRANSPARENT, ft.Colors.GRAY],
             ),
         ),
         # ignore_pointer=True,

@@ -2,8 +2,6 @@ from collections.abc import Callable
 
 import flet as ft
 
-from galeria.ui.theme import RED_50, RED_55
-
 
 class NavigationControls(ft.Row):
     def __init__(
@@ -12,32 +10,32 @@ class NavigationControls(ft.Row):
         on_next: Callable[[], None],
         alignment: ft.MainAxisAlignment = ft.MainAxisAlignment.END,
     ):
+        def _build_button(icon, tooltip, handler):
+            return ft.IconButton(
+                icon=icon,
+                tooltip=tooltip,
+                on_click=lambda e: handler(),
+                style=ft.ButtonStyle(
+                    shape=ft.RoundedRectangleBorder(radius=8),
+                    bgcolor={
+                        ft.ControlState.HOVERED: ft.Colors.RED_200,
+                        ft.ControlState.PRESSED: ft.Colors.RED_300,
+                    },
+                ),
+            )
+
         super().__init__(
             alignment=alignment,
             controls=[
-                ft.IconButton(
-                    icon=ft.Icons.CHEVRON_LEFT,
-                    tooltip="Anterior",
-                    on_click=lambda e: on_prev(),
-                    style=ft.ButtonStyle(
-                        shape=ft.RoundedRectangleBorder(radius=8),
-                        bgcolor={
-                            ft.ControlState.HOVERED: RED_55,
-                            ft.ControlState.PRESSED: RED_50,
-                        },
-                    ),
+                _build_button(
+                    ft.Icons.CHEVRON_LEFT,
+                    "Anterior",
+                    on_prev,
                 ),
-                ft.IconButton(
-                    icon=ft.Icons.CHEVRON_RIGHT,
-                    tooltip="Próximo",
-                    on_click=lambda e: on_next(),
-                    style=ft.ButtonStyle(
-                        shape=ft.RoundedRectangleBorder(radius=8),
-                        bgcolor={
-                            ft.ControlState.HOVERED: RED_55,
-                            ft.ControlState.PRESSED: RED_50,
-                        },
-                    ),
+                _build_button(
+                    ft.Icons.CHEVRON_RIGHT,
+                    "Próximo",
+                    on_next,
                 ),
             ],
         )

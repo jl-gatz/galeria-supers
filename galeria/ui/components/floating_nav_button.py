@@ -2,8 +2,6 @@ from collections.abc import Callable
 
 import flet as ft
 
-from galeria.ui.theme import PRIMARY_RED
-
 
 class FloatingNavButton(ft.Container):
     def __init__(
@@ -23,7 +21,7 @@ class FloatingNavButton(ft.Container):
         self.content = ft.FloatingActionButton(
             icon=icon,
             tooltip=tooltip,
-            bgcolor=PRIMARY_RED,
+            bgcolor=ft.Colors.RED,
             foreground_color=ft.Colors.WHITE,
             on_click=on_click,
             key=key,
