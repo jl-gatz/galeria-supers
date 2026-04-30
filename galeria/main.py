@@ -8,6 +8,8 @@ from ui.config.page_config import configurar_page
 from galeria.core import ASSETS_URL
 from galeria.domain import SuperService
 from galeria.ui.layout import RootLayout
+from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.themes import DETIC_THEME
 from galeria.ui.views import GalleryView
 
 
@@ -17,16 +19,26 @@ def main(page: ft.Page):
     repository = SuperRepository()
     service = SuperService(repository=repository)
 
+    # Tema padrão da galeria (pode ser alterado dinamicamente depois)
+    theme = ThemeManager(DETIC_THEME)
     # Criamos a galeria primeiro
-    gallery = GalleryView(service=service, page=page, root_layout=None)  # type: ignore
+    gallery = GalleryView(
+        service=service, page=page, root_layout=None, theme=theme
+    )  # root_layout será injetado depois
 
     # Agora criamos o root passando a galeria
-    root = RootLayout(gallery)
+    root = RootLayout(gallery, theme_manager=theme)
 
     # Injetamos root na galeria
     gallery.root = root
 
-    page.add(root)
+    # Configuramos o page para mostrar o root
+    page.add(
+        ft.Column(
+            expand=True,
+            controls=[root],
+        )
+    )
 
     page.scroll = ft.ScrollMode.HIDDEN
 
