@@ -15,7 +15,10 @@ class SuperHeader(ft.Container):
         navigation: ft.Control | None = None,
         **kwargs: Any,
     ):
-        # Criação dos componentes (igual à versão funcionando)
+        # 🎨 Theme
+        self.theme_manager = theme_manager
+
+        # 🧱 Conteúdo
         self.text_list = ft.ListView(
             height=433,
             spacing=12,
@@ -39,7 +42,7 @@ class SuperHeader(ft.Container):
         self.divider = ft.Divider(thickness=3)
 
         text_area = ft.Column(
-            expand=True,  # ← fundamental! estava faltando
+            expand=True,
             spacing=16,
             controls=[
                 self.title,
@@ -58,36 +61,51 @@ class SuperHeader(ft.Container):
 
         super().__init__(content=layout, **kwargs)
 
-        # Integração com o ThemeManager (se fornecido)
-        self._theme_manager = theme_manager
-        if theme_manager:
-            theme_manager.subscribe(self.on_theme_change)
-            self.apply_theme(theme_manager.theme)  # usa property, não _theme
+        # 🔗 Tema reativo
+        if self.theme_manager:
+            self.theme_manager.subscribe(self.apply_theme)
 
-    # ========== Suporte a tema ==========
+        self._mounted = False
+
+    # =========================================================
+    # 🎨 THEME
+    # =========================================================
     def apply_theme(self, theme):
-        """Atualiza as cores conforme o tema."""
         if theme is None:
             return
-        self.divider.color = theme.primary
-        self.title.color = theme.text
+
+        # Divider
+        self.divider.color = theme.accent.primary
+
+        # Textos
+        self.title.color = theme.text.primary
+
         for p in self.text_list.controls:
-            p.color = theme.text
+            p.color = theme.text.secondary
 
-    def on_theme_change(self, theme):
-        self.apply_theme(theme)
-        self.update()
+        if self._mounted:
+            self.update()
 
-    # ========== Métodos originais ==========
+    # =========================================================
+    # 🧩 TEXTO
+    # =========================================================
     def _set_paragraphs(self, text: str):
         paragraphs = [p for p in text.split("\n\n") if p.strip()]
         self.text_list.controls = [ft.Text(p, size=14) for p in paragraphs]
 
     def update_text(self, new_text: str):
         self._set_paragraphs(new_text)
+
         if hasattr(self.text_list, "_i"):
             self.text_list.scroll_to(offset=0)
-        # Reaplica o tema atual nos novos parágrafos
-        if self._theme_manager:
-            self.apply_theme(self._theme_manager.theme)
-        self.update()
+
+        if self.theme_manager:
+            self.apply_theme(self.theme_manager.theme)
+
+    # =========================================================
+    # 🎬 LIFECYCLE
+    # =========================================================
+    def did_mount(self):
+        self._mounted = True
+        if self.theme_manager:
+            self.apply_theme(self.theme_manager.theme)
