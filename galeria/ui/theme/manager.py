@@ -2,23 +2,79 @@
 
 from collections.abc import Callable
 
-from .models import Theme
-
 
 class ThemeManager:
-    def __init__(self, initial_theme: Theme):
+    def __init__(self, initial_theme):
         self._theme = initial_theme
-        self._listeners: list[Callable[[Theme], None]] = []
+        self._listeners: list[Callable] = []
+
+    # ==========================================================
+    # 🎨 CURRENT THEME
+    # ==========================================================
 
     @property
-    def theme(self) -> Theme:
+    def theme(self):
         return self._theme
 
-    def set_theme(self, theme: Theme):
-        # print("SET_THEME:", theme.title, id(theme))
+    # 👉 Proxy direto (ESSENCIAL)
+    @property
+    def gallery(self):
+        return self._theme.gallery
+
+    @property
+    def header(self):
+        return self._theme.header
+
+    @property
+    def super_detail(self):
+        return self._theme.super_detail
+
+    @property
+    def colors(self):
+        return self._theme.colors
+
+    @property
+    def spacing(self):
+        return self._theme.spacing
+
+    @property
+    def radius(self):
+        return self._theme.radius
+
+    @property
+    def typography(self):
+        return self._theme.typography
+
+    @property
+    def text(self):
+        return self._theme.text
+
+    # ==========================================================
+    # 🔄 THEME SWITCH
+    # ==========================================================
+
+    def set_theme(self, theme):
+        # 🚫 Evita re-render desnecessário
+        if theme is self._theme:
+            return
+
         self._theme = theme
+
         for listener in self._listeners:
             listener(theme)
 
-    def subscribe(self, listener: Callable[[Theme], None]):
-        self._listeners.append(listener)
+    # ==========================================================
+    # 📡 OBSERVERS
+    # ==========================================================
+
+    def subscribe(self, listener: Callable):
+        if listener not in self._listeners:
+            self._listeners.append(listener)
+
+    def unsubscribe(self, listener: Callable):
+        if listener in self._listeners:
+            self._listeners.remove(listener)
+
+    # 🔥 MÁGICA AQUI
+    def __getattr__(self, item):
+        return getattr(self._theme, item)
