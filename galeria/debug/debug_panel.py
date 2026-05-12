@@ -145,3 +145,6 @@ class ThemeDebugPanel(ft.Container):
     def did_mount(self):
         self._mounted = True
         self.apply_theme(self.theme_manager.theme)
+
+    def will_unmount(self):
+        self.theme_manager.unsubscribe(self.apply_theme)

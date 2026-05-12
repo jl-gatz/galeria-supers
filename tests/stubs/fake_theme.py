@@ -11,6 +11,7 @@ from tests.stubs.theme import (
     FakeTypographyTheme,
     FakeUITheme,
 )
+from tests.stubs.theme.fake_accent_theme import FakeAccentTheme
 
 
 class FakeTheme:
@@ -19,9 +20,11 @@ class FakeTheme:
 
         self.gallery = FakeGalleryTheme()
 
+        self.title = "Fake Theme"
         self.radius = FakeRadiusTheme()
         self.spacing = FakeSpacingTheme()
         self.colors = FakeColorsTheme()
+        self.accent = FakeAccentTheme()
         self.typography = FakeTypographyTheme()
         self.text = FakeTextTheme()
 
