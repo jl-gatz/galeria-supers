@@ -8,20 +8,29 @@ from galeria.domain import Super
 from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
 from galeria.ui.layout import RootLayout
 from galeria.ui.views import GalleryView
+from tests.stubs.fake_page import FakePage
+from tests.stubs.fake_theme_manager import FakeThemeManager
 
 # ================================
 # ❌ NÃO ABRE QUANDO INVÁLIDO
 # ================================
 
 
-def test_nao_abre_super_quando_pode_abrir_false(fake_page, fake_service, fake_root):
+def test_nao_abre_super_quando_pode_abrir_false(
+    fake_page: FakePage,
+    fake_service: GalleryServiceLike,
+    fake_root: RootLayout,
+    fake_theme_manager: FakeThemeManager,
+):
     fake_service.pode_abrir = Mock(return_value=False)
 
-    view = GalleryView(page=fake_page, service=fake_service, root_layout=fake_root)
+    view = GalleryView(
+        page=fake_page, service=fake_service, root_layout=fake_root, theme=fake_theme_manager
+    )
     super_data = Mock()
 
     with patch("galeria.ui.views.gallery_view.SuperDetail") as SuperDetailMock:
-        view.abrir_super(super_data)
+        view._abrir_super(super_data)
 
         SuperDetailMock.assert_not_called()
 
@@ -34,18 +43,25 @@ def test_nao_abre_super_quando_pode_abrir_false(fake_page, fake_service, fake_ro
 # ================================
 
 
-def test_abre_super_com_sucesso(fake_page, fake_service, fake_root):
+def test_abre_super_com_sucesso(
+    fake_page: FakePage,
+    fake_service: GalleryServiceLike,
+    fake_root: RootLayout,
+    fake_theme_manager: FakeThemeManager,
+):
     fake_service.pode_abrir = Mock(return_value=True)
     fake_service.build_image_path = Mock(return_value="img.png")
     fake_service.build_timeline_path = Mock(return_value="timeline.json")
 
-    view = GalleryView(page=fake_page, service=fake_service, root_layout=fake_root)
+    view = GalleryView(
+        page=fake_page, service=fake_service, root_layout=fake_root, theme=fake_theme_manager
+    )
     super_data = Mock()
 
     detail_mock = Mock()
 
     with patch("galeria.ui.views.gallery_view.SuperDetail", return_value=detail_mock):
-        view.abrir_super(super_data)
+        view._abrir_super(super_data)
 
         # 👇 valida efeito real
         assert fake_root.overlay_shown == detail_mock
@@ -56,12 +72,19 @@ def test_abre_super_com_sucesso(fake_page, fake_service, fake_root):
 # ================================
 
 
-def test_on_request_close_fecha_overlay(fake_page, fake_service, fake_root):
+def test_on_request_close_fecha_overlay(
+    fake_page: FakePage,
+    fake_service: GalleryServiceLike,
+    fake_root: RootLayout,
+    fake_theme_manager: FakeThemeManager,
+):
     fake_service.pode_abrir = Mock(return_value=True)
     fake_service.build_image_path = Mock(return_value="img.png")
     fake_service.build_timeline_path = Mock(return_value="timeline.json")
 
-    view = GalleryView(page=fake_page, service=fake_service, root_layout=fake_root)
+    view = GalleryView(
+        page=fake_page, service=fake_service, root_layout=fake_root, theme=fake_theme_manager
+    )
     super_data = Mock()
 
     detail_mock = Mock()
@@ -69,7 +92,7 @@ def test_on_request_close_fecha_overlay(fake_page, fake_service, fake_root):
     with patch(
         "galeria.ui.views.gallery_view.SuperDetail", return_value=detail_mock
     ) as SuperDetailMock:
-        view.abrir_super(super_data)
+        view._abrir_super(super_data)
 
         _, kwargs = SuperDetailMock.call_args
         on_request_close = kwargs["on_request_close"]
@@ -87,6 +110,7 @@ def test_abre_super_quando_permitido(
     fake_page: ft.Page,
     fake_service: GalleryServiceLike,
     fake_root: RootLayout,
+    fake_theme_manager: FakeThemeManager,
 ) -> None:
     fake_service.pode_abrir = Mock(return_value=True)
 
@@ -94,12 +118,13 @@ def test_abre_super_quando_permitido(
         page=fake_page,
         service=fake_service,
         root_layout=fake_root,
+        theme=fake_theme_manager,
     )
 
     super_data: Super = Mock()
 
     with patch("galeria.ui.views.gallery_view.SuperDetail") as mock_detail:
-        view.abrir_super(super_data)
+        view._abrir_super(super_data)
 
         fake_service.pode_abrir.assert_called_once_with(super_data)
         mock_detail.assert_called_once()

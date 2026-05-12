@@ -18,8 +18,16 @@ from .snapshot_config import SnapshotConfig
 def serialize_tree(view, config: SnapshotConfig) -> Any:
     root = getattr(view, "content", None)
 
+    if hasattr(view, "controls") and view.controls:
+        root = view.controls[0]
+    else:
+        root = getattr(view, "content", None)
+
     if root is None:
-        return "Gallery"
+        return {
+            "type": "Gallery",
+            "children": [],
+        }
 
     # modo legado (teu formato atual em texto)
     if config.use_legacy_layout:
@@ -34,6 +42,9 @@ def serialize_tree(view, config: SnapshotConfig) -> Any:
 
 
 def _serialize_node(node, config: SnapshotConfig, depth: int) -> dict | None:
+    if node is None:
+        return None
+
     if config.max_depth is not None and depth > config.max_depth:
         return None
 
@@ -55,16 +66,27 @@ def _serialize_node(node, config: SnapshotConfig, depth: int) -> dict | None:
         if key in props:
             props[key] = transform(props[key])
 
-    result = {"type": node_type, "props": props, "children": []}
+    result = {
+        "type": node_type,
+        "props": props,
+        "children": [],
+    }
 
     # normalizers
     for normalizer in config.normalizers:
         result = normalizer(result)
 
     # filhos
-    for child in get_children(node):
-        serialized = _serialize_node(child, config, depth + 1)
-        if serialized:
+    children = get_children(node)
+
+    for child in children:
+        serialized = _serialize_node(
+            child,
+            config,
+            depth + 1,
+        )
+
+        if serialized is not None:
             result["children"].append(serialized)
 
     return result
@@ -159,8 +181,9 @@ def _serialize_legacy(root) -> str:
     config = SnapshotConfig(use_legacy_layout=False, max_depth=None, include_props=True)
     tree_dict = _serialize_node(root, config, depth=0)
     if tree_dict is None:
-        return "Gallery"
+        raise ValueError(f"Could not serialize root node: {root} ({type(root)})")
     lines = ["Gallery"]
+    print(f"[DEBUG] Árvore serializada: {tree_dict}")
     lines.extend(_dict_to_simple_text(tree_dict, indent=1))
     return "\n".join(lines)
 

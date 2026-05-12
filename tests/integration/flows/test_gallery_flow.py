@@ -1,14 +1,25 @@
 from unittest.mock import Mock, patch
 
+from galeria.domain.protocols import SuperServiceLike
 from galeria.ui.views import GalleryView
+from tests.stubs.fake_page import FakePage
+from tests.stubs.fake_root import FakeRoot
+from tests.stubs.fake_theme_manager import FakeThemeManager
 
 
-def test_sequencia_abrir_fechar_abrir_outro(fake_page, fake_service, fake_root):
+def test_sequencia_abrir_fechar_abrir_outro(
+    fake_page: FakePage,
+    fake_service: SuperServiceLike,
+    fake_root: FakeRoot,
+    fake_theme_manager: FakeThemeManager,
+):
     fake_service.pode_abrir = Mock(return_value=True)
     fake_service.build_image_path = Mock(return_value="img.png")
     fake_service.build_timeline_path = Mock(return_value="timeline.json")
 
-    view = GalleryView(page=fake_page, service=fake_service, root_layout=fake_root)
+    view = GalleryView(
+        page=fake_page, service=fake_service, root_layout=fake_root, theme=fake_theme_manager
+    )
 
     super_1 = Mock(name="super_1")
     super_2 = Mock(name="super_2")
@@ -20,7 +31,7 @@ def test_sequencia_abrir_fechar_abrir_outro(fake_page, fake_service, fake_root):
         "galeria.ui.views.gallery_view.SuperDetail", side_effect=[detail_1, detail_2]
     ) as SuperDetailMock:
         # === 1. abre o primeiro ===
-        view.abrir_super(super_1)
+        view._abrir_super(super_1)
 
         assert fake_root.overlay_shown == detail_1
 
@@ -34,17 +45,24 @@ def test_sequencia_abrir_fechar_abrir_outro(fake_page, fake_service, fake_root):
         assert fake_root.overlay_hidden == detail_1
 
         # === 3. abre o segundo ===
-        view.abrir_super(super_2)
+        view._abrir_super(super_2)
 
         assert fake_root.overlay_shown == detail_2
 
 
-def test_fechar_antigo_nao_afeta_novo(fake_page, fake_service, fake_root):
+def test_fechar_antigo_nao_afeta_novo(
+    fake_page: FakePage,
+    fake_service: SuperServiceLike,
+    fake_root: FakeRoot,
+    fake_theme_manager: FakeThemeManager,
+):
     fake_service.pode_abrir = Mock(return_value=True)
     fake_service.build_image_path = Mock(return_value="img.png")
     fake_service.build_timeline_path = Mock(return_value="timeline.json")
 
-    view = GalleryView(page=fake_page, service=fake_service, root_layout=fake_root)
+    view = GalleryView(
+        page=fake_page, service=fake_service, root_layout=fake_root, theme=fake_theme_manager
+    )
 
     super_1 = Mock()
     super_2 = Mock()
@@ -55,11 +73,11 @@ def test_fechar_antigo_nao_afeta_novo(fake_page, fake_service, fake_root):
     with patch(
         "galeria.ui.views.gallery_view.SuperDetail", side_effect=[detail_1, detail_2]
     ) as SuperDetailMock:
-        view.abrir_super(super_1)
+        view._abrir_super(super_1)
         _, kwargs_1 = SuperDetailMock.call_args_list[0]
         close_1 = kwargs_1["on_request_close"]
 
-        view.abrir_super(super_2)
+        view._abrir_super(super_2)
 
         # 👇 agora fecha o antigo (fora de ordem)
         close_1()

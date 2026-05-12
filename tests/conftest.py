@@ -14,6 +14,8 @@ from tests.stubs.fake_page import FakePage
 from tests.stubs.fake_repo import FakeSuperRepository
 from tests.stubs.fake_root import FakeRoot
 from tests.stubs.fake_super_service import FakeSuperService
+from tests.stubs.fake_theme import FakeTheme
+from tests.stubs.fake_theme_manager import FakeThemeManager
 
 
 # === HARNESSES / INFRA DE TESTE (UI) =========================
@@ -33,6 +35,17 @@ def fake_root(fake_page: FakePage) -> FakeRoot:
 def harness(fake_page: FakePage) -> FletTestHarness:
     """Harness para montar componentes Flet"""
     return FletTestHarness(fake_page)
+
+
+@pytest.fixture
+def fake_theme() -> FakeTheme:
+    """Theme fake para overlays e navegação"""
+    return FakeTheme()
+
+
+@pytest.fixture
+def fake_theme_manager(fake_theme: FakeTheme) -> FakeThemeManager:
+    return FakeThemeManager(theme=fake_theme)
 
 
 # === EVENT LOOP (FLET / ASYNC) ===============================

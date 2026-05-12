@@ -21,17 +21,3 @@ SuperDetail
                 Canvas
               FloatingNavButton
                 FloatingActionButton (key='detail_back')
-    ThemeDebugPanel
-      Column
-        Text
-        Text
-        Divider
-        Switch
-        Row
-          ElevatedButton
-            str
-          ElevatedButton
-            str
-        Divider
-        TextButton
-          str
