@@ -30,6 +30,14 @@ class ThemeManager:
         return self._theme.header
 
     @property
+    def image(self):
+        return self._theme.image
+
+    @property
+    def logo(self):
+        return self._theme.logo
+
+    @property
     def super_detail(self):
         return self._theme.super_detail
 

@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+import flet as ft
+
 # =========================================================
 # 🎨 SUBGRUPOS DE CORES
 # =========================================================
@@ -46,6 +48,24 @@ class TimelineColors:
     line: str
     point: str
     point_active: str
+
+
+@dataclass(frozen=True)
+class ImageTheme:
+    portrait_tint: str | None = None
+    portrait_blend_mode: ft.BlendMode | None = None
+    portrait_opacity: float = 1.0
+    caption_mask_tint: str = "#000000"
+    caption_mask_blend_mode: ft.BlendMode = ft.BlendMode.SRC_IN
+    caption_mask_opacity: float = 1.0
+
+
+@dataclass(frozen=True)
+class LogoTheme:
+    variant: str = "official"
+    tint: str | None = None
+    blend_mode: ft.BlendMode | None = None
+    opacity: float = 1.0
 
 
 # =========================================================
@@ -166,6 +186,8 @@ class Theme:
     button: ButtonColors
 
     timeline: TimelineColors
+    image: ImageTheme
+    logo: LogoTheme
 
     # ✍️ tipografia (NOVO)
     typography: Typography

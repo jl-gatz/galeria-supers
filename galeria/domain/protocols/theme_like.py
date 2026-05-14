@@ -7,6 +7,8 @@ class ThemeLike(Protocol):
     button: Any
     gallery: Any
     header: Any
+    image: Any
+    logo: Any
     super_detail: Any
     timeline: Any
     ui: Any

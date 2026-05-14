@@ -5,6 +5,8 @@ from tests.stubs.theme import (
     FakeBaseTheme,
     FakeColorsTheme,
     FakeGalleryTheme,
+    FakeImageTheme,
+    FakeLogoTheme,
     FakeRadiusTheme,
     FakeSpacingTheme,
     FakeTextTheme,
@@ -19,6 +21,8 @@ class FakeTheme:
         self.base = FakeBaseTheme()
 
         self.gallery = FakeGalleryTheme()
+        self.image = FakeImageTheme()
+        self.logo = FakeLogoTheme()
 
         self.title = "Fake Theme"
         self.radius = FakeRadiusTheme()

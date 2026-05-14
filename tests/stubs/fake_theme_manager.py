@@ -4,14 +4,31 @@ from tests.stubs.fake_theme import FakeTheme
 class FakeThemeManager:
     def __init__(self, theme: FakeTheme):
         self.theme = theme
+        self._listeners = []
 
     @property
     def gallery(self):
         return self.theme.gallery
 
     @property
+    def accent(self):
+        return self.theme.accent
+
+    @property
+    def button(self):
+        return getattr(self.theme, "button", None)
+
+    @property
     def header(self):
         return self.theme.header
+
+    @property
+    def image(self):
+        return self.theme.image
+
+    @property
+    def logo(self):
+        return self.theme.logo
 
     @property
     def base(self):
@@ -41,11 +58,23 @@ class FakeThemeManager:
     def text(self):
         return self.theme.text
 
+    @property
+    def timeline(self):
+        return getattr(self.theme, "timeline", None)
+
+    @property
+    def ui(self):
+        return self.theme.ui
+
     def set_theme(self, theme):
         self.theme = theme
+        for listener in self._listeners:
+            listener(theme)
 
     def subscribe(self, listener):
-        pass
+        if listener not in self._listeners:
+            self._listeners.append(listener)
 
     def unsubscribe(self, listener):
-        pass
+        if listener in self._listeners:
+            self._listeners.remove(listener)

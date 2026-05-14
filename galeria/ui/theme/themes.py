@@ -8,6 +8,8 @@ from galeria.ui.theme.models import (
     ButtonColors,
     GalleryTheme,
     HeaderTheme,
+    ImageTheme,
+    LogoTheme,
     Radius,
     Spacing,
     SuperDetailTheme,
@@ -68,6 +70,15 @@ SPACING = Spacing()
 RADIUS = Radius()
 
 
+def official_logo_theme() -> LogoTheme:
+    return LogoTheme(
+        variant="official",
+        tint=None,
+        blend_mode=None,
+        opacity=1.0,
+    )
+
+
 # ==========================================================
 # 🔴 DETIC
 # ==========================================================
@@ -104,6 +115,12 @@ DETIC_THEME = Theme(
         point="#FECED1",
         point_active="#7D030B",
     ),
+    image=ImageTheme(
+        caption_mask_tint="#FA0511",
+        caption_mask_blend_mode=ft.BlendMode.SRC_IN,
+        caption_mask_opacity=0.65,
+    ),
+    logo=official_logo_theme(),
     typography=create_typography(
         font_family="Montserrat",
         display=96,
@@ -187,6 +204,12 @@ CCUEC_THEME = Theme(
         point="#CED1FE",
         point_active=CCUEC_ACCENT,
     ),
+    image=ImageTheme(
+        caption_mask_tint="#0461E4",
+        caption_mask_blend_mode=ft.BlendMode.SRC_IN,
+        caption_mask_opacity=0.65,
+    ),
+    logo=official_logo_theme(),
     typography=create_typography(
         font_family="Lora-Regular",
         display=96,
@@ -271,6 +294,12 @@ GREENISH_THEME = Theme(
         point="#065F46",
         point_active=GREEN_ACCENT,
     ),
+    image=ImageTheme(
+        caption_mask_tint="#14F18A",
+        caption_mask_blend_mode=ft.BlendMode.SRC_IN,
+        caption_mask_opacity=0.65,
+    ),
+    logo=official_logo_theme(),
     typography=create_typography(
         font_family="Manrope-Regular",
         display=96,
