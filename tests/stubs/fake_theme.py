@@ -1,0 +1,34 @@
+# tests/stubs/fake_theme.py
+
+from tests.stubs.control.fake_header import FakeHeader
+from tests.stubs.theme import (
+    FakeBaseTheme,
+    FakeColorsTheme,
+    FakeGalleryTheme,
+    FakeRadiusTheme,
+    FakeSpacingTheme,
+    FakeTextTheme,
+    FakeTypographyTheme,
+    FakeUITheme,
+)
+from tests.stubs.theme.fake_accent_theme import FakeAccentTheme
+
+
+class FakeTheme:
+    def __init__(self):
+        self.base = FakeBaseTheme()
+
+        self.gallery = FakeGalleryTheme()
+
+        self.title = "Fake Theme"
+        self.radius = FakeRadiusTheme()
+        self.spacing = FakeSpacingTheme()
+        self.colors = FakeColorsTheme()
+        self.accent = FakeAccentTheme()
+        self.typography = FakeTypographyTheme()
+        self.text = FakeTextTheme()
+
+        # placeholders temporários
+        self.ui = FakeUITheme()
+        self.header = FakeHeader()
+        self.super_detail = object()

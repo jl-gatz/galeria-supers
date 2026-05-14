@@ -6,6 +6,7 @@ import flet as ft
 
 from galeria.core import LOGO_DETIC, LOGO_UNICAMP
 from galeria.domain.protocols import GalleryServiceLike
+from galeria.domain.protocols.theme_manager_like import ThemeManagerLike
 from galeria.ui.components import (
     FloatingNavButton,
     GalleryRow,
@@ -14,7 +15,6 @@ from galeria.ui.components import (
 )
 from galeria.ui.controllers import GalleryScrollController, SuperDetailController
 from galeria.ui.layout import RootLayout
-from galeria.ui.theme.manager import ThemeManager
 from galeria.ui.views.super_view import SuperDetail
 
 
@@ -24,7 +24,7 @@ class GalleryView(ft.Container):
         page: ft.Page,
         service: GalleryServiceLike,
         root_layout: RootLayout,
-        theme: ThemeManager,
+        theme: ThemeManagerLike,
         logo_detic: Path = Path(LOGO_DETIC),
         logo_unicamp: Path = Path(LOGO_UNICAMP),
         show_placeholder_left: bool = False,
@@ -33,32 +33,37 @@ class GalleryView(ft.Container):
         super().__init__(expand=True)
 
         # 📦 deps
-        # self.page = page
+        self._page = page
+        self._mounted = False
         self.root = root_layout
         self._service = service
         self._theme = theme
 
-        # Atalhos para o tema
+        # 🎨 atalhos
         self.gallery = self._theme.gallery
 
         # 📦 estado
         self.supers = self._service.listar_supers()
 
-        self.logos = logos_row(logo_detic, logo_unicamp)
+        self.logos = logos_row(
+            logo_detic,
+            logo_unicamp,
+        )
+
         self.placeholders = placeholders_row(
             show_placeholder_left,
             show_placeholder_right,
         )
 
-        # 📦 placeholders de estrutura (serão preenchidos no apply_theme)
+        # 📦 estrutura dinâmica
         self.gallery_row = None
         self.scroll_controller = None
 
-        # 🧠 build inicial
-        # self._build_static()
-
-        # Background da page
+        # 🎨 background inicial
         self.bgcolor = self._theme.base.background
+
+        # ✅ build inicial da UI
+        self._apply_theme(self._theme.theme)
 
     # =========================================================
     # 🎨 THEME
@@ -178,7 +183,7 @@ class GalleryView(ft.Container):
 
         return ft.Container(
             content=FloatingNavButton.forward(
-                on_click=lambda _: self.page.run_task(self.scroll_controller.next),
+                on_click=lambda _: self._page.run_task(self.scroll_controller.next),
                 key="gallery_next",
             ),
             width=self.scroll_controller.group_width() + 2 * self.gallery.padding,
@@ -218,10 +223,7 @@ class GalleryView(ft.Container):
     def did_mount(self):
         self._mounted = True
 
-        # ✅ aplica tema agora (seguro)
-        self._apply_theme(self._theme.theme)
-
-        # ✅ só agora começa a ouvir mudanças
+        # ✅ ativa reatividade apenas após mount
         self._theme.subscribe(self._apply_theme)
 
     def will_unmount(self):

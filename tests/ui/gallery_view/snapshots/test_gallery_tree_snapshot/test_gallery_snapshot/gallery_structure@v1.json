@@ -6,7 +6,7 @@
           "children": [],
           "props": {
             "col": 12,
-            "color": "#161819",
+            "color": "#FFFFFF",
             "disabled": false,
             "enable_interactive_selection": true,
             "expand_loose": false,
@@ -16,7 +16,7 @@
             "rtl": false,
             "selection_cursor_width": 2.0,
             "show_selection_cursor": false,
-            "size": 72,
+            "size": 32,
             "size_change_interval": 10,
             "value": "Galeria de Superintendentes",
             "visible": true
@@ -32,9 +32,11 @@
                     {
                       "children": [],
                       "props": {
+                        "border_radius": 8,
                         "col": 12,
                         "disabled": false,
                         "expand_loose": false,
+                        "height": 420,
                         "ignore_interactions": false,
                         "ink": false,
                         "nome": "Ada",
@@ -50,9 +52,11 @@
                     {
                       "children": [],
                       "props": {
+                        "border_radius": 8,
                         "col": 12,
                         "disabled": false,
                         "expand_loose": false,
+                        "height": 420,
                         "ignore_interactions": false,
                         "ink": false,
                         "nome": "Alan",
@@ -68,9 +72,11 @@
                     {
                       "children": [],
                       "props": {
+                        "border_radius": 8,
                         "col": 12,
                         "disabled": false,
                         "expand_loose": false,
+                        "height": 420,
                         "ignore_interactions": false,
                         "ink": false,
                         "nome": "Bell",
@@ -86,9 +92,11 @@
                     {
                       "children": [],
                       "props": {
+                        "border_radius": 8,
                         "col": 12,
                         "disabled": false,
                         "expand_loose": false,
+                        "height": 420,
                         "ignore_interactions": false,
                         "ink": false,
                         "nome": "_blank",
@@ -113,7 +121,7 @@
                     "run_spacing": 10,
                     "scroll_interval": 10,
                     "size_change_interval": 10,
-                    "spacing": 165,
+                    "spacing": 20,
                     "tight": false,
                     "visible": true,
                     "wrap": false
@@ -140,14 +148,14 @@
             "col": 12,
             "disabled": false,
             "expand_loose": false,
-            "height": 434,
+            "height": 436,
             "ignore_interactions": false,
             "ink": false,
             "opacity": 1.0,
             "rtl": false,
             "size_change_interval": 10,
             "visible": true,
-            "width": 1695
+            "width": 1580
           },
           "type": "Container"
         },
@@ -159,7 +167,7 @@
                   "children": [],
                   "props": {
                     "autofocus": false,
-                    "bgcolor": "#E10514",
+                    "bgcolor": "red",
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,
@@ -200,7 +208,7 @@
             "rtl": false,
             "size_change_interval": 10,
             "visible": true,
-            "width": 1735
+            "width": 1612
           },
           "type": "Container"
         },
@@ -373,6 +381,7 @@
         "auto_scroll": false,
         "col": 12,
         "disabled": false,
+        "expand": true,
         "expand_loose": false,
         "intrinsic_width": false,
         "opacity": 1.0,
@@ -380,7 +389,7 @@
         "run_spacing": 10,
         "scroll_interval": 10,
         "size_change_interval": 10,
-        "spacing": 40,
+        "spacing": 16,
         "tight": false,
         "visible": true,
         "wrap": false
@@ -395,11 +404,11 @@
     "ignore_interactions": false,
     "ink": false,
     "opacity": 1.0,
-    "padding": 20,
+    "padding": 16,
     "rtl": false,
     "size_change_interval": 10,
     "visible": true,
-    "width": 1800
+    "width": 1200
   },
   "type": "Container"
 }

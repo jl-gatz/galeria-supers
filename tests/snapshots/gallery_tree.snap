@@ -6,13 +6,21 @@ GalleryView
         GalleryRow
           Row
             Container
-              Image (src='ada.png')
+              Stack
+                Image (src='ada.png')
+                Container
             Container
-              Image (src='turing.png')
+              Stack
+                Image (src='turing.png')
+                Container
             Container
-              Image (src='None')
+              Stack
+                Image (src='None')
+                Container
             Container
-              Image (src='None')
+              Stack
+                Image (src='None')
+                Container
       Container
         FloatingNavButton
           FloatingActionButton (key='gallery_next')

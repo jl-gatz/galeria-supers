@@ -10,6 +10,7 @@ from galeria.ui.views.gallery_view import GalleryView
 from tests.factories import SuperDetailFactory
 from tests.harness import FletTestHarness
 from tests.stubs.fake_super_data import FakeSuperData
+from tests.stubs.fake_theme_manager import FakeThemeManager
 
 
 @pytest.fixture
@@ -52,11 +53,22 @@ def super_detail_with_data():
 
 
 @pytest.fixture
-def gallery_view(fake_page: ft.Page, service: SuperService):
+def gallery_view(
+    fake_page: ft.Page, service: SuperService, fake_theme_manager: FakeThemeManager
+) -> GalleryView:
 
     # supers = SuperFactory.batch(12)
 
-    return GalleryView(service=service, root_layout=None, page=fake_page)
+    return GalleryView(service=service, root_layout=None, page=fake_page, theme=fake_theme_manager)
+
+
+@pytest.fixture
+def mounted():
+    def _mounted(control):
+        control._mounted = True
+        return control
+
+    return _mounted
 
 
 @pytest_asyncio.fixture

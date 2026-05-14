@@ -1,3 +1,5 @@
+# galeria/ui/views/super_view.py
+
 from collections.abc import Callable
 from typing import override
 
@@ -10,10 +12,15 @@ from galeria.ui.components import (
     NavigationControls,
     SuperHeader,
 )
-from galeria.ui.components.timeline import TimelineController, TimelineModel, TimelineView
-from galeria.ui.components.timeline.utils import PathBuilder, extract_points_from_super
-from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
-from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
+from galeria.ui.components.timeline import (
+    PathBuilder,
+    TimelineController,
+    TimelineModel,
+    TimelineRenderer,
+    TimelineStyle,
+    TimelineView,
+    extract_points_from_super,
+)
 from galeria.ui.controllers import SuperDetailController
 from galeria.ui.theme.manager import ThemeManager
 
