@@ -16,6 +16,7 @@ from .paths import (
     LOGO_DETIC,
     LOGO_UNICAMP,
     PHOTOS_DIR,
+    SUPER_CAPTION_MASK,
     SUPERS_JSON,
     TIMELINE_URL,
 )
@@ -37,5 +38,6 @@ __all__ = [
     "SCROLL_DURATION",
     "SCROLL_RESET_DURATION",
     "SUPERS_JSON",
+    "SUPER_CAPTION_MASK",
     "TIMELINE_URL",
 ]
