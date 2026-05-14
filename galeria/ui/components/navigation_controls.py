@@ -42,7 +42,7 @@ class NavigationControls(ft.Row):
             self.apply_theme(self.theme_manager.theme)
 
     def apply_theme(self, theme):
-        button_theme = getattr(theme, "button", None)
+        button_theme = getattr(theme, "button", None)  # noqa: F841
         hover_color = theme.accent.secondary
 
         for button in (self.prev_button, self.next_button):
