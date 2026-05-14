@@ -43,7 +43,7 @@ class TimelineRenderer:
         shapes = []
 
         for i, p in enumerate(pts):
-            color = self.style.line_color if i == active_idx else self.style.cursor_color
+            color = self.style.point_active_color if i == active_idx else self.style.point_color
 
             shapes.append(
                 cv.Circle(

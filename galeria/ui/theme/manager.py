@@ -18,6 +18,10 @@ class ThemeManager:
 
     # 👉 Proxy direto (ESSENCIAL)
     @property
+    def accent(self):
+        return self._theme.accent
+
+    @property
     def gallery(self):
         return self._theme.gallery
 
@@ -28,6 +32,10 @@ class ThemeManager:
     @property
     def super_detail(self):
         return self._theme.super_detail
+
+    @property
+    def button(self):
+        return self._theme.button
 
     @property
     def colors(self):
@@ -48,6 +56,14 @@ class ThemeManager:
     @property
     def text(self):
         return self._theme.text
+
+    @property
+    def timeline(self):
+        return self._theme.timeline
+
+    @property
+    def ui(self):
+        return self._theme.ui
 
     # ==========================================================
     # 🔄 THEME SWITCH

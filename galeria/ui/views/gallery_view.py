@@ -38,6 +38,8 @@ class GalleryView(ft.Container):
         self.root = root_layout
         self._service = service
         self._theme = theme
+        self._show_placeholder_left = show_placeholder_left
+        self._show_placeholder_right = show_placeholder_right
 
         # 🎨 atalhos
         self.gallery = self._theme.gallery
@@ -50,10 +52,7 @@ class GalleryView(ft.Container):
             logo_unicamp,
         )
 
-        self.placeholders = placeholders_row(
-            show_placeholder_left,
-            show_placeholder_right,
-        )
+        self.placeholders = None
 
         # 📦 estrutura dinâmica
         self.gallery_row = None
@@ -83,6 +82,11 @@ class GalleryView(ft.Container):
             padding=self.gallery.v_spacing,
             on_card_click=self._abrir_super,
             theme=self._theme,
+        )
+        self.placeholders = placeholders_row(
+            self._show_placeholder_left,
+            self._show_placeholder_right,
+            theme=self._theme.theme,
         )
 
         self.scroll_controller = GalleryScrollController(
@@ -185,6 +189,7 @@ class GalleryView(ft.Container):
             content=FloatingNavButton.forward(
                 on_click=lambda _: self._page.run_task(self.scroll_controller.next),
                 key="gallery_next",
+                theme_manager=self._theme,
             ),
             width=self.scroll_controller.group_width() + 2 * self.gallery.padding,
             alignment=ft.Alignment.CENTER_RIGHT,

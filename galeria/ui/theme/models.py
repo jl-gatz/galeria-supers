@@ -24,6 +24,7 @@ class TextColors:
 @dataclass(frozen=True)
 class AccentColors:
     primary: str
+    secondary: str
     contrast: str
 
 

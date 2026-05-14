@@ -90,6 +90,7 @@ DETIC_THEME = Theme(
     ),
     accent=AccentColors(
         primary=DETIC_RED,
+        secondary="#FECED1",
         contrast="#FFFFFF",
     ),
     ui=UI_BASE,
@@ -100,8 +101,8 @@ DETIC_THEME = Theme(
     ),
     timeline=TimelineColors(
         line=DETIC_RED,
-        point="#FCA5A5",
-        point_active=DETIC_RED,
+        point="#FECED1",
+        point_active="#7D030B",
     ),
     typography=create_typography(
         font_family="Montserrat",
@@ -172,6 +173,7 @@ CCUEC_THEME = Theme(
     ),
     accent=AccentColors(
         primary=CCUEC_BLUE,
+        secondary="#CED1FE",
         contrast="#FFFFFF",
     ),
     ui=UI_BASE,
@@ -182,7 +184,7 @@ CCUEC_THEME = Theme(
     ),
     timeline=TimelineColors(
         line=CCUEC_BLUE,
-        point="#93C5FD",
+        point="#CED1FE",
         point_active=CCUEC_ACCENT,
     ),
     typography=create_typography(
@@ -255,6 +257,7 @@ GREENISH_THEME = Theme(
     ),
     accent=AccentColors(
         primary=GREEN_PRIMARY,
+        secondary="#4ADE80",
         contrast="#003B2F",
     ),
     ui=UI_BASE,
