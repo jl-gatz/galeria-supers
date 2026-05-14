@@ -2,6 +2,7 @@ from typing import Any
 
 import flet as ft
 
+from galeria.ui.components.media import ThemedImage, themed_portrait_src
 from galeria.ui.theme.manager import ThemeManager
 
 
@@ -26,11 +27,13 @@ class SuperHeader(ft.Container):
         )
         self._set_paragraphs(texto_inicial)
 
-        self.image = ft.Image(
-            src=image_src or "images/placeholder.png",
+        self.image = ThemedImage(
+            src=themed_portrait_src(image_src) or "images/placeholder.png",
+            theme=self.theme_manager,
             width=380,
             border_radius=20,
             fit=ft.BoxFit.COVER,
+            apply_tint=False,
         )
 
         self.title = ft.Text(

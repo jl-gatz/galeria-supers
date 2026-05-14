@@ -7,27 +7,31 @@ GalleryView
           Row
             Container
               Stack
-                Image (src='ada.png')
-                Container
+                ThemedMaskedImage
+                  Image (src='ada.png')
+                  Image (src='images/masks/super-caption-mask.png')
             Container
               Stack
-                Image (src='turing.png')
-                Container
+                ThemedMaskedImage
+                  Image (src='turing.png')
+                  Image (src='images/masks/super-caption-mask.png')
             Container
               Stack
-                Image (src='None')
-                Container
+                ThemedMaskedImage
+                  Image
+                  Image (src='images/masks/super-caption-mask.png')
             Container
               Stack
-                Image (src='None')
-                Container
+                ThemedMaskedImage
+                  Image
+                  Image (src='images/masks/super-caption-mask.png')
       Container
         FloatingNavButton
           FloatingActionButton (key='gallery_next')
       Container
         Row
-          Image (src='images/logos/logo-detic-4x.png')
-          Image (src='images/logos/Logo_Unicamp__0.png')
+          ThemedLogo (src='images/logos/logo-detic-4x.png')
+          ThemedLogo (src='images/logos/Logo_Unicamp__0.png')
       Container
         Row
           Container

@@ -233,7 +233,7 @@
                     "type": "logo",
                     "visible": true
                   },
-                  "type": "Image"
+                  "type": "ThemedLogo"
                 },
                 {
                   "children": [],
@@ -252,7 +252,7 @@
                     "type": "logo",
                     "visible": true
                   },
-                  "type": "Image"
+                  "type": "ThemedLogo"
                 }
               ],
               "props": {

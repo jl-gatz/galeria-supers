@@ -24,9 +24,9 @@ async def test_debug_query_images(mounted_gallery):
     Mostra todas as imagens encontradas na galeria.
     """
 
-    nodes = mounted_gallery.select("Image")
+    nodes = mounted_gallery.select("ThemedMaskedImage")
 
-    render_query(nodes, title="Images in Gallery")
+    render_query(nodes, title="ThemedMaskedImages in Gallery")
 
     assert len(nodes) > 0
 
@@ -50,9 +50,9 @@ async def test_debug_nested_query(mounted_gallery):
     Testa query descendente.
     """
 
-    nodes = mounted_gallery.select("GalleryRow Image")
+    nodes = mounted_gallery.select("GalleryRow ThemedMaskedImage")
 
-    render_query(nodes, title="Images inside GalleryRow")
+    render_query(nodes, title="ThemedMaskedImages inside GalleryRow")
 
     assert len(nodes) > 0
 

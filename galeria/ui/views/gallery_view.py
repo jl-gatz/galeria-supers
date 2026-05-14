@@ -50,6 +50,7 @@ class GalleryView(ft.Container):
         self.logos = logos_row(
             logo_detic,
             logo_unicamp,
+            theme=self._theme,
         )
 
         self.placeholders = None

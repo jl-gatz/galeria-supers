@@ -3,6 +3,8 @@ from typing import Any
 
 import flet as ft
 
+from galeria.core import SUPER_CAPTION_MASK
+from galeria.ui.components.media import ThemedMaskedImage, themed_portrait_src
 from galeria.ui.theme.styles import Theme
 
 
@@ -46,15 +48,14 @@ class GalleryRow(ft.Container):
             content=ft.Stack(
                 controls=[
                     # 📷 Imagem base
-                    ft.Image(
-                        src=str(super_data.foto).replace("\\", "/"),
+                    ThemedMaskedImage(
+                        src=themed_portrait_src(super_data.foto),
+                        mask_src=SUPER_CAPTION_MASK,
+                        theme=self._theme,
                         fit=ft.BoxFit.COVER,
                         width=self.card_width,
                         height=self._theme.gallery.card_height,
-                    ),
-                    # 🎨 Overlay de tema (ESSENCIAL)
-                    ft.Container(
-                        bgcolor=self._theme.gallery.image_overlay,
+                        apply_mask=super_data.foto is not None,
                     ),
                     # (opcional futuro)
                     # gradiente / título / highlight
