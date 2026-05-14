@@ -38,6 +38,13 @@ class GalleryRow(ft.Container):
         )
 
     def _build_card(self, super_data, on_card_click):
+        is_real_portrait = (
+            super_data.foto is not None
+            and super_data.foto != ""
+            and super_data.nome != "_blank"
+            and not getattr(super_data, "is_placeholder", False)
+        )
+
         return ft.Container(
             width=self.card_width,
             height=self._theme.gallery.card_height,
@@ -55,7 +62,7 @@ class GalleryRow(ft.Container):
                         fit=ft.BoxFit.COVER,
                         width=self.card_width,
                         height=self._theme.gallery.card_height,
-                        apply_mask=super_data.foto is not None,
+                        apply_mask=is_real_portrait,
                     ),
                     # (opcional futuro)
                     # gradiente / título / highlight

@@ -2,7 +2,9 @@ from typing import Any
 
 import flet as ft
 
-from galeria.ui.components.media import ThemedImage, themed_portrait_src
+from galeria.core import SUPER_CAPTION_MASK
+from galeria.ui.components import ThemedMaskedImage
+from galeria.ui.components.media import themed_portrait_src
 from galeria.ui.theme.manager import ThemeManager
 
 
@@ -27,13 +29,13 @@ class SuperHeader(ft.Container):
         )
         self._set_paragraphs(texto_inicial)
 
-        self.image = ThemedImage(
+        self.image = ThemedMaskedImage(
             src=themed_portrait_src(image_src) or "images/placeholder.png",
+            mask_src=SUPER_CAPTION_MASK,
             theme=self.theme_manager,
-            width=380,
-            border_radius=20,
             fit=ft.BoxFit.COVER,
-            apply_tint=False,
+            width=380,
+            apply_mask=True,
         )
 
         self.title = ft.Text(
