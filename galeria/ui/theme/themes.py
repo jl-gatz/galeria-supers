@@ -87,6 +87,7 @@ DETIC_RED = "#E10514"
 DETIC_BLACK = "#161819"
 
 DETIC_THEME = Theme(
+    id="detic_era",
     title="DETIC",
     base=BaseColors(
         background="#FFFFFF",
@@ -176,6 +177,7 @@ CCUEC_ACCENT = "#EAB308"
 CCUEC_BG = "#FFFBF1"  # creme leve
 
 CCUEC_THEME = Theme(
+    id="ccuec_era",
     title="CCUEC",
     base=BaseColors(
         background=CCUEC_BG,
@@ -266,6 +268,7 @@ GREEN_SURFACE = "#0F2A24"
 GREEN_TEXT = "#E6F4F1"
 
 GREENISH_THEME = Theme(
+    id="greenish",
     title="GREENISH",
     base=BaseColors(
         background=GREEN_BG,

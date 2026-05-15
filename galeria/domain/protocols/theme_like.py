@@ -2,6 +2,8 @@ from typing import Any, Protocol
 
 
 class ThemeLike(Protocol):
+    id: str
+
     accent: Any
     base: Any
     button: Any

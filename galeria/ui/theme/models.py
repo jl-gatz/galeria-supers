@@ -173,6 +173,7 @@ class Radius:
 
 @dataclass(frozen=True)
 class Theme:
+    id: str
     title: str
 
     # 🎨 cores base (mantidas)

@@ -24,6 +24,7 @@ class FakeTheme:
         self.image = FakeImageTheme()
         self.logo = FakeLogoTheme()
 
+        self.id = "fake"
         self.title = "Fake Theme"
         self.radius = FakeRadiusTheme()
         self.spacing = FakeSpacingTheme()
