@@ -11,10 +11,19 @@ def logos_row(logo1: Path, logo2: Path, theme: Any | None = None):
     logo2 = Path(logo2)
 
     def _logo(path: Path):
-        image_type = ThemedLogo if theme else ft.Image
-        kwargs = {"theme": theme} if theme else {}
+        if theme:
+            return ThemedLogo(
+                theme_manager=theme,
+                filename=path.name,
+                height=120,
+                fit=ft.BoxFit.CONTAIN,
+                data={
+                    "type": "logo",
+                    "nome": path.stem,
+                },
+            )
 
-        return image_type(
+        return ft.Image(
             src=str(path),
             height=120,
             fit=ft.BoxFit.CONTAIN,
@@ -22,7 +31,6 @@ def logos_row(logo1: Path, logo2: Path, theme: Any | None = None):
                 "type": "logo",
                 "nome": path.stem,
             },
-            **kwargs,
         )
 
     return ft.Container(
