@@ -43,7 +43,7 @@ def test_super_header_falls_back_when_specific_typography_tokens_are_missing():
 
     header.did_mount()
 
-    assert header.title.size == theme.typography.h1
+    assert header.title.size == theme.typography.h2
     assert header.title.font_family == theme.typography.font_family
     assert header.text_list.controls[0].size == theme.typography.body
     assert header.text_list.controls[0].font_family == theme.typography.font_family
