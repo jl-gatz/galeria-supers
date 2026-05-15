@@ -5,7 +5,6 @@ import flet as ft
 
 from galeria.core import SUPER_CAPTION_MASK
 from galeria.ui.components.media import ThemedMaskedImage, themed_portrait_src
-from galeria.ui.theme.styles import Theme
 
 
 class GalleryRow(ft.Container):
@@ -16,7 +15,7 @@ class GalleryRow(ft.Container):
         spacing: int,
         padding: int,
         on_card_click: Callable[[], None],
-        theme: Theme,
+        theme: Any,
     ):
         self.supers = supers
         self.card_width = card_width
