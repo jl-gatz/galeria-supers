@@ -98,7 +98,7 @@ class SuperHeader(ft.Container):
         self.title.color = theme.text.primary
         self.title.size = self._theme_token(
             theme,
-            ["super_header_title_size", "title_size", "h1"],
+            ["super_header_title_size", "title_size", "h2"],
             fallback=28,
         )
         self.title.font_family = self._theme_token(
