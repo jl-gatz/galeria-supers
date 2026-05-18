@@ -5,6 +5,7 @@ import flet as ft
 from galeria.core import SUPER_CAPTION_MASK
 from galeria.ui.components import ThemedMaskedImage
 from galeria.ui.components.media import themed_portrait_src
+from galeria.ui.components.super_caption import SuperCaption
 from galeria.ui.theme.manager import ThemeManager
 
 
@@ -14,6 +15,7 @@ class SuperHeader(ft.Container):
         theme_manager: ThemeManager,
         image_src: str | None = None,
         nome: str = "",
+        periodo: str | None = None,
         texto_inicial: str = "",
         navigation: ft.Control | None = None,
         **kwargs: Any,
@@ -37,6 +39,20 @@ class SuperHeader(ft.Container):
             fit=ft.BoxFit.COVER,
             width=380,
             apply_mask=image_src is not None,
+        )
+        self.portrait_caption = SuperCaption(
+            theme_manager=self.theme_manager,
+            nome=nome,
+            subtitle=periodo,
+            width=380,
+            compact=True,
+        )
+        self.portrait_stack = ft.Stack(
+            width=380,
+            controls=[
+                self.portrait_image,
+                self.portrait_caption,
+            ],
         )
 
         self.title = ft.Text(
@@ -62,7 +78,7 @@ class SuperHeader(ft.Container):
             expand=True,
             spacing=32,
             vertical_alignment=ft.CrossAxisAlignment.START,
-            controls=[self.portrait_image, text_area],
+            controls=[self.portrait_stack, text_area],
         )
 
         super().__init__(content=layout, **kwargs)

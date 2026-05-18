@@ -5,6 +5,7 @@ import flet as ft
 
 from galeria.core import SUPER_CAPTION_MASK
 from galeria.ui.components.media import ThemedMaskedImage, themed_portrait_src
+from galeria.ui.components.super_caption import SuperCaption
 
 
 class GalleryRow(ft.Container):
@@ -37,34 +38,51 @@ class GalleryRow(ft.Container):
         )
 
     def _build_card(self, super_data, on_card_click):
+        is_placeholder = getattr(super_data, "is_placeholder", False)
+        nome = getattr(super_data, "nome", "")
         is_real_portrait = (
             super_data.foto is not None
             and super_data.foto != ""
-            and super_data.nome != "_blank"
-            and not getattr(super_data, "is_placeholder", False)
+            and nome != "_blank"
+            and not is_placeholder
         )
+        show_caption = nome != "_blank" and not is_placeholder
+        stack_controls: list[ft.Control] = [
+            ThemedMaskedImage(
+                src=themed_portrait_src(super_data.foto),
+                mask_src=SUPER_CAPTION_MASK,
+                theme=self._theme,
+                fit=ft.BoxFit.COVER,
+                width=self.card_width,
+                height=self._theme.gallery.card_height,
+                apply_mask=is_real_portrait,
+            )
+        ]
+
+        if show_caption:
+            stack_controls.append(
+                SuperCaption(
+                    theme_manager=self._theme,
+                    nome=nome,
+                    subtitle=self._caption_periodo(super_data),
+                    width=self.card_width,
+                    single_line_name=True,
+                )
+            )
 
         return ft.Container(
             width=self.card_width,
             height=self._theme.gallery.card_height,
             on_click=lambda e: on_card_click(super_data),
-            data={"type": "card", "nome": super_data.nome},
+            data={"type": "card", "nome": nome},
             border_radius=self._theme.radius.md,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
-            content=ft.Stack(
-                controls=[
-                    # 📷 Imagem base
-                    ThemedMaskedImage(
-                        src=themed_portrait_src(super_data.foto),
-                        mask_src=SUPER_CAPTION_MASK,
-                        theme=self._theme,
-                        fit=ft.BoxFit.COVER,
-                        width=self.card_width,
-                        height=self._theme.gallery.card_height,
-                        apply_mask=is_real_portrait,
-                    ),
-                    # (opcional futuro)
-                    # gradiente / título / highlight
-                ]
-            ),
+            content=ft.Stack(controls=stack_controls),
         )
+
+    def _caption_periodo(self, super_data) -> str | None:
+        periodo = getattr(super_data, "periodo", None)
+        if periodo:
+            return str(periodo)
+
+        return None

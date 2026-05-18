@@ -8,6 +8,7 @@ from .media import ThemedImage, ThemedLogo, ThemedMaskedImage
 from .navigation_controls import NavigationControls
 from .placeholders_row import placeholders_row
 from .responsive_timeline import ResponsiveTimeline
+from .super_caption import SuperCaption
 from .super_header import SuperHeader
 
 __all__ = [
@@ -15,6 +16,7 @@ __all__ = [
     "GalleryRow",
     "NavigationControls",
     "ResponsiveTimeline",
+    "SuperCaption",
     "SuperHeader",
     "ThemedImage",
     "ThemedLogo",
