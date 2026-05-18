@@ -60,7 +60,8 @@ class SuperDetail(ft.Container):
 
         timeline_controller = TimelineController(model)
 
-        renderer = TimelineRenderer(TimelineStyle())  # 🔜 próximo passo: tematizar
+        self.timeline_style = TimelineStyle(self.theme_manager.theme)
+        renderer = TimelineRenderer(self.timeline_style)
 
         self.timeline_view = TimelineView(
             controller=timeline_controller,
@@ -85,6 +86,11 @@ class SuperDetail(ft.Container):
     def apply_theme(self, theme):
         if not hasattr(self, "inner_container"):
             return
+
+        self.timeline_style.apply_theme(theme)
+
+        if hasattr(self, "timeline_view"):
+            self.timeline_view.refresh()
 
         self.inner_container.bgcolor = theme.base.surface
         self.inner_container.shadow = ft.BoxShadow(
@@ -172,6 +178,7 @@ class SuperDetail(ft.Container):
         return FloatingNavButton.back(
             on_click=self._handle_voltar,
             key="detail_back",
+            theme_manager=self.theme_manager,
         )
 
     # =========================================================
@@ -191,6 +198,7 @@ class SuperDetail(ft.Container):
         return NavigationControls(
             on_prev=self.prev,
             on_next=self.next,
+            theme_manager=self.theme_manager,
         )
 
     # =========================================================

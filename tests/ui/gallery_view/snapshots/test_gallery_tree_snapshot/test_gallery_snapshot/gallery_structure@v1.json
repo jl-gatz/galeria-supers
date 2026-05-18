@@ -167,11 +167,11 @@
                   "children": [],
                   "props": {
                     "autofocus": false,
-                    "bgcolor": "red",
+                    "bgcolor": "#00ff00",
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,
-                    "foreground_color": "white",
+                    "foreground_color": "#000000",
                     "icon": 66001,
                     "mini": false,
                     "opacity": 1.0,
@@ -190,7 +190,7 @@
                 "ignore_interactions": false,
                 "ink": false,
                 "opacity": 1.0,
-                "padding": 20,
+                "padding": 16,
                 "rtl": false,
                 "size_change_interval": 10,
                 "visible": true
@@ -233,7 +233,7 @@
                     "type": "logo",
                     "visible": true
                   },
-                  "type": "Image"
+                  "type": "ThemedLogo"
                 },
                 {
                   "children": [],
@@ -252,7 +252,7 @@
                     "type": "logo",
                     "visible": true
                   },
-                  "type": "Image"
+                  "type": "ThemedLogo"
                 }
               ],
               "props": {
@@ -294,7 +294,7 @@
                 {
                   "children": [],
                   "props": {
-                    "border_radius": 10,
+                    "border_radius": 4,
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,
@@ -328,7 +328,7 @@
                 {
                   "children": [],
                   "props": {
-                    "border_radius": 10,
+                    "border_radius": 4,
                     "col": 12,
                     "disabled": false,
                     "expand_loose": false,

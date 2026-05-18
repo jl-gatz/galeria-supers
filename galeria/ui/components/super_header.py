@@ -2,6 +2,9 @@ from typing import Any
 
 import flet as ft
 
+from galeria.core import SUPER_CAPTION_MASK
+from galeria.ui.components import ThemedMaskedImage
+from galeria.ui.components.media import themed_portrait_src
 from galeria.ui.theme.manager import ThemeManager
 
 
@@ -17,6 +20,7 @@ class SuperHeader(ft.Container):
     ):
         # 🎨 Theme
         self.theme_manager = theme_manager
+        self._mounted = False
 
         # 🧱 Conteúdo
         self.text_list = ft.ListView(
@@ -26,11 +30,13 @@ class SuperHeader(ft.Container):
         )
         self._set_paragraphs(texto_inicial)
 
-        self.image = ft.Image(
-            src=image_src or "images/placeholder.png",
-            width=380,
-            border_radius=20,
+        self.portrait_image = ThemedMaskedImage(
+            src=themed_portrait_src(image_src) or "images/placeholder.png",
+            mask_src=SUPER_CAPTION_MASK,
+            theme=self.theme_manager,
             fit=ft.BoxFit.COVER,
+            width=380,
+            apply_mask=image_src is not None,
         )
 
         self.title = ft.Text(
@@ -56,7 +62,7 @@ class SuperHeader(ft.Container):
             expand=True,
             spacing=32,
             vertical_alignment=ft.CrossAxisAlignment.START,
-            controls=[self.image, text_area],
+            controls=[self.portrait_image, text_area],
         )
 
         super().__init__(content=layout, **kwargs)
@@ -65,8 +71,6 @@ class SuperHeader(ft.Container):
         if self.theme_manager:
             self.theme_manager.subscribe(self.apply_theme)
 
-        self._mounted = False
-
     # =========================================================
     # 🎨 THEME
     # =========================================================
@@ -74,24 +78,84 @@ class SuperHeader(ft.Container):
         if theme is None:
             return
 
-        # Divider
+        self._apply_divider_theme(theme)
+        self._apply_title_theme(theme)
+        self._apply_paragraphs_theme(theme)
+
+        if self._mounted and self._has_page():
+            self.update()
+
+    def _has_page(self) -> bool:
+        try:
+            return self.page is not None
+        except RuntimeError:
+            return False
+
+    def _apply_divider_theme(self, theme):
         self.divider.color = theme.accent.primary
 
-        # Textos
+    def _apply_title_theme(self, theme):
         self.title.color = theme.text.primary
+        self.title.size = self._theme_token(
+            theme,
+            ["super_header_title_size", "title_size", "h2"],
+            fallback=28,
+        )
+        self.title.font_family = self._theme_token(
+            theme,
+            ["super_header_title_font_family", "title_font_family"],
+            fallback=self._theme_token(theme, ["font_family"], fallback=None),
+        )
 
-        for p in self.text_list.controls:
-            p.color = theme.text.secondary
+    def _apply_paragraphs_theme(self, theme):
+        for paragraph in self.text_list.controls:
+            self._apply_paragraph_theme(paragraph, theme)
 
-        if self._mounted:
-            self.update()
+    def _apply_paragraph_theme(self, paragraph: ft.Text, theme):
+        paragraph.color = theme.text.secondary
+        paragraph.size = self._theme_token(
+            theme,
+            ["super_header_body_size", "body_size", "body"],
+            fallback=14,
+        )
+        paragraph.font_family = self._theme_token(
+            theme,
+            ["super_header_body_font_family", "body_font_family"],
+            fallback=self._theme_token(theme, ["font_family"], fallback=None),
+        )
+
+        line_height = self._theme_token(
+            theme,
+            ["super_header_body_line_height", "body_line_height"],
+            fallback=None,
+        )
+
+        if line_height is not None:
+            paragraph.style = ft.TextStyle(height=line_height)
+
+    def _theme_token(self, theme, names: list[str], fallback=None):
+        typography = getattr(theme, "typography", None)
+
+        if typography is None:
+            return fallback
+
+        for name in names:
+            value = getattr(typography, name, None)
+
+            if value is not None:
+                return value
+
+        return fallback
 
     # =========================================================
     # 🧩 TEXTO
     # =========================================================
     def _set_paragraphs(self, text: str):
         paragraphs = [p for p in text.split("\n\n") if p.strip()]
-        self.text_list.controls = [ft.Text(p, size=14) for p in paragraphs]
+        self.text_list.controls = [self._create_paragraph_control(p) for p in paragraphs]
+
+    def _create_paragraph_control(self, text: str) -> ft.Text:
+        return ft.Text(text, size=14)
 
     def update_text(self, new_text: str):
         self._set_paragraphs(new_text)

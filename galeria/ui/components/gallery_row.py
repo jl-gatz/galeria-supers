@@ -3,7 +3,8 @@ from typing import Any
 
 import flet as ft
 
-from galeria.ui.theme.styles import Theme
+from galeria.core import SUPER_CAPTION_MASK
+from galeria.ui.components.media import ThemedMaskedImage, themed_portrait_src
 
 
 class GalleryRow(ft.Container):
@@ -14,7 +15,7 @@ class GalleryRow(ft.Container):
         spacing: int,
         padding: int,
         on_card_click: Callable[[], None],
-        theme: Theme,
+        theme: Any,
     ):
         self.supers = supers
         self.card_width = card_width
@@ -36,6 +37,13 @@ class GalleryRow(ft.Container):
         )
 
     def _build_card(self, super_data, on_card_click):
+        is_real_portrait = (
+            super_data.foto is not None
+            and super_data.foto != ""
+            and super_data.nome != "_blank"
+            and not getattr(super_data, "is_placeholder", False)
+        )
+
         return ft.Container(
             width=self.card_width,
             height=self._theme.gallery.card_height,
@@ -46,15 +54,14 @@ class GalleryRow(ft.Container):
             content=ft.Stack(
                 controls=[
                     # 📷 Imagem base
-                    ft.Image(
-                        src=str(super_data.foto).replace("\\", "/"),
+                    ThemedMaskedImage(
+                        src=themed_portrait_src(super_data.foto),
+                        mask_src=SUPER_CAPTION_MASK,
+                        theme=self._theme,
                         fit=ft.BoxFit.COVER,
                         width=self.card_width,
                         height=self._theme.gallery.card_height,
-                    ),
-                    # 🎨 Overlay de tema (ESSENCIAL)
-                    ft.Container(
-                        bgcolor=self._theme.gallery.image_overlay,
+                        apply_mask=is_real_portrait,
                     ),
                     # (opcional futuro)
                     # gradiente / título / highlight

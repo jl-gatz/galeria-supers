@@ -9,7 +9,7 @@ async def test_gallery_images_exist(mounted_gallery: FletTestHarness):
     """
     Verifica se existem imagens dentro da galeria.
     """
-    assert mounted_gallery.count("Image") > 0
+    assert mounted_gallery.count("ThemedMaskedImage") > 0
 
 
 @pytest.mark.asyncio

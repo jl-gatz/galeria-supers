@@ -5,7 +5,9 @@ SuperDetail
         Column
           SuperHeader
             Row
-              Image (src='tests/assets/test_image.png')
+              ThemedMaskedImage
+                Image (src='tests/assets/test_image.png')
+                Image (src='images/masks/super-caption-mask.png')
               Column
                 Text
                 Divider

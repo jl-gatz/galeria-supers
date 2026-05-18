@@ -15,7 +15,9 @@ from .paths import (
     IMAGES_URL,
     LOGO_DETIC,
     LOGO_UNICAMP,
+    LOGOS_DIR,
     PHOTOS_DIR,
+    SUPER_CAPTION_MASK,
     SUPERS_JSON,
     TIMELINE_URL,
 )
@@ -31,11 +33,13 @@ __all__ = [
     "DETAIL_TIMEOUT_SECONDS",
     "FADE_OUT_ASYNC_SLEEP",
     "IMAGES_URL",
+    "LOGOS_DIR",
     "LOGO_DETIC",
     "LOGO_UNICAMP",
     "PHOTOS_DIR",
     "SCROLL_DURATION",
     "SCROLL_RESET_DURATION",
     "SUPERS_JSON",
+    "SUPER_CAPTION_MASK",
     "TIMELINE_URL",
 ]

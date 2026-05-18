@@ -8,6 +8,8 @@ from galeria.ui.theme.models import (
     ButtonColors,
     GalleryTheme,
     HeaderTheme,
+    ImageTheme,
+    LogoTheme,
     Radius,
     Spacing,
     SuperDetailTheme,
@@ -27,7 +29,7 @@ def create_typography(
     display: int = 96,
     h1: int = 72,
     h2: int = 36,
-    body: int = 22,
+    body: int = 30,
     small: int = 16,
     weight_regular: ft.FontWeight = ft.FontWeight.W_400,
     weight_medium: ft.FontWeight = ft.FontWeight.W_500,
@@ -68,6 +70,15 @@ SPACING = Spacing()
 RADIUS = Radius()
 
 
+def official_logo_theme() -> LogoTheme:
+    return LogoTheme(
+        variant="official",
+        tint=None,
+        blend_mode=None,
+        opacity=1.0,
+    )
+
+
 # ==========================================================
 # 🔴 DETIC
 # ==========================================================
@@ -76,6 +87,7 @@ DETIC_RED = "#E10514"
 DETIC_BLACK = "#161819"
 
 DETIC_THEME = Theme(
+    id="detic_era",
     title="DETIC",
     base=BaseColors(
         background="#FFFFFF",
@@ -90,6 +102,7 @@ DETIC_THEME = Theme(
     ),
     accent=AccentColors(
         primary=DETIC_RED,
+        secondary="#FECED1",
         contrast="#FFFFFF",
     ),
     ui=UI_BASE,
@@ -100,15 +113,21 @@ DETIC_THEME = Theme(
     ),
     timeline=TimelineColors(
         line=DETIC_RED,
-        point="#FCA5A5",
-        point_active=DETIC_RED,
+        point="#FECED1",
+        point_active="#7D030B",
     ),
+    image=ImageTheme(
+        caption_mask_tint="#FA0511",
+        caption_mask_blend_mode=ft.BlendMode.SRC_IN,
+        caption_mask_opacity=0.65,
+    ),
+    logo=official_logo_theme(),
     typography=create_typography(
         font_family="Montserrat",
         display=96,
         h1=72,
-        h2=36,
-        body=22,
+        h2=42,
+        body=30,
         small=16,
         weight_regular="Montserrat-Medium",
         weight_medium="Montserrat-Bold",
@@ -158,6 +177,7 @@ CCUEC_ACCENT = "#EAB308"
 CCUEC_BG = "#FFFBF1"  # creme leve
 
 CCUEC_THEME = Theme(
+    id="ccuec_era",
     title="CCUEC",
     base=BaseColors(
         background=CCUEC_BG,
@@ -172,6 +192,7 @@ CCUEC_THEME = Theme(
     ),
     accent=AccentColors(
         primary=CCUEC_BLUE,
+        secondary="#CED1FE",
         contrast="#FFFFFF",
     ),
     ui=UI_BASE,
@@ -182,15 +203,21 @@ CCUEC_THEME = Theme(
     ),
     timeline=TimelineColors(
         line=CCUEC_BLUE,
-        point="#93C5FD",
+        point="#CED1FE",
         point_active=CCUEC_ACCENT,
     ),
+    image=ImageTheme(
+        caption_mask_tint="#0461E4",
+        caption_mask_blend_mode=ft.BlendMode.SRC_IN,
+        caption_mask_opacity=0.65,
+    ),
+    logo=official_logo_theme(),
     typography=create_typography(
         font_family="Lora-Regular",
         display=96,
         h1=72,
-        h2=36,
-        body=22,
+        h2=42,
+        body=30,
         small=16,
         weight_regular="Lora-Medium",
         weight_medium="Lora-SemiBold",
@@ -241,6 +268,7 @@ GREEN_SURFACE = "#0F2A24"
 GREEN_TEXT = "#E6F4F1"
 
 GREENISH_THEME = Theme(
+    id="greenish",
     title="GREENISH",
     base=BaseColors(
         background=GREEN_BG,
@@ -255,6 +283,7 @@ GREENISH_THEME = Theme(
     ),
     accent=AccentColors(
         primary=GREEN_PRIMARY,
+        secondary="#4ADE80",
         contrast="#003B2F",
     ),
     ui=UI_BASE,
@@ -268,12 +297,18 @@ GREENISH_THEME = Theme(
         point="#065F46",
         point_active=GREEN_ACCENT,
     ),
+    image=ImageTheme(
+        caption_mask_tint="#14F18A",
+        caption_mask_blend_mode=ft.BlendMode.SRC_IN,
+        caption_mask_opacity=0.65,
+    ),
+    logo=official_logo_theme(),
     typography=create_typography(
         font_family="Manrope-Regular",
         display=96,
         h1=72,
-        h2=36,
-        body=22,
+        h2=42,
+        body=30,
         small=16,
         weight_regular="Manrope-Regular",
         weight_medium="Manrope-Bold",
