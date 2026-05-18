@@ -42,3 +42,4 @@ def test_super_header_layers_caption_above_masked_image(super_header_manager):
     assert isinstance(header.portrait_caption, SuperCaption)
     assert header.portrait_caption.name_text.value == "Ada"
     assert header.portrait_caption.subtitle_text.value == "1967-1969"
+    assert header.portrait_caption.compact is False

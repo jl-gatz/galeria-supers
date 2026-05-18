@@ -45,7 +45,6 @@ class SuperHeader(ft.Container):
             nome=nome,
             subtitle=periodo,
             width=380,
-            compact=True,
         )
         self.portrait_stack = ft.Stack(
             width=380,
