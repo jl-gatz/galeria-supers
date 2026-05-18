@@ -283,7 +283,7 @@ GREENISH_THEME = Theme(
     text=TextColors(
         primary=GREEN_TEXT,
         secondary="#9CA3AF",
-        inverse="#000000",
+        inverse="#D7F2F3",
     ),
     accent=AccentColors(
         primary=GREEN_PRIMARY,
