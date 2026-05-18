@@ -1,6 +1,9 @@
+from dataclasses import replace
+
 import flet as ft
 
 from galeria.ui.components.super_caption import SuperCaption
+from galeria.ui.theme.styles import ComponentStyles
 from tests.stubs.fake_theme import FakeTheme
 from tests.stubs.fake_theme_manager import FakeThemeManager
 
@@ -40,9 +43,14 @@ def test_super_caption_does_not_render_subtitle_when_none():
 def test_super_caption_applies_theme_and_reacts_to_theme_change():
     theme = FakeTheme()
     theme.text.inverse = "#fafafa"
-    theme.typography.super_caption_name_size = 22
-    theme.typography.super_caption_subtitle_size = 14
-    theme.typography.super_caption_line_height = 1.2
+    theme.styles = ComponentStyles(
+        portrait_caption=replace(
+            theme.styles.portrait_caption,
+            name_size=22,
+            subtitle_size=14,
+            line_height=1.2,
+        )
+    )
     manager = FakeThemeManager(theme)
     caption = SuperCaption(
         theme_manager=manager,
@@ -60,13 +68,18 @@ def test_super_caption_applies_theme_and_reacts_to_theme_change():
 
     next_theme = FakeTheme()
     next_theme.text.inverse = "#111111"
-    next_theme.typography.super_caption_name_size = 24
+    next_theme.styles = ComponentStyles(
+        portrait_caption=replace(
+            next_theme.styles.portrait_caption,
+            name_size=24,
+        )
+    )
 
     manager.set_theme(next_theme)
 
     assert caption.name_text.color == "#111111"
     assert caption.name_text.size == 24
-    assert caption.name_text.weight == next_theme.typography.weight_bold
+    assert caption.name_text.weight == next_theme.styles.portrait_caption.name_weight
 
     caption.will_unmount()
     assert caption.apply_theme not in manager._listeners
@@ -92,4 +105,4 @@ def test_super_caption_single_line_name_uses_smaller_size():
     )
 
     assert caption.name_text.max_lines == 1
-    assert caption.name_text.size == max(12, int(theme.typography.body * 0.72))
+    assert caption.name_text.size == theme.styles.portrait_caption.name_single_line_size

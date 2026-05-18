@@ -54,6 +54,10 @@ class ThemeManager:
         return self._theme.spacing
 
     @property
+    def styles(self):
+        return self._theme.styles
+
+    @property
     def radius(self):
         return self._theme.radius
 

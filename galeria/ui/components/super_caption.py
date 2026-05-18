@@ -3,6 +3,7 @@ from typing import Any
 import flet as ft
 
 from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.models import Theme
 
 
 class SuperCaption(ft.Container):
@@ -61,51 +62,35 @@ class SuperCaption(ft.Container):
         if self.theme_manager:
             self._apply_theme(self.theme_manager.theme)
 
-    def apply_theme(self, theme):
+    def apply_theme(self, theme: Theme):
         self._apply_theme(theme)
 
         if self._mounted and self._has_page():
             self.update()
 
-    def _apply_theme(self, theme):
+    def _apply_theme(self, theme: Theme):
         if theme is None:
             return
 
         typography = getattr(theme, "typography", None)
-        spacing = getattr(theme, "spacing", None)
+        caption_style = self._caption_style(theme)
         text = getattr(theme, "text", None)
 
-        # TODO: mover estes tokens locais para theme/styles.py ou theme/typography.py
-        # quando houver um contrato explícito para captions sobre retratos.
-        horizontal_padding = self._theme_token(spacing, ["md"], 16)
-        vertical_padding = self._theme_token(spacing, ["sm"], 8)
-        name_size = self._theme_token(
-            typography,
-            ["super_caption_name_size", "caption_name_size"],
-            self._theme_token(typography, ["body"], 16),
-        )
-        subtitle_size = self._theme_token(
-            typography,
-            ["super_caption_subtitle_size", "caption_subtitle_size"],
-            self._theme_token(typography, ["small"], 12),
-        )
-        line_height = self._theme_token(
-            typography,
-            ["super_caption_line_height", "caption_line_height"],
-            1.05,
-        )
+        horizontal_padding = caption_style.padding_horizontal
+        vertical_padding = caption_style.padding_vertical
+        name_size = caption_style.name_size
+        subtitle_size = caption_style.subtitle_size
 
         if self.compact:
-            vertical_padding = max(4, int(vertical_padding * 0.75))
-            name_size = max(12, int(name_size * 0.8))
-            subtitle_size = max(10, int(subtitle_size * 0.9))
+            vertical_padding = max(
+                4,
+                int(vertical_padding * caption_style.compact_padding_scale),
+            )
+            name_size = max(12, int(name_size * caption_style.compact_scale))
+            subtitle_size = max(10, int(subtitle_size * caption_style.compact_scale))
 
         if self.single_line_name:
-            name_size = self._theme_token(
-                typography,
-                ["super_caption_single_line_name_size", "caption_single_line_name_size"],
-                max(12, int(name_size * 0.72)),
-            )
+            name_size = caption_style.name_single_line_size
 
         self.padding = ft.padding.symmetric(
             horizontal=horizontal_padding,
@@ -114,13 +99,9 @@ class SuperCaption(ft.Container):
 
         self.name_text.color = self._theme_token(text, ["inverse", "primary"], "#FFFFFF")
         self.name_text.size = name_size
-        self.name_text.weight = self._theme_token(
-            typography,
-            ["weight_bold", "weight_medium"],
-            ft.FontWeight.BOLD,
-        )
+        self.name_text.weight = caption_style.name_weight
         self.name_text.font_family = self._theme_token(typography, ["font_family"], None)
-        self.name_text.style = ft.TextStyle(height=line_height)
+        self.name_text.style = ft.TextStyle(height=caption_style.line_height)
 
         if self.subtitle_text is not None:
             self.subtitle_text.color = self._theme_token(
@@ -129,17 +110,24 @@ class SuperCaption(ft.Container):
                 "#FFFFFF",
             )
             self.subtitle_text.size = subtitle_size
-            self.subtitle_text.weight = self._theme_token(
-                typography,
-                ["weight_medium", "weight_regular"],
-                ft.FontWeight.W_500,
-            )
+            self.subtitle_text.weight = caption_style.subtitle_weight
             self.subtitle_text.font_family = self._theme_token(
                 typography,
                 ["font_family"],
                 None,
             )
-            self.subtitle_text.style = ft.TextStyle(height=line_height)
+            self.subtitle_text.style = ft.TextStyle(height=caption_style.line_height)
+
+    def _caption_style(self, theme):
+        styles = getattr(theme, "styles", None)
+        caption_style = getattr(styles, "portrait_caption", None)
+
+        if caption_style is not None:
+            return caption_style
+
+        from galeria.ui.theme.styles import default_component_styles
+
+        return default_component_styles().portrait_caption
 
     def _theme_token(self, source, names: list[str], fallback=None):
         if source is None:
