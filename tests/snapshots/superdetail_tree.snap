@@ -5,9 +5,13 @@ SuperDetail
         Column
           SuperHeader
             Row
-              ThemedMaskedImage
-                Image (src='tests/assets/test_image.png')
-                Image (src='images/masks/super-caption-mask.png')
+              Stack
+                ThemedMaskedImage
+                  Image (src='tests/assets/test_image.png')
+                  Image (src='images/masks/super-caption-mask.png')
+                SuperCaption
+                  Column
+                    Text
               Column
                 Text
                 Divider

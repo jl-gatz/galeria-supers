@@ -13,6 +13,7 @@ def super_stub_one(
     timeline: Path = Path("ada.json"),
     timeline_points: dict[str, Any] | None = None,
     historias: list[str] | None = None,
+    periodo: str | None = None,
 ):
     return Super(
         id=id,
@@ -21,4 +22,5 @@ def super_stub_one(
         timeline=timeline,
         timeline_points=timeline_points,
         historias=historias,
+        periodo=periodo,
     )

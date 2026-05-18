@@ -19,6 +19,7 @@ from galeria.ui.theme.models import (
     Typography,
     UIColors,
 )
+from galeria.ui.theme.styles import default_component_styles
 
 
 # =========================================================
@@ -68,6 +69,7 @@ TIMELINE_POINT = "#9B9292"
 
 SPACING = Spacing()
 RADIUS = Radius()
+STYLES = default_component_styles()
 
 
 def official_logo_theme() -> LogoTheme:
@@ -135,6 +137,7 @@ DETIC_THEME = Theme(
     ),
     spacing=SPACING,
     radius=RADIUS,
+    styles=STYLES,
     gallery=GalleryTheme(
         card_width=300,
         card_height=394,
@@ -225,6 +228,7 @@ CCUEC_THEME = Theme(
     ),
     spacing=SPACING,
     radius=RADIUS,
+    styles=STYLES,
     gallery=GalleryTheme(
         card_width=300,
         card_height=394,
@@ -279,7 +283,7 @@ GREENISH_THEME = Theme(
     text=TextColors(
         primary=GREEN_TEXT,
         secondary="#9CA3AF",
-        inverse="#000000",
+        inverse="#D7F2F3",
     ),
     accent=AccentColors(
         primary=GREEN_PRIMARY,
@@ -316,6 +320,7 @@ GREENISH_THEME = Theme(
     ),
     spacing=SPACING,
     radius=RADIUS,
+    styles=STYLES,
     gallery=GalleryTheme(
         card_width=300,
         card_height=394,

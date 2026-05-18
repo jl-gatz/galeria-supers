@@ -1,3 +1,6 @@
+from types import SimpleNamespace
+
+from galeria.ui.controllers.super_detail_controller import SuperDetailController
 from tests.stubs.fake_super import FakeSuper
 
 
@@ -62,3 +65,18 @@ def test_sequence_navigation(make_controller: FakeSuper):
     controller.prev()  # B
 
     assert controller.current == "B"
+
+
+def test_exposes_periodo():
+    super_data = SimpleNamespace(
+        nome="Ada",
+        foto=None,
+        timeline=None,
+        timeline_points=[],
+        historias=["A"],
+        periodo="1967-1969",
+    )
+
+    controller = SuperDetailController(super_data)
+
+    assert controller.periodo == "1967-1969"

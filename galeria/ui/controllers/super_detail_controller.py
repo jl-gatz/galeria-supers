@@ -31,6 +31,10 @@ class SuperDetailController:
         return self._super.nome
 
     @property
+    def periodo(self) -> str | None:
+        return getattr(self._super, "periodo", None)
+
+    @property
     def image_src(self) -> str | None:
         return self._to_src(self._super.foto)
 

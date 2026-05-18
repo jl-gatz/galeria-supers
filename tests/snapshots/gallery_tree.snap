@@ -10,16 +10,28 @@ GalleryView
                 ThemedMaskedImage
                   Image (src='ada.png')
                   Image (src='images/masks/super-caption-mask.png')
+                SuperCaption
+                  Column
+                    Text
+                    Text
             Container
               Stack
                 ThemedMaskedImage
                   Image (src='turing.png')
                   Image (src='images/masks/super-caption-mask.png')
+                SuperCaption
+                  Column
+                    Text
+                    Text
             Container
               Stack
                 ThemedMaskedImage
                   Image
                   Image (src='images/masks/super-caption-mask.png')
+                SuperCaption
+                  Column
+                    Text
+                    Text
             Container
               Stack
                 ThemedMaskedImage

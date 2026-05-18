@@ -71,6 +71,7 @@ def supers_sample() -> list[Super]:
             timeline=Path("ada.json"),
             timeline_points=None,
             historias=None,
+            periodo="1967-1969",
         ),
         Super(
             id="2",
@@ -79,6 +80,7 @@ def supers_sample() -> list[Super]:
             timeline=Path("turing.json"),
             timeline_points=None,
             historias=None,
+            periodo="1969-1972",
         ),
         Super(
             id="3",
@@ -87,6 +89,7 @@ def supers_sample() -> list[Super]:
             timeline=None,
             timeline_points=None,
             historias=None,
+            periodo="1972-1987",
         ),
         Super(
             id="",
@@ -114,9 +117,14 @@ def fake_service() -> SuperServiceLike:
     Service totalmente fake (controle total nos testes de view)
     """
     supers = [
-        super_stub_one(nome="Ada", foto="ada.png", timeline="ada.json"),
-        super_stub_one(nome="Alan", foto="alan.png", timeline="alan.json"),
-        super_stub_one(nome="Bell", foto="bell.png"),
+        super_stub_one(nome="Ada", foto="ada.png", timeline="ada.json", periodo="1967-1969"),
+        super_stub_one(
+            nome="Alan",
+            foto="alan.png",
+            timeline="alan.json",
+            periodo="1969-1972",
+        ),
+        super_stub_one(nome="Bell", foto="bell.png", periodo="1972-1987"),
         super_stub_one(nome="_blank", foto=None),
     ]
     return FakeSuperService(supers)

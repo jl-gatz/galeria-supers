@@ -1,5 +1,6 @@
 # tests/stubs/fake_theme.py
 
+from galeria.ui.theme.styles import default_component_styles
 from tests.stubs.control.fake_header import FakeHeader
 from tests.stubs.theme import (
     FakeBaseTheme,
@@ -27,6 +28,7 @@ class FakeTheme:
         self.id = "fake"
         self.title = "Fake Theme"
         self.radius = FakeRadiusTheme()
+        self.styles = default_component_styles()
         self.spacing = FakeSpacingTheme()
         self.colors = FakeColorsTheme()
         self.accent = FakeAccentTheme()

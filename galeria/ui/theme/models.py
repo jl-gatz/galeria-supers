@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 import flet as ft
 
+from galeria.ui.theme.styles import ComponentStyles
+
 # =========================================================
 # 🎨 SUBGRUPOS DE CORES
 # =========================================================
@@ -196,6 +198,7 @@ class Theme:
     # 🧱 layout tokens (NOVO)
     spacing: Spacing
     radius: Radius
+    styles: ComponentStyles
 
     # 🖼️ subtemas (NOVO)
     gallery: GalleryTheme

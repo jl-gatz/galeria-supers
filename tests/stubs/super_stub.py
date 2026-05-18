@@ -11,3 +11,4 @@ class SuperStub:
     timeline: Path
     timeline_points: dict[str, Any]
     historias: list[str]
+    periodo: str | None = None

@@ -4,6 +4,7 @@
     "id": 1,
     "nome": "Alfredo Fernandes de Almeida",
     "foto": "01-prof-alfredo__transp.png",
+    "periodo": "1967-1969",
     "timeline": "",
     "timeline_points": [
       { "year": 1967, "label": "ingresso", "x": 0.08, "y": 0.96 },
@@ -20,6 +21,7 @@
     "id": 2,
     "nome": "Odelar Leite Linhares",
     "foto": "02-prof-odelar__transp.png",
+    "periodo": "1969-1972",
     "timeline": "",
     "timeline_points": [
       { "year": 1969, "label": "ingresso", "x": 0.12, "y": 0.66 },
@@ -37,6 +39,7 @@
     "id": 3,
     "nome": "Nelson Castro Machado",
     "foto": "03-prof-machado__transp.png",
+    "periodo": "1972-1987",
     "timeline": "",
     "timeline_points": [
       { "year": 1972, "label": "ingresso", "x": 0.05, "y": 0.75 },
@@ -57,6 +60,7 @@
     "id": 4,
     "nome": "Luiz Roberto de Castro Siqueira",
     "foto": "04-prof-siqueira__transp.png",
+    "periodo": "1987-1990",
     "timeline": "",
     "timeline_points": [
       { "year": 1987, "label": "ingresso", "x": 0.10, "y": 0.95 },
@@ -74,6 +78,7 @@
     "id": 5,
     "nome": "Hilton Silveira Pinto",
     "foto": "05-prof-hilton__transp.png",
+    "periodo": "1988-1996",
     "timeline": "",
     "timeline_points": [
       { "year": 1990, "label": "ingresso", "x": 0.07, "y": 0.78 },
@@ -92,6 +97,7 @@
     "id": 6,
     "nome": "Hans Kurt Edmund Liesenberg",
     "foto": "06-prof-hans__transp.png",
+    "periodo": "1998-2002",
     "timeline": "",
     "timeline_points": [
       { "year": 1998, "label": "ingresso", "x": 0.09, "y": 0.95 },
@@ -109,6 +115,7 @@
     "id": 7,
     "nome": "Luiz Eduardo Buzato",
     "foto": "07-prof-buzato__transp.png",
+    "periodo": "2002-2005",
     "timeline": "",
     "timeline_points": [
       { "year": 2002, "label": "ingresso", "x": 0.15, "y": 0.85 },
@@ -126,6 +133,7 @@
     "id": 8,
     "nome": "Marco Aurélio Amaral Henriques",
     "foto": "08-prof-marco__transp.png",
+    "periodo": "2005-2013",
     "timeline": "",
     "timeline_points": [
       { "year": 2005, "label": "ingresso", "x": 0.05, "y": 0.70 },
@@ -144,6 +152,7 @@
     "id": 9,
     "nome": "José Raimundo de Oliveira",
     "foto": "09-prof-raimundo__transp.png",
+    "periodo": "2013-2017",
     "timeline": "",
     "timeline_points": [
       { "year": 2013, "label": "ingresso", "x": 0.10, "y": 0.72 },
@@ -161,6 +170,7 @@
     "id": 10,
     "nome": "Sandro Rigo",
     "foto": "10-prof-sandro__transp.png",
+    "periodo": "2017-2021",
     "timeline": "",
     "timeline_points": [
       { "year": 2017, "label": "ingresso", "x": 0.10, "y": 0.88 },

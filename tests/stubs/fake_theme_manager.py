@@ -47,6 +47,10 @@ class FakeThemeManager:
         return self.theme.spacing
 
     @property
+    def styles(self):
+        return self.theme.styles
+
+    @property
     def radius(self):
         return self.theme.radius
 
