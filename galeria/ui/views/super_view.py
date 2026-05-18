@@ -190,6 +190,7 @@ class SuperDetail(ft.Container):
             theme_manager=self.theme_manager,
             image_src=self.controller.image_src,
             nome=self.controller.nome,
+            periodo=self.controller.periodo,
             texto_inicial=self.controller.current,
             expand=True,
         )

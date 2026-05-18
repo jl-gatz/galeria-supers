@@ -13,6 +13,7 @@ GalleryView
                 SuperCaption
                   Column
                     Text
+                    Text
             Container
               Stack
                 ThemedMaskedImage
@@ -21,6 +22,7 @@ GalleryView
                 SuperCaption
                   Column
                     Text
+                    Text
             Container
               Stack
                 ThemedMaskedImage
@@ -28,6 +30,7 @@ GalleryView
                   Image (src='images/masks/super-caption-mask.png')
                 SuperCaption
                   Column
+                    Text
                     Text
             Container
               Stack

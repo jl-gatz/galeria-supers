@@ -18,3 +18,4 @@ class Super:
     timeline: Path | None
     timeline_points: list[TimelinePoint] | None
     historias: list[str] | None
+    periodo: str | None = None

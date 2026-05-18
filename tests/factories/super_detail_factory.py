@@ -26,6 +26,7 @@ class SuperDetailFactory:
         timeline_path: str = "tests/assets/test_timeline.png",
         timeline_points: Sequence[Any] | None = None,
         historias: Sequence[str] | None = None,
+        periodo: str | None = None,
         controller: Optional["SuperDetailController"] = None,
         theme_manager: ThemeManagerLike | None = None,
         theme: ThemeLike | None = None,
@@ -57,6 +58,7 @@ class SuperDetailFactory:
             timeline=timeline_path,
             timeline_points=timeline_points,
             historias=historias,
+            periodo=periodo,
         )
 
         if controller is None:

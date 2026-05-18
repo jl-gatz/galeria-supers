@@ -12,3 +12,4 @@ class FakeSuperData:
     timeline: Path
     timeline_points: list[dict[str, float]] | None
     historias: list[str]
+    periodo: str | None = None

@@ -12,6 +12,7 @@ class FakeSuperData:
         timeline_path: str = "tests/assets/test_timeline.png",
         timeline_points: Sequence[Any] | None = None,
         historias: Any = "várias",
+        periodo: str | None = None,
     ):
         self.id = id
         self.nome = nome
@@ -19,3 +20,4 @@ class FakeSuperData:
         self.timeline_path = timeline_path
         self.timeline_points = timeline_points or []
         self.historias = historias
+        self.periodo = periodo

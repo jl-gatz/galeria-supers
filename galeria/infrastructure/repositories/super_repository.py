@@ -21,6 +21,7 @@ class SuperRepository(InterfaceSuperRepository):
                 timeline=s["timeline"],
                 timeline_points=s["timeline_points"],
                 historias=s["historias"],
+                periodo=s.get("periodo"),
             )
             for s in raw
         ]
@@ -37,6 +38,7 @@ class SuperRepository(InterfaceSuperRepository):
                 timeline=v["timeline"],
                 timeline_points=v["timeline_points"],
                 historias=v["historias"],
+                periodo=v.get("periodo"),
             )
             for k, v in raw.items()
             if k == super_id

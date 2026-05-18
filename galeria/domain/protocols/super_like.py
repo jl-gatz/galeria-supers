@@ -8,5 +8,6 @@ class SuperLike(Protocol):
     nome: str
     image_path: str
     timeline_path: str
+    periodo: str | None
     historias: Any
     timeline_points: Sequence[Any] | None
