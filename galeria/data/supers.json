@@ -3,7 +3,7 @@
   {
     "id": 1,
     "nome": "Alfredo Fernandes de Almeida",
-    "foto": "01-prof-alfredo__transp.png",
+    "foto": "01-prof-alfredo__gray.png",
     "periodo": "1967-1969",
     "timeline": "",
     "timeline_points": [
@@ -20,7 +20,7 @@
   {
     "id": 2,
     "nome": "Odelar Leite Linhares",
-    "foto": "02-prof-odelar__transp.png",
+    "foto": "02-prof-odelar__gray.png",
     "periodo": "1969-1972",
     "timeline": "",
     "timeline_points": [
@@ -38,7 +38,7 @@
   {
     "id": 3,
     "nome": "Nelson Castro Machado",
-    "foto": "03-prof-machado__transp.png",
+    "foto": "03-prof-machado__gray.png",
     "periodo": "1972-1987",
     "timeline": "",
     "timeline_points": [
@@ -59,7 +59,7 @@
   {
     "id": 4,
     "nome": "Luiz Roberto de Castro Siqueira",
-    "foto": "04-prof-siqueira__transp.png",
+    "foto": "04-prof-siqueira__gray.png",
     "periodo": "1987-1990",
     "timeline": "",
     "timeline_points": [
@@ -77,7 +77,7 @@
  {
     "id": 5,
     "nome": "Hilton Silveira Pinto",
-    "foto": "05-prof-hilton__transp.png",
+    "foto": "05-prof-hilton__gray.png",
     "periodo": "1988-1996",
     "timeline": "",
     "timeline_points": [
@@ -96,7 +96,7 @@
   {
     "id": 6,
     "nome": "Hans Kurt Edmund Liesenberg",
-    "foto": "06-prof-hans__transp.png",
+    "foto": "06-prof-hans__gray.png",
     "periodo": "1998-2002",
     "timeline": "",
     "timeline_points": [
@@ -114,7 +114,7 @@
   {
     "id": 7,
     "nome": "Luiz Eduardo Buzato",
-    "foto": "07-prof-buzato__transp.png",
+    "foto": "07-prof-buzato__gray.png",
     "periodo": "2002-2005",
     "timeline": "",
     "timeline_points": [
@@ -132,7 +132,7 @@
   {
     "id": 8,
     "nome": "Marco Aurélio Amaral Henriques",
-    "foto": "08-prof-marco__transp.png",
+    "foto": "08-prof-marco__gray.png",
     "periodo": "2005-2013",
     "timeline": "",
     "timeline_points": [
@@ -151,7 +151,7 @@
   {
     "id": 9,
     "nome": "José Raimundo de Oliveira",
-    "foto": "09-prof-raimundo__transp.png",
+    "foto": "09-prof-raimundo__gray.png",
     "periodo": "2013-2017",
     "timeline": "",
     "timeline_points": [
@@ -169,7 +169,7 @@
   {
     "id": 10,
     "nome": "Sandro Rigo",
-    "foto": "10-prof-sandro__transp.png",
+    "foto": "10-prof-sandro__gray.png",
     "periodo": "2017-2021",
     "timeline": "",
     "timeline_points": [
