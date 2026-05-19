@@ -191,5 +191,59 @@
     "timeline": "",
     "timeline_points": [],
     "historias": []
+  },
+  {
+    "id": 11,
+    "nome": "Wally Walrus",
+    "foto": "11-wally-walrus__gray.png",
+    "era": "detic",
+    "periodo": "2021-2023",
+    "timeline": "",
+    "timeline_points": [
+      { "year": 2021, "label": "ingresso", "x": 0.10, "y": 0.88 },
+      { "year": 2022, "label": "projeto", "x": 0.44, "y": 0.18 },
+      { "year": 2023, "label": "transição", "x": 0.78, "y": 0.62 }
+    ],
+    "historias": [
+      "Wally Walrus chegou à era Detic com a serenidade de quem já viu três sistemas caírem antes do café esfriar.",
+      "Durante sua passagem, defendeu processos estáveis, documentação cuidadosa e reuniões que terminassem antes de virar patrimônio histórico.",
+      "Seu maior legado fake foi o Plano de Continuidade das Sardinhas Digitais, documento interno que ninguém leu inteiro, mas todos citavam com respeito."
+    ]
+  },
+  {
+    "id": 12,
+    "nome": "Woody Woodpecker",
+    "foto": "12-woody-woodpecker__gray.png",
+    "era": "detic",
+    "periodo": "2023-2025",
+    "timeline": "",
+    "timeline_points": [
+      { "year": 2023, "label": "ingresso", "x": 0.12, "y": 0.72 },
+      { "year": 2024, "label": "destaque", "x": 0.50, "y": 0.10 },
+      { "year": 2025, "label": "aposentadoria", "x": 0.86, "y": 0.54 }
+    ],
+    "historias": [
+      "Woody Woodpecker assumiu a superintendência experimental da Detic com energia suficiente para abrir chamados apenas com o som do teclado.",
+      "Ficou conhecido por transformar bugs em features provisórias, features provisórias em diretrizes e diretrizes em apresentações coloridas.",
+      "Seu período marcou a consolidação fake de uma cultura mais ágil, barulhenta e ligeiramente bicuda."
+    ]
+  },
+  {
+    "id": 13,
+    "nome": "Buzz Buzzard",
+    "foto": "13-buzz-buzzard__gray.png",
+    "era": "detic",
+    "periodo": "2026-2028",
+    "timeline": "",
+    "timeline_points": [
+      { "year": 2026, "label": "ingresso", "x": 0.08, "y": 0.64 },
+      { "year": 2027, "label": "crise", "x": 0.42, "y": 0.24 },
+      { "year": 2028, "label": "legado", "x": 0.82, "y": 0.82 }
+    ],
+    "historias": [
+      "Buzz Buzzard entrou na era Detic prometendo eficiência, integração e um painel de indicadores que piscava com autoridade.",
+      "Sua gestão fake enfrentou a Grande Migração dos Sistemas Nebulosos, evento tão complexo que ganhou nome próprio antes de ganhar cronograma.",
+      "Apesar da fama de ave de mau agouro, Buzz deixou como marca uma arquitetura de testes mais robusta e um respeito renovado por backups."
+    ]
   }
 ]
