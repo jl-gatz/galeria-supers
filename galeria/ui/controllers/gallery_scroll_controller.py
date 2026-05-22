@@ -1,4 +1,5 @@
 import math
+from collections.abc import Callable
 
 import flet as ft
 
@@ -13,12 +14,14 @@ class GalleryScrollController:
         card_width: int,
         spacing: int,
         padding: int = 0,
+        on_active_index_change: Callable[[int], None] | None = None,
     ):
         self.row = row
         self.visible_cards = visible_cards
         self.card_width = card_width
         self.spacing = spacing
         self.padding = padding
+        self.on_active_index_change = on_active_index_change
         self.current_page = 0
 
         self.row.on_scroll = self._on_scroll
@@ -37,8 +40,9 @@ class GalleryScrollController:
         return max(0, math.ceil(total_cards / self.visible_cards) - 1)
 
     async def _on_scroll(self, e: ft.OnScrollEvent):
-        pixels = e.pixels  # noqa: F841
+        pixels = e.pixels
         max_scroll = e.max_scroll_extent  # noqa: F841
+        self._notify_active_index(self.active_index_from_offset(pixels))
 
         # DESLIGADO POR ENQUANTO: reset automático ao chegar no final (pode ser confuso se o usuário quiser ir pro final)
         # if pixels >= max_scroll - 5:
@@ -61,3 +65,18 @@ class GalleryScrollController:
             offset=offset,
             duration=SCROLL_DURATION,
         )
+        self._notify_active_index(self.active_index_from_offset(offset))
+
+    def active_index_from_offset(self, offset: float) -> int:
+        total_cards = len(self.row.controls)
+        if total_cards == 0:
+            return 0
+
+        card_step = self.card_width + self.spacing
+        centered_offset = max(0, offset - self.padding) + self.group_width() / 2
+        index = round(centered_offset / card_step)
+        return max(0, min(total_cards - 1, index))
+
+    def _notify_active_index(self, index: int) -> None:
+        if self.on_active_index_change:
+            self.on_active_index_change(index)
