@@ -19,3 +19,15 @@ class Super:
     timeline_points: list[TimelinePoint] | None
     historias: list[str] | None
     periodo: str | None = None
+    era_id: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class Era:
+    id: str
+    nome: str
+    periodo: str
+    ano_inicio: int
+    ano_final: int | None
+    theme: str
+    descricao: str = ""
