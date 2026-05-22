@@ -69,6 +69,7 @@ def test_gallery_card_without_photo_keeps_caption_but_disables_mask():
     caption = stack.controls[1]
 
     assert image.apply_mask is False
+    assert image.base_image.visible is False
     assert image.mask_image.visible is False
     assert caption.name_text.value == "Ada Lovelace"
 
@@ -85,6 +86,7 @@ def test_gallery_placeholder_does_not_receive_mask_or_caption():
     image = stack.controls[0]
 
     assert image.apply_mask is False
+    assert image.base_image.visible is False
     assert image.mask_image.visible is False
     assert len(stack.controls) == 1
 
