@@ -1,3 +1,4 @@
+from galeria.ui.theme.themes import theme_for_era
 from tests.stubs.fake_theme import FakeTheme
 
 
@@ -5,6 +6,7 @@ class FakeThemeManager:
     def __init__(self, theme: FakeTheme):
         self.theme = theme
         self._listeners = []
+        self.era_requests = []
 
     @property
     def gallery(self):
@@ -74,6 +76,10 @@ class FakeThemeManager:
         self.theme = theme
         for listener in self._listeners:
             listener(theme)
+
+    def set_theme_for_era(self, era_id):
+        self.era_requests.append(era_id)
+        self.set_theme(theme_for_era(era_id, fallback=self.theme))
 
     def subscribe(self, listener):
         if listener not in self._listeners:

@@ -2,6 +2,8 @@
 
 from collections.abc import Callable
 
+from galeria.ui.theme.themes import theme_for_era
+
 
 class ThemeManager:
     def __init__(self, initial_theme):
@@ -90,6 +92,10 @@ class ThemeManager:
 
         for listener in self._listeners:
             listener(theme)
+
+    def set_theme_for_era(self, era_id: str | None):
+        theme = theme_for_era(era_id, fallback=self._theme)
+        self.set_theme(theme)
 
     # ==========================================================
     # 📡 OBSERVERS

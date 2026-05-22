@@ -353,6 +353,32 @@ GREENISH_THEME = Theme(
 )
 
 
+THEMES_BY_ID = {
+    CCUEC_THEME.id: CCUEC_THEME,
+    DETIC_THEME.id: DETIC_THEME,
+    GREENISH_THEME.id: GREENISH_THEME,
+}
+
+ERA_THEME_IDS = {
+    "ccuec": "ccuec_era",
+    "detic": "detic_era",
+}
+
+
+def theme_by_id(theme_id: str | None, fallback: Theme | None = None) -> Theme | None:
+    if theme_id is None:
+        return fallback
+
+    return THEMES_BY_ID.get(theme_id, fallback)
+
+
+def theme_for_era(era_id: str | None, fallback: Theme | None = None) -> Theme | None:
+    if era_id is None:
+        return fallback
+
+    return theme_by_id(ERA_THEME_IDS.get(era_id), fallback=fallback)
+
+
 # ==========================================================
 # 🟣 FUTURO: ROYAL (tema mais luxuoso, inspirado em roxo e dourado)
 # ==========================================================
