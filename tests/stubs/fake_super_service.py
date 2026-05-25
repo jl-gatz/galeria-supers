@@ -1,7 +1,7 @@
 from collections.abc import Callable, Sequence
 from pathlib import Path
 
-from galeria.domain.models import Super
+from galeria.domain.models import Era, Super
 
 
 class FakeSuperService:
@@ -11,8 +11,10 @@ class FakeSuperService:
         pode_abrir_fn: Callable[[Super], bool] | None = None,
         image_path_fn: Callable[[Super], Path | None] | None = None,
         timeline_path_fn: Callable[[Super], Path | None] | None = None,
+        eras: Sequence[Era] | None = None,
     ):
         self._supers = list(supers)
+        self._eras = list(eras or [])
 
         # comportamento padrão (simples e previsível)
         self._pode_abrir_fn = pode_abrir_fn or (lambda s: getattr(s, "nome", None) != "_blank")
@@ -38,6 +40,16 @@ class FakeSuperService:
     # ==========================================
     def listar_supers(self) -> Sequence[Super]:
         return self._supers
+
+    def listar_eras(self) -> Sequence[Era]:
+        return self._eras
+
+    def obter_era(self, era_id: str) -> Era | None:
+        return next((era for era in self._eras if era.id == era_id), None)
+
+    def obter_theme_da_era(self, era_id: str) -> str | None:
+        era = self.obter_era(era_id)
+        return era.theme if era else None
 
     def pode_abrir(self, super_data: Super) -> bool:
         return self._pode_abrir_fn(super_data)

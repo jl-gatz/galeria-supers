@@ -1,7 +1,7 @@
 # galeria/domain/services.py
 
 
-from .models import Super
+from .models import Era, Super
 from .super_repository import InterfaceSuperRepository
 
 
@@ -29,6 +29,15 @@ class SuperService:
 
     def obter_super(self, super_id: str) -> Super | None:
         return self.repository.obter_por_id(super_id)
+
+    def listar_eras(self) -> list[Era]:
+        return self.repository.listar_eras()
+
+    def obter_era(self, era_id: str) -> Era | None:
+        return self.repository.obter_era(era_id)
+
+    def obter_theme_da_era(self, era_id: str) -> str | None:
+        return self.repository.obter_theme_da_era(era_id)
 
     # -------------------------
     # regras de domínio

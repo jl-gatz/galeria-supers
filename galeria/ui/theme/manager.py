@@ -2,6 +2,26 @@
 
 from collections.abc import Callable
 
+from galeria.ui.theme.themes import theme_for_era
+
+
+class StaticThemeManager:
+    def __init__(self, theme):
+        self._theme = theme
+
+    @property
+    def theme(self):
+        return self._theme
+
+    def subscribe(self, listener: Callable):
+        return None
+
+    def unsubscribe(self, listener: Callable):
+        return None
+
+    def __getattr__(self, item):
+        return getattr(self._theme, item)
+
 
 class ThemeManager:
     def __init__(self, initial_theme):
@@ -90,6 +110,13 @@ class ThemeManager:
 
         for listener in self._listeners:
             listener(theme)
+
+    def set_theme_for_era(self, era_id: str | None):
+        theme = theme_for_era(era_id, fallback=self._theme)
+        self.set_theme(theme)
+
+    def get_theme_for_era(self, era_id: str | None):
+        return theme_for_era(era_id, fallback=self._theme)
 
     # ==========================================================
     # 📡 OBSERVERS

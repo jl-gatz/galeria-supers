@@ -14,6 +14,7 @@ def super_stub_one(
     timeline_points: dict[str, Any] | None = None,
     historias: list[str] | None = None,
     periodo: str | None = None,
+    era_id: str = "",
 ):
     return Super(
         id=id,
@@ -23,4 +24,5 @@ def super_stub_one(
         timeline_points=timeline_points,
         historias=historias,
         periodo=periodo,
+        era_id=era_id,
     )

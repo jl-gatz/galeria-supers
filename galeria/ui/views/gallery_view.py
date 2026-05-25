@@ -58,6 +58,7 @@ class GalleryView(ft.Container):
         # 📦 estrutura dinâmica
         self.gallery_row = None
         self.scroll_controller = None
+        self.title_text = None
 
         # 🎨 background inicial
         self.bgcolor = self._theme.base.background
@@ -75,7 +76,14 @@ class GalleryView(ft.Container):
         # 🎯 background sempre aqui
         self.bgcolor = self._theme.base.background
 
-        # 🎯 atualiza estrutura dependente de tema
+        if self.gallery_row is not None:
+            self._apply_non_structural_theme()
+
+            if self._mounted:
+                self.update()
+            return
+
+        # 🎯 cria estrutura uma única vez; mudança de tema não deve resetar o scroll
         self.gallery_row = GalleryRow(
             supers=self.supers,
             card_width=self.gallery.card_width,
@@ -96,6 +104,7 @@ class GalleryView(ft.Container):
             card_width=self.gallery.card_width,
             spacing=self.gallery.h_spacing,
             padding=self.gallery.padding,
+            on_active_index_change=self._set_active_super_index,
         )
 
         self.content = ft.Container(
@@ -108,6 +117,16 @@ class GalleryView(ft.Container):
         # ✅ só atualiza se montado
         if self._mounted:
             self.update()
+
+    def _apply_non_structural_theme(self) -> None:
+        if self.title_text is None:
+            return
+
+        t = self._theme.typography
+        self.title_text.size = t.h1
+        self.title_text.font_family = t.font_family
+        self.title_text.weight = t.weight_bold
+        self.title_text.color = self._theme.text.primary
 
     def _text(self, value: str, variant: str = "body", weight=None, color=None, **kwargs):
         t = self._theme.typography
@@ -165,15 +184,16 @@ class GalleryView(ft.Container):
 
     def _build_main_column(self):
         # g = self._theme.gallery
+        self.title_text = self._text(
+            "Galeria de Superintendentes",
+            variant="h1",
+            weight=self._theme.typography.weight_bold,
+        )
 
         return ft.Column(
             expand=True,
             controls=[
-                self._text(
-                    "Galeria de Superintendentes",
-                    variant="h1",
-                    weight=self._theme.typography.weight_bold,
-                ),
+                self.title_text,
                 self._build_gallery(),
                 self._build_fab(),
                 self.logos,
@@ -200,6 +220,13 @@ class GalleryView(ft.Container):
         # g = self._theme.gallery
         return self.gallery.card_height + self.gallery.v_spacing
 
+    def _set_active_super_index(self, index: int) -> None:
+        if not self.supers:
+            return
+
+        active_super = self.supers[max(0, min(len(self.supers) - 1, index))]
+        self._theme.set_theme_for_era(getattr(active_super, "era_id", None))
+
     # =========================================================
     # 🔁 INTERAÇÕES
     # =========================================================
@@ -208,6 +235,7 @@ class GalleryView(ft.Container):
         if not self._service.pode_abrir(super_data):
             return
 
+        self._theme.set_theme_for_era(getattr(super_data, "era_id", None))
         controller = SuperDetailController(super_data)
         detail = None
 
@@ -231,6 +259,7 @@ class GalleryView(ft.Container):
 
         # ✅ ativa reatividade apenas após mount
         self._theme.subscribe(self._apply_theme)
+        self._set_active_super_index(self.scroll_controller.active_index_from_offset(0))
 
     def will_unmount(self):
         self._mounted = False

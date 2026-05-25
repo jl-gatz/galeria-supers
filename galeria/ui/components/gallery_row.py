@@ -6,6 +6,7 @@ import flet as ft
 from galeria.core import SUPER_CAPTION_MASK
 from galeria.ui.components.media import ThemedMaskedImage, themed_portrait_src
 from galeria.ui.components.super_caption import SuperCaption
+from galeria.ui.theme.manager import StaticThemeManager
 
 
 class GalleryRow(ft.Container):
@@ -40,6 +41,8 @@ class GalleryRow(ft.Container):
     def _build_card(self, super_data, on_card_click):
         is_placeholder = getattr(super_data, "is_placeholder", False)
         nome = getattr(super_data, "nome", "")
+        card_theme = self._theme.get_theme_for_era(getattr(super_data, "era_id", None))
+        card_theme_manager = StaticThemeManager(card_theme)
         is_real_portrait = (
             super_data.foto is not None
             and super_data.foto != ""
@@ -51,7 +54,7 @@ class GalleryRow(ft.Container):
             ThemedMaskedImage(
                 src=themed_portrait_src(super_data.foto),
                 mask_src=SUPER_CAPTION_MASK,
-                theme=self._theme,
+                theme=card_theme_manager,
                 fit=ft.BoxFit.COVER,
                 width=self.card_width,
                 height=self._theme.gallery.card_height,
@@ -62,7 +65,7 @@ class GalleryRow(ft.Container):
         if show_caption:
             stack_controls.append(
                 SuperCaption(
-                    theme_manager=self._theme,
+                    theme_manager=card_theme_manager,
                     nome=nome,
                     subtitle=self._caption_periodo(super_data),
                     width=self.card_width,

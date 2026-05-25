@@ -18,12 +18,14 @@ class ThemedMaskedImage(ft.Stack):
         self.theme_manager = theme
         self.apply_mask = apply_mask
         self._mounted = False
+        self._has_src = src is not None
 
         self.base_image = ft.Image(
             src=src,
             width=width,
             height=height,
             fit=fit,
+            visible=self._has_src,
         )
         self.mask_image = ft.Image(
             src=mask_src,
@@ -43,6 +45,7 @@ class ThemedMaskedImage(ft.Stack):
         self._apply_theme(self.theme_manager.theme)
 
     def _apply_theme(self, theme):
+        self.base_image.visible = self._has_src
         self.base_image.color = None
         self.base_image.color_blend_mode = None
 

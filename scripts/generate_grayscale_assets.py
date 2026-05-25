@@ -16,8 +16,9 @@ def main():
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    for source in sorted(SOURCE_DIR.glob("*__transp.png")):
-        output = OUTPUT_DIR / source.name.replace("__transp.png", "__gray.png")
+    for source in sorted(SOURCE_DIR.glob("*.png")):
+        base_name = source.stem.split("__", maxsplit=1)[0]
+        output = OUTPUT_DIR / f"{base_name}__gray.png"
 
         with image_module.open(source).convert("RGBA") as image:
             grayscale = image.convert("LA")

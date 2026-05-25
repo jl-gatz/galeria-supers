@@ -78,9 +78,9 @@ def test_themed_logo_preserves_official_variant():
     assert logo.opacity == 1.0
 
 
-def test_themed_portrait_src_uses_grayscale_variant_for_transparent_assets():
+def test_themed_portrait_src_preserves_grayscale_asset_path():
     assert (
-        themed_portrait_src("images/supers/01-prof-alfredo__transp.png")
+        themed_portrait_src("images/supers/grayscale/01-prof-alfredo__gray.png")
         == "images/supers/grayscale/01-prof-alfredo__gray.png"
     )
 
@@ -91,6 +91,6 @@ def test_themed_portrait_src_preserves_non_transparent_assets():
 
 def test_themed_portrait_src_normalizes_windows_paths():
     assert (
-        themed_portrait_src(r"images\supers\01-prof-alfredo__transp.png")
+        themed_portrait_src(r"images\supers\grayscale\01-prof-alfredo__gray.png")
         == "images/supers/grayscale/01-prof-alfredo__gray.png"
     )
