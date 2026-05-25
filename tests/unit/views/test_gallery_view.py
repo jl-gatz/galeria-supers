@@ -8,6 +8,7 @@ from galeria.domain import Super
 from galeria.domain.protocols.gallery_service_like import GalleryServiceLike
 from galeria.ui.components.gallery_row import GalleryRow
 from galeria.ui.layout import RootLayout
+from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME
 from galeria.ui.views import GalleryView
 from tests.stubs.fake_page import FakePage
 from tests.stubs.fake_super_service import FakeSuperService
@@ -237,3 +238,54 @@ def test_abre_detalhe_com_tema_da_era_do_super(
         mock_detail.assert_called_once()
         assert fake_theme_manager.era_requests[-1] == "detic"
         assert fake_theme_manager.theme.id == "detic_era"
+
+
+def test_gallery_background_theme_changes_without_retheming_visible_cards(
+    fake_page: FakePage,
+    fake_root: RootLayout,
+    fake_theme_manager: FakeThemeManager,
+):
+    supers = [
+        Super("1", "Ada", "ada.png", None, [], ["A"], "1967-1969", "ccuec"),
+        Super("2", "Grace", "grace.png", None, [], ["A"], "2021-2023", "detic"),
+    ]
+    service = FakeSuperService(supers=supers)
+    view = GalleryView(
+        page=fake_page,
+        service=service,
+        root_layout=fake_root,
+        theme=fake_theme_manager,
+    )
+    ccuec_image = view.gallery_row.row.controls[0].content.controls[0]
+    ccuec_caption = view.gallery_row.row.controls[0].content.controls[1]
+
+    view._set_active_super_index(1)
+    view._apply_theme(fake_theme_manager.theme)
+
+    assert view.bgcolor == DETIC_THEME.base.background
+    assert ccuec_image.theme_manager.theme.id == CCUEC_THEME.id
+    assert ccuec_caption.theme_manager.theme.id == CCUEC_THEME.id
+
+
+def test_gallery_global_theme_uses_card_closest_to_viewport_center_on_mount(
+    fake_page: FakePage,
+    fake_root: RootLayout,
+    fake_theme_manager: FakeThemeManager,
+):
+    supers = [
+        Super("1", "Ada", None, None, [], ["A"], "1967-1969", "ccuec"),
+        Super("2", "Alan", None, None, [], ["A"], "1969-1972", "ccuec"),
+        Super("3", "Grace", None, None, [], ["A"], "2021-2023", "detic"),
+    ]
+    service = FakeSuperService(supers=supers)
+    view = GalleryView(
+        page=fake_page,
+        service=service,
+        root_layout=fake_root,
+        theme=fake_theme_manager,
+    )
+    view.update = lambda: None
+
+    view.did_mount()
+
+    assert fake_theme_manager.era_requests[-1] == "detic"

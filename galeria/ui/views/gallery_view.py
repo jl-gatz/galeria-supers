@@ -259,7 +259,7 @@ class GalleryView(ft.Container):
 
         # ✅ ativa reatividade apenas após mount
         self._theme.subscribe(self._apply_theme)
-        self._set_active_super_index(0)
+        self._set_active_super_index(self.scroll_controller.active_index_from_offset(0))
 
     def will_unmount(self):
         self._mounted = False

@@ -81,6 +81,9 @@ class FakeThemeManager:
         self.era_requests.append(era_id)
         self.set_theme(theme_for_era(era_id, fallback=self.theme))
 
+    def get_theme_for_era(self, era_id):
+        return theme_for_era(era_id, fallback=self.theme)
+
     def subscribe(self, listener):
         if listener not in self._listeners:
             self._listeners.append(listener)
