@@ -10,9 +10,30 @@ from galeria.ui.components.timeline.view import TimelineRenderer, TimelineStyle
 @pytest.fixture
 def timeline_points():
     return [
-        TimelinePoint(0.10, 0.80, data={"year": 1967, "label": "ingresso"}),
-        TimelinePoint(0.50, 0.20, data={"year": 1968, "label": "destaque"}),
-        TimelinePoint(0.90, 0.60, data={"year": 1969, "label": "saída"}),
+        TimelinePoint(
+            0.10,
+            0.80,
+            id="ingresso-1967",
+            year=1967,
+            label="ingresso",
+            text="Entrada na superintendência.",
+        ),
+        TimelinePoint(
+            0.50,
+            0.20,
+            id="destaque-1968",
+            year=1968,
+            label="destaque",
+            text="Marco de destaque.",
+        ),
+        TimelinePoint(
+            0.90,
+            0.60,
+            id="saida-1969",
+            year=1969,
+            label="saída",
+            text="Encerramento do ciclo.",
+        ),
     ]
 
 

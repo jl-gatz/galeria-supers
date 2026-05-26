@@ -28,6 +28,9 @@ class TimelineModel:
     def get(self, index: int) -> TimelinePoint:
         return self._points[index]
 
+    def get_point_by_id(self, point_id: str) -> TimelinePoint | None:
+        return next((point for point in self._points if point.id == point_id), None)
+
     # =========================
     # utilidades de domínio
     # =========================
