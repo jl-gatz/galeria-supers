@@ -24,6 +24,9 @@ SuperDetail
           Container
             Stack
               TimelineContainer
-                Canvas
-              FloatingNavButton
-                FloatingActionButton (key='detail_back')
+                Stack
+                  TransparentPointer
+                    Canvas
+              Container
+                FloatingNavButton
+                  FloatingActionButton (key='detail_back')
