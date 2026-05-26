@@ -80,3 +80,23 @@ def test_renderer_uses_style_values(timeline_style: TimelineStyle):
 
     assert circles[0].radius == timeline_style.point_radius
     assert circles[-1].radius == timeline_style.cursor_radius
+
+
+def test_renderer_uses_clicked_and_selected_point_states(timeline_style: TimelineStyle):
+    renderer = TimelineRenderer(timeline_style)
+    pts = [(10, 10), (20, 20), (30, 10)]
+    curve = [(10, 10), (20, 20), (30, 10)]
+
+    shapes = renderer.render(
+        pts=pts,
+        curve=curve,
+        progress=1.0,
+        active_idx=0,
+        point_states={1: "clicked", 2: "selected"},
+    )
+
+    circles = [shape for shape in shapes if type(shape).__name__ == "Circle"]
+
+    assert circles[0].radius == timeline_style.point_radius
+    assert circles[1].radius == timeline_style.point_clicked_radius
+    assert circles[2].radius == timeline_style.point_selected_radius
