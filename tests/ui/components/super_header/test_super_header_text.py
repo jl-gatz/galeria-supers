@@ -16,6 +16,29 @@ def test_update_text_applies_theme_to_new_paragraphs(super_header, super_header_
         assert paragraph.style.height == super_header_theme.typography.super_header_body_line_height
 
 
+def test_set_timeline_event_renders_year_label_and_text(super_header, super_header_theme):
+    super_header.did_mount()
+
+    super_header.set_timeline_event(
+        year=1967,
+        label="Ingresso",
+        text="Alfredo inicia sua trajetória.\n\nOutro marco.",
+    )
+
+    controls = super_header.text_list.controls
+
+    assert [control.value for control in controls] == [
+        "1967",
+        "Ingresso",
+        "Alfredo inicia sua trajetória.",
+        "Outro marco.",
+    ]
+    assert controls[0].data == "timeline_year"
+    assert controls[0].color == super_header_theme.accent.primary
+    assert controls[1].data == "timeline_label"
+    assert controls[1].color == super_header_theme.text.primary
+
+
 def test_super_header_disables_mask_for_placeholder(super_header_manager):
     header = SuperHeader(
         theme_manager=super_header_manager,

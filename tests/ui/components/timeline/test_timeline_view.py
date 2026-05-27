@@ -16,9 +16,9 @@ from galeria.ui.components.timeline.view import TimelineRenderer, TimelineStyle,
 def model():
     return TimelineModel(
         points=[
-            TimelinePoint(0.0, 1.0),
-            TimelinePoint(0.5, 0.0),
-            TimelinePoint(1.0, 0.5),
+            TimelinePoint(0.0, 1.0, id="ingresso"),
+            TimelinePoint(0.5, 0.0, id="destaque"),
+            TimelinePoint(1.0, 0.5, id="saida"),
         ]
     )
 
@@ -167,3 +167,59 @@ def test_timeline_view_refresh_draws_shapes(monkeypatch, timeline_view: Timeline
 
     assert timeline_view.canvas.canvas.shapes
     safe_update.assert_called_once_with(timeline_view.control)
+
+
+def test_timeline_view_uses_stack_with_canvas_behind_clickable_points(
+    monkeypatch, timeline_view: TimelineView
+):
+    monkeypatch.setattr(
+        "galeria.ui.components.timeline.view.timeline_view.safe_update",
+        Mock(),
+    )
+
+    timeline_view.refresh()
+
+    assert type(timeline_view.control.content).__name__ == "Stack"
+    assert type(timeline_view.control.content.controls[0]).__name__ == "TransparentPointer"
+    assert timeline_view.control.content.controls[0].content is timeline_view.canvas.canvas
+    assert all(
+        type(control).__name__ == "Container"
+        for control in timeline_view.control.content.controls[1:]
+    )
+
+
+def test_timeline_view_builds_clickable_points_over_rendered_coordinates(
+    monkeypatch, timeline_view: TimelineView
+):
+    monkeypatch.setattr(
+        "galeria.ui.components.timeline.view.timeline_view.safe_update",
+        Mock(),
+    )
+
+    timeline_view.refresh()
+    target = timeline_view.canvas_stack.controls[2]
+
+    assert target.left == 950 - timeline_view.hit_size / 2
+    assert target.top == 0 - timeline_view.hit_size / 2
+    assert target.width == timeline_view.hit_size
+    assert target.height == timeline_view.hit_size
+    assert target.data == {"type": "timeline_point", "id": "destaque"}
+    assert target.on_click is not None
+
+
+def test_timeline_view_point_tap_selects_point_and_rebuilds(
+    monkeypatch, timeline_view: TimelineView
+):
+    monkeypatch.setattr(
+        "galeria.ui.components.timeline.view.timeline_view.safe_update",
+        Mock(),
+    )
+    timeline_view.controller.select_point = Mock()
+
+    timeline_view.refresh()
+    timeline_view._rebuild = Mock()
+    target = timeline_view.canvas_stack.controls[2]
+    target.on_click(None)
+
+    timeline_view.controller.select_point.assert_called_once_with("destaque")
+    timeline_view._rebuild.assert_called_once()

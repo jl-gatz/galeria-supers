@@ -1,16 +1,20 @@
-# galeria/ui/components/timeline/models/timeline_point.py
-
-
-# @dataclass
-# class TimelinePoint:
-#     year: int
-#     label: str
-#     x: float  # 0..1
-#     y: float  # 0..1
-
-
 class TimelinePoint:
-    def __init__(self, x: float, y: float, data=None):
+    def __init__(
+        self,
+        x: float,
+        y: float,
+        data=None,
+        *,
+        id: str | None = None,
+        year: int | None = None,
+        label: str = "",
+        text: str = "",
+    ):
         self.x = x
         self.y = y
-        self.data = data  # futuro: label, evento, etc
+        self.data = data or {}
+
+        self.id = id or str(self.data.get("id") or self.data.get("label") or "")
+        self.year = year if year is not None else self.data.get("year")
+        self.label = label or str(self.data.get("label") or "")
+        self.text = text or str(self.data.get("text") or "")

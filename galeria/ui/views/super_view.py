@@ -58,7 +58,7 @@ class SuperDetail(ft.Container):
         points = extract_points_from_super(self.controller.timeline_points)
         model = TimelineModel(points)
 
-        timeline_controller = TimelineController(model)
+        timeline_controller = TimelineController(model, on_point_selected=self._handle_timeline_point)
 
         self.timeline_style = TimelineStyle(self.theme_manager.theme)
         renderer = TimelineRenderer(self.timeline_style)
@@ -167,9 +167,16 @@ class SuperDetail(ft.Container):
             height=300,
             content=ft.Stack(
                 expand=True,
+                fit=ft.StackFit.EXPAND,
                 controls=[
                     self.timeline_view.control,
-                    self._build_fab(),
+                    ft.Container(
+                        right=0,
+                        bottom=0,
+                        width=96,
+                        height=96,
+                        content=self._build_fab(),
+                    ),
                 ],
             ),
         )
@@ -226,6 +233,16 @@ class SuperDetail(ft.Container):
 
     def _timeout_close(self):
         self._on_request_close()
+
+    def _handle_timeline_point(self, point):
+        # print(
+        #     "SUPER DETAIL TIMELINE CALLBACK:",
+        #     f"id={point.id}",
+        #     f"year={point.year}",
+        #     f"label={point.label}",
+        # )
+        self.header.set_timeline_event(point.year, point.label, point.text)
+        self.auto_close.reset()
 
     # =========================================================
     # 🔄 ATUALIZAÇÃO

@@ -3,15 +3,19 @@
 
 import asyncio
 import math
+from collections.abc import Callable
 
 
 class TimelineController:
-    def __init__(self, model):
+    def __init__(self, model, on_point_selected: Callable | None = None):
         self.model = model
+        self.on_point_selected = on_point_selected
 
         # estado público (consumido pela view)
         self.progress = 0.0
         self.active_index = 0
+        self.selected_point_id: str | None = None
+        self.clicked_point_ids: set[str] = set()
 
         # controle interno
         self._animation_done = False
@@ -106,6 +110,60 @@ class TimelineController:
             return
 
         self.active_index = int(self.progress * (total - 1))
+
+    # -------------------------
+    # seleção narrativa
+    # -------------------------
+    def select_point(self, point_id: str):
+        # print(
+        #     "TIMELINE CONTROLLER SELECT:",
+        #     f"requested={point_id}",
+        #     f"available={[point.id for point in self.model.points]}",
+        # )
+        point = self.model.get_point_by_id(point_id)
+        if point is None:
+            # print("TIMELINE CONTROLLER SELECT MISS:", point_id)
+            return None
+
+        self.selected_point_id = point.id
+        self.clicked_point_ids.add(point.id)
+        self.active_index = self.model.points.index(point)
+        # print(
+        #     "TIMELINE CONTROLLER STATE:",
+        #     f"selected={self.selected_point_id}",
+        #     f"clicked={sorted(self.clicked_point_ids)}",
+        #     f"active_index={self.active_index}",
+        # )
+
+        if self.on_point_selected:
+            # print("TIMELINE CONTROLLER CALLBACK:", point.id)
+            self.on_point_selected(point)
+        else:
+            # print("TIMELINE CONTROLLER CALLBACK: none")
+            pass
+
+        return point
+
+    def point_state(self, point_id: str) -> str:
+        if point_id == self.selected_point_id:
+            return "selected"
+
+        if point_id in self.clicked_point_ids:
+            return "clicked"
+
+        return "normal"
+
+    def point_states(self) -> dict[int, str]:
+        states = {}
+
+        for index, point in enumerate(self.model.points):
+            if point.id in self.clicked_point_ids:
+                states[index] = "clicked"
+
+            if point.id == self.selected_point_id:
+                states[index] = "selected"
+
+        return states
 
     # -------------------------
     # easing (opcional)

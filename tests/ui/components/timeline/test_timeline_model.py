@@ -53,6 +53,13 @@ def test_timeline_model_gets_point_by_index(timeline_points: list[TimelinePoint]
     assert model.get(1) == timeline_points[1]
 
 
+def test_timeline_model_gets_point_by_id(timeline_points: list[TimelinePoint]):
+    model = TimelineModel(points=timeline_points)
+
+    assert model.get_point_by_id("destaque-1968") == timeline_points[1]
+    assert model.get_point_by_id("desconhecido") is None
+
+
 def test_timeline_model_returns_points_as_tuples(timeline_points: list[TimelinePoint]):
     model = TimelineModel(points=timeline_points)
 

@@ -18,9 +18,9 @@ class FakePage:
 
 def make_model(count=3):
     points = [
-        TimelinePoint(0.1, 0.8),
-        TimelinePoint(0.5, 0.2),
-        TimelinePoint(0.9, 0.6),
+        TimelinePoint(0.1, 0.8, id="ingresso", year=1967, label="Ingresso", text="Entrada."),
+        TimelinePoint(0.5, 0.2, id="destaque", year=1968, label="Destaque", text="Marco."),
+        TimelinePoint(0.9, 0.6, id="saida", year=1969, label="Saída", text="Fim."),
     ][:count]
 
     return TimelineModel(points=points)
@@ -185,3 +185,56 @@ def test_start_does_not_schedule_loop_without_view():
     controller.start()
 
     assert controller._task is None
+
+
+def test_select_point_marks_selected_and_clicked():
+    controller = TimelineController(make_model())
+
+    point = controller.select_point("destaque")
+
+    assert point is controller.model.points[1]
+    assert controller.selected_point_id == "destaque"
+    assert controller.clicked_point_ids == {"destaque"}
+    assert controller.active_index == 1
+
+
+def test_select_point_dispatches_callback():
+    callback = Mock()
+    controller = TimelineController(make_model(), on_point_selected=callback)
+
+    point = controller.select_point("ingresso")
+
+    callback.assert_called_once_with(point)
+
+
+def test_select_point_ignores_unknown_id():
+    callback = Mock()
+    controller = TimelineController(make_model(), on_point_selected=callback)
+
+    assert controller.select_point("desconhecido") is None
+    assert controller.selected_point_id is None
+    assert controller.clicked_point_ids == set()
+    callback.assert_not_called()
+
+
+def test_point_state_distinguishes_normal_clicked_and_selected():
+    controller = TimelineController(make_model())
+
+    controller.select_point("ingresso")
+    controller.select_point("destaque")
+
+    assert controller.point_state("saida") == "normal"
+    assert controller.point_state("ingresso") == "clicked"
+    assert controller.point_state("destaque") == "selected"
+
+
+def test_point_states_returns_renderer_compatible_state_map():
+    controller = TimelineController(make_model())
+
+    controller.select_point("ingresso")
+    controller.select_point("destaque")
+
+    assert controller.point_states() == {
+        0: "clicked",
+        1: "selected",
+    }

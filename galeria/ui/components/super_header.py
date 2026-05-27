@@ -127,16 +127,30 @@ class SuperHeader(ft.Container):
             self._apply_paragraph_theme(paragraph, theme)
 
     def _apply_paragraph_theme(self, paragraph: ft.Text, theme):
-        paragraph.color = theme.text.secondary
+        role = getattr(paragraph, "data", None)
+        paragraph.color = theme.accent.primary if role == "timeline_year" else theme.text.secondary
         paragraph.size = self._theme_token(
             theme,
             ["super_header_body_size", "body_size", "body"],
             fallback=14,
         )
+        if role == "timeline_year":
+            paragraph.size = self._theme_token(
+                theme,
+                ["super_header_title_size", "title_size", "h2"],
+                fallback=28,
+            )
+        elif role == "timeline_label":
+            paragraph.color = theme.text.primary
         paragraph.font_family = self._theme_token(
             theme,
             ["super_header_body_font_family", "body_font_family"],
             fallback=self._theme_token(theme, ["font_family"], fallback=None),
+        )
+        paragraph.weight = (
+            self._theme_token(theme, ["weight_bold"], fallback=ft.FontWeight.BOLD)
+            if role in {"timeline_year", "timeline_label"}
+            else None
         )
 
         line_height = self._theme_token(
@@ -174,6 +188,21 @@ class SuperHeader(ft.Container):
 
     def update_text(self, new_text: str):
         self._set_paragraphs(new_text)
+
+        if hasattr(self.text_list, "_i"):
+            self.text_list.scroll_to(offset=0)
+
+        if self.theme_manager:
+            self.apply_theme(self.theme_manager.theme)
+
+    def set_timeline_event(self, year: int, label: str, text: str):
+        self.text_list.controls = [
+            self._create_paragraph_control(str(year)),
+            self._create_paragraph_control(label),
+            *[self._create_paragraph_control(p) for p in text.split("\n\n") if p.strip()],
+        ]
+        self.text_list.controls[0].data = "timeline_year"
+        self.text_list.controls[1].data = "timeline_label"
 
         if hasattr(self.text_list, "_i"):
             self.text_list.scroll_to(offset=0)

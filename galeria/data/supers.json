@@ -11,19 +11,25 @@
           "year": 1967,
           "label": "ingresso",
           "x": 0.08,
-          "y": 0.96
+          "y": 0.96,
+          "id": "ingresso-1967",
+          "text": "Em 1967, Alfredo Fernandes de Almeida teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 1968,
           "label": "destaque",
           "x": 0.38,
-          "y": 0.05
+          "y": 0.05,
+          "id": "destaque-1968",
+          "text": "Em 1968, Alfredo Fernandes de Almeida teve um marco na linha do tempo: destaque."
         },
         {
           "year": 1969,
           "label": "aposentadoria",
           "x": 0.82,
-          "y": 0.55
+          "y": 0.55,
+          "id": "aposentadoria-1969",
+          "text": "Em 1969, Alfredo Fernandes de Almeida teve um marco na linha do tempo: aposentadoria."
         }
       ],
       "historias": [
@@ -43,25 +49,33 @@
           "year": 1969,
           "label": "ingresso",
           "x": 0.12,
-          "y": 0.66
+          "y": 0.66,
+          "id": "ingresso-1969",
+          "text": "Em 1969, Odelar Leite Linhares teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 1970,
           "label": "promoção",
           "x": 0.35,
-          "y": 0.08
+          "y": 0.08,
+          "id": "promocao-1970",
+          "text": "Em 1970, Odelar Leite Linhares teve um marco na linha do tempo: promoção."
         },
         {
           "year": 1971,
           "label": "projeto",
           "x": 0.6,
-          "y": 0.95
+          "y": 0.95,
+          "id": "projeto-1971",
+          "text": "Em 1971, Odelar Leite Linhares teve um marco na linha do tempo: projeto."
         },
         {
           "year": 1972,
           "label": "aposentadoria",
           "x": 0.88,
-          "y": 0.25
+          "y": 0.25,
+          "id": "aposentadoria-1972",
+          "text": "Em 1972, Odelar Leite Linhares teve um marco na linha do tempo: aposentadoria."
         }
       ],
       "historias": [
@@ -81,43 +95,57 @@
           "year": 1972,
           "label": "ingresso",
           "x": 0.05,
-          "y": 0.75
+          "y": 0.75,
+          "id": "ingresso-1972",
+          "text": "Em 1972, Nelson Castro Machado teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 1974,
           "label": "marco",
           "x": 0.18,
-          "y": 0.08
+          "y": 0.08,
+          "id": "marco-1974",
+          "text": "Em 1974, Nelson Castro Machado teve um marco na linha do tempo: marco."
         },
         {
           "year": 1979,
           "label": "expansão",
           "x": 0.3,
-          "y": 0.95
+          "y": 0.95,
+          "id": "expansao-1979",
+          "text": "Em 1979, Nelson Castro Machado teve um marco na linha do tempo: expansão."
         },
         {
           "year": 1983,
           "label": "liderança",
           "x": 0.45,
-          "y": 0.35
+          "y": 0.35,
+          "id": "lideranca-1983",
+          "text": "Em 1983, Nelson Castro Machado teve um marco na linha do tempo: liderança."
         },
         {
           "year": 1984,
           "label": "projeto",
           "x": 0.58,
-          "y": 0.75
+          "y": 0.75,
+          "id": "projeto-1984",
+          "text": "Em 1984, Nelson Castro Machado teve um marco na linha do tempo: projeto."
         },
         {
           "year": 1985,
           "label": "conquista",
           "x": 0.7,
-          "y": 0.15
+          "y": 0.15,
+          "id": "conquista-1985",
+          "text": "Em 1985, Nelson Castro Machado teve um marco na linha do tempo: conquista."
         },
         {
           "year": 1987,
           "label": "legado",
           "x": 0.85,
-          "y": 0.75
+          "y": 0.75,
+          "id": "legado-1987",
+          "text": "Em 1987, Nelson Castro Machado teve um marco na linha do tempo: legado."
         }
       ],
       "historias": [
@@ -137,25 +165,33 @@
           "year": 1987,
           "label": "ingresso",
           "x": 0.1,
-          "y": 0.95
+          "y": 0.95,
+          "id": "ingresso-1987",
+          "text": "Em 1987, Luiz Roberto de Castro Siqueira teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 1988,
           "label": "projeto",
           "x": 0.32,
-          "y": 0.25
+          "y": 0.25,
+          "id": "projeto-1988",
+          "text": "Em 1988, Luiz Roberto de Castro Siqueira teve um marco na linha do tempo: projeto."
         },
         {
           "year": 1989,
           "label": "coordenação",
           "x": 0.55,
-          "y": 0.65
+          "y": 0.65,
+          "id": "coordenacao-1989",
+          "text": "Em 1989, Luiz Roberto de Castro Siqueira teve um marco na linha do tempo: coordenação."
         },
         {
           "year": 1990,
           "label": "aposentadoria",
           "x": 0.8,
-          "y": 0.45
+          "y": 0.45,
+          "id": "aposentadoria-1990",
+          "text": "Em 1990, Luiz Roberto de Castro Siqueira teve um marco na linha do tempo: aposentadoria."
         }
       ],
       "historias": [
@@ -175,31 +211,41 @@
           "year": 1990,
           "label": "ingresso",
           "x": 0.07,
-          "y": 0.78
+          "y": 0.78,
+          "id": "ingresso-1990",
+          "text": "Em 1990, Hilton Silveira Pinto teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 1992,
           "label": "destaque",
           "x": 0.22,
-          "y": 0.1
+          "y": 0.1,
+          "id": "destaque-1992",
+          "text": "Em 1992, Hilton Silveira Pinto teve um marco na linha do tempo: destaque."
         },
         {
           "year": 1995,
           "label": "expansão",
           "x": 0.4,
-          "y": 0.35
+          "y": 0.35,
+          "id": "expansao-1995",
+          "text": "Em 1995, Hilton Silveira Pinto teve um marco na linha do tempo: expansão."
         },
         {
           "year": 1996,
           "label": "liderança",
           "x": 0.62,
-          "y": 0.65
+          "y": 0.65,
+          "id": "lideranca-1996",
+          "text": "Em 1996, Hilton Silveira Pinto teve um marco na linha do tempo: liderança."
         },
         {
           "year": 1988,
           "label": "legado",
           "x": 0.88,
-          "y": 0.38
+          "y": 0.38,
+          "id": "legado-1988",
+          "text": "Em 1988, Hilton Silveira Pinto teve um marco na linha do tempo: legado."
         }
       ],
       "historias": [
@@ -219,25 +265,33 @@
           "year": 1998,
           "label": "ingresso",
           "x": 0.09,
-          "y": 0.95
+          "y": 0.95,
+          "id": "ingresso-1998",
+          "text": "Em 1998, Hans Kurt Edmund Liesenberg teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 1999,
           "label": "pesquisa",
           "x": 0.3,
-          "y": 0.22
+          "y": 0.22,
+          "id": "pesquisa-1999",
+          "text": "Em 1999, Hans Kurt Edmund Liesenberg teve um marco na linha do tempo: pesquisa."
         },
         {
           "year": 2000,
           "label": "inovação",
           "x": 0.52,
-          "y": 0.77
+          "y": 0.77,
+          "id": "inovacao-2000",
+          "text": "Em 2000, Hans Kurt Edmund Liesenberg teve um marco na linha do tempo: inovação."
         },
         {
           "year": 2002,
           "label": "reconhecimento",
           "x": 0.74,
-          "y": 0.6
+          "y": 0.6,
+          "id": "reconhecimento-2002",
+          "text": "Em 2002, Hans Kurt Edmund Liesenberg teve um marco na linha do tempo: reconhecimento."
         }
       ],
       "historias": [
@@ -257,25 +311,33 @@
           "year": 2002,
           "label": "ingresso",
           "x": 0.15,
-          "y": 0.85
+          "y": 0.85,
+          "id": "ingresso-2002",
+          "text": "Em 2002, Luiz Eduardo Buzato teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2003,
           "label": "projeto",
           "x": 0.4,
-          "y": 0.15
+          "y": 0.15,
+          "id": "projeto-2003",
+          "text": "Em 2003, Luiz Eduardo Buzato teve um marco na linha do tempo: projeto."
         },
         {
           "year": 2004,
           "label": "liderança",
           "x": 0.65,
-          "y": 0.75
+          "y": 0.75,
+          "id": "lideranca-2004",
+          "text": "Em 2004, Luiz Eduardo Buzato teve um marco na linha do tempo: liderança."
         },
         {
           "year": 2005,
           "label": "atualidade",
           "x": 0.9,
-          "y": 0.45
+          "y": 0.45,
+          "id": "atualidade-2005",
+          "text": "Em 2005, Luiz Eduardo Buzato teve um marco na linha do tempo: atualidade."
         }
       ],
       "historias": [
@@ -295,31 +357,41 @@
           "year": 2005,
           "label": "ingresso",
           "x": 0.05,
-          "y": 0.7
+          "y": 0.7,
+          "id": "ingresso-2005",
+          "text": "Em 2005, Marco Aurélio Amaral Henriques teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2006,
           "label": "destaque",
           "x": 0.25,
-          "y": 0.12
+          "y": 0.12,
+          "id": "destaque-2006",
+          "text": "Em 2006, Marco Aurélio Amaral Henriques teve um marco na linha do tempo: destaque."
         },
         {
           "year": 2008,
           "label": "expansão",
           "x": 0.45,
-          "y": 0.55
+          "y": 0.55,
+          "id": "expansao-2008",
+          "text": "Em 2008, Marco Aurélio Amaral Henriques teve um marco na linha do tempo: expansão."
         },
         {
           "year": 2012,
           "label": "liderança",
           "x": 0.68,
-          "y": 0.22
+          "y": 0.22,
+          "id": "lideranca-2012",
+          "text": "Em 2012, Marco Aurélio Amaral Henriques teve um marco na linha do tempo: liderança."
         },
         {
           "year": 2013,
           "label": "atualidade",
           "x": 0.88,
-          "y": 0.68
+          "y": 0.68,
+          "id": "atualidade-2013",
+          "text": "Em 2013, Marco Aurélio Amaral Henriques teve um marco na linha do tempo: atualidade."
         }
       ],
       "historias": [
@@ -339,25 +411,33 @@
           "year": 2013,
           "label": "ingresso",
           "x": 0.1,
-          "y": 0.72
+          "y": 0.72,
+          "id": "ingresso-2013",
+          "text": "Em 2013, José Raimundo de Oliveira teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2014,
           "label": "projeto",
           "x": 0.33,
-          "y": 0.09
+          "y": 0.09,
+          "id": "projeto-2014",
+          "text": "Em 2014, José Raimundo de Oliveira teve um marco na linha do tempo: projeto."
         },
         {
           "year": 2016,
           "label": "liderança",
           "x": 0.58,
-          "y": 0.52
+          "y": 0.52,
+          "id": "lideranca-2016",
+          "text": "Em 2016, José Raimundo de Oliveira teve um marco na linha do tempo: liderança."
         },
         {
           "year": 2017,
           "label": "legado",
           "x": 0.82,
-          "y": 0.66
+          "y": 0.66,
+          "id": "legado-2017",
+          "text": "Em 2017, José Raimundo de Oliveira teve um marco na linha do tempo: legado."
         }
       ],
       "historias": [
@@ -377,25 +457,33 @@
           "year": 2017,
           "label": "ingresso",
           "x": 0.1,
-          "y": 0.88
+          "y": 0.88,
+          "id": "ingresso-2017",
+          "text": "Em 2017, Sandro Rigo teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2019,
           "label": "projeto",
           "x": 0.33,
-          "y": 0.18
+          "y": 0.18,
+          "id": "projeto-2019",
+          "text": "Em 2019, Sandro Rigo teve um marco na linha do tempo: projeto."
         },
         {
           "year": 2020,
           "label": "liderança",
           "x": 0.58,
-          "y": 0.52
+          "y": 0.52,
+          "id": "lideranca-2020",
+          "text": "Em 2020, Sandro Rigo teve um marco na linha do tempo: liderança."
         },
         {
           "year": 2021,
           "label": "legado",
           "x": 0.82,
-          "y": 0.75
+          "y": 0.75,
+          "id": "legado-2021",
+          "text": "Em 2021, Sandro Rigo teve um marco na linha do tempo: legado."
         }
       ],
       "historias": [
@@ -417,19 +505,25 @@
           "year": 2021,
           "label": "ingresso",
           "x": 0.1,
-          "y": 0.88
+          "y": 0.88,
+          "id": "ingresso-2021",
+          "text": "Em 2021, Wally Walrus teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2022,
           "label": "projeto",
           "x": 0.44,
-          "y": 0.18
+          "y": 0.18,
+          "id": "projeto-2022",
+          "text": "Em 2022, Wally Walrus teve um marco na linha do tempo: projeto."
         },
         {
           "year": 2023,
           "label": "transição",
           "x": 0.78,
-          "y": 0.62
+          "y": 0.62,
+          "id": "transicao-2023",
+          "text": "Em 2023, Wally Walrus teve um marco na linha do tempo: transição."
         }
       ],
       "historias": [
@@ -449,19 +543,25 @@
           "year": 2023,
           "label": "ingresso",
           "x": 0.12,
-          "y": 0.72
+          "y": 0.72,
+          "id": "ingresso-2023",
+          "text": "Em 2023, Woody Woodpecker teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2024,
           "label": "destaque",
           "x": 0.5,
-          "y": 0.1
+          "y": 0.1,
+          "id": "destaque-2024",
+          "text": "Em 2024, Woody Woodpecker teve um marco na linha do tempo: destaque."
         },
         {
           "year": 2025,
           "label": "aposentadoria",
           "x": 0.86,
-          "y": 0.54
+          "y": 0.54,
+          "id": "aposentadoria-2025",
+          "text": "Em 2025, Woody Woodpecker teve um marco na linha do tempo: aposentadoria."
         }
       ],
       "historias": [
@@ -481,19 +581,25 @@
           "year": 2026,
           "label": "ingresso",
           "x": 0.08,
-          "y": 0.64
+          "y": 0.64,
+          "id": "ingresso-2026",
+          "text": "Em 2026, Buzz Buzzard teve um marco na linha do tempo: ingresso."
         },
         {
           "year": 2027,
           "label": "crise",
           "x": 0.42,
-          "y": 0.24
+          "y": 0.24,
+          "id": "crise-2027",
+          "text": "Em 2027, Buzz Buzzard teve um marco na linha do tempo: crise."
         },
         {
           "year": 2028,
           "label": "legado",
           "x": 0.82,
-          "y": 0.82
+          "y": 0.82,
+          "id": "legado-2028",
+          "text": "Em 2028, Buzz Buzzard teve um marco na linha do tempo: legado."
         }
       ],
       "historias": [
