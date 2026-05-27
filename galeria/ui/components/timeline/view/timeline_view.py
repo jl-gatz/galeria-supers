@@ -82,6 +82,7 @@ class TimelineView:
             self.controller.progress,
             self.controller.active_index,
             self.controller.point_states(),
+            points=self.controller.model.points,
         )
 
         self.canvas.set_shapes(shapes)
