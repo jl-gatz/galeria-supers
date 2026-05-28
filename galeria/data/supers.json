@@ -607,6 +607,44 @@
         "Sua gestão fake enfrentou a Grande Migração dos Sistemas Nebulosos, evento tão complexo que ganhou nome próprio antes de ganhar cronograma.",
         "Apesar da fama de ave de mau agouro, Buzz deixou como marca uma arquitetura de testes mais robusta e um respeito renovado por backups."
       ]
-    }
+    },
+    {
+    "id": 14,
+    "nome": "Wally Gator",
+    "foto": "14-wally-gator__gray.png",
+    "periodo": "2029-2031",
+    "timeline": "",
+    "timeline_points": [
+      {
+        "year": 2029,
+        "label": "ingresso",
+        "x": 0.08,
+        "y": 0.58,
+        "id": "ingresso-2029",
+        "text": "Em 2029, Wally Gator teve um marco na linha do tempo: ingresso."
+      },
+      {
+        "year": 2030,
+        "label": "expansão",
+        "x": 0.44,
+        "y": 0.18,
+        "id": "expansao-2030",
+        "text": "Em 2030, Wally Gator teve um marco na linha do tempo: expansão."
+      },
+      {
+        "year": 2031,
+        "label": "legado",
+        "x": 0.84,
+        "y": 0.74,
+        "id": "legado-2031",
+        "text": "Em 2031, Wally Gator teve um marco na linha do tempo: legado."
+      }
+    ],
+    "historias": [
+      "Wally Gator assumiu a era Detic com a serenidade de quem atravessa um datacenter inundado sem molhar o cabo de rede.",
+      "Sua gestão fake ficou marcada pela Operação Pântano Digital, uma reestruturação dos sistemas legados que começou como manutenção preventiva e terminou com três diagramas, dois comitês e uma metáfora zoológica permanente.",
+      "Ao final do mandato, Wally deixou como legado uma infraestrutura mais resiliente, uma documentação menos pantanosa e a convicção institucional de que todo sistema antigo esconde pelo menos um jacaré dormindo."
+    ]
+  }
   ]
 }
