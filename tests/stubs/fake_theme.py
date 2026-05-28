@@ -1,41 +1,59 @@
 # tests/stubs/fake_theme.py
 
+from typing import cast, override
+
+from galeria.domain.protocols.theme_like import ThemeLike
+from galeria.ui.theme.models import Theme
 from galeria.ui.theme.styles import default_component_styles
-from tests.stubs.control.fake_header import FakeHeader
 from tests.stubs.theme import (
     FakeBaseTheme,
+    FakeButtonTheme,
     FakeColorsTheme,
     FakeGalleryTheme,
+    FakeHeaderTheme,
     FakeImageTheme,
     FakeLogoTheme,
     FakeRadiusTheme,
     FakeSpacingTheme,
+    FakeSuperDetailTheme,
     FakeTextTheme,
+    FakeTimelineTheme,
     FakeTypographyTheme,
     FakeUITheme,
 )
 from tests.stubs.theme.fake_accent_theme import FakeAccentTheme
 
 
-class FakeTheme:
-    def __init__(self):
-        self.base = FakeBaseTheme()
+class FakeTheme(Theme):
+    _colors: FakeColorsTheme
 
-        self.gallery = FakeGalleryTheme()
-        self.image = FakeImageTheme()
-        self.logo = FakeLogoTheme()
+    def __init__(self) -> None:
+        super().__init__(
+            id="fake",
+            title="Fake Theme",
+            base=FakeBaseTheme(),
+            overlay="rgba(0,0,0,0.4)",
+            text=FakeTextTheme(),
+            accent=FakeAccentTheme(),
+            ui=FakeUITheme(),
+            button=FakeButtonTheme(),
+            timeline=FakeTimelineTheme(),
+            image=FakeImageTheme(),
+            logo=FakeLogoTheme(),
+            typography=FakeTypographyTheme(),
+            spacing=FakeSpacingTheme(),
+            radius=FakeRadiusTheme(),
+            styles=default_component_styles(),
+            gallery=FakeGalleryTheme(),
+            header=FakeHeaderTheme(),
+            super_detail=FakeSuperDetailTheme(),
+        )
+        self._colors = FakeColorsTheme()
 
-        self.id = "fake"
-        self.title = "Fake Theme"
-        self.radius = FakeRadiusTheme()
-        self.styles = default_component_styles()
-        self.spacing = FakeSpacingTheme()
-        self.colors = FakeColorsTheme()
-        self.accent = FakeAccentTheme()
-        self.typography = FakeTypographyTheme()
-        self.text = FakeTextTheme()
+    @property
+    def colors(self) -> ThemeLike:
+        return cast(ThemeLike, self._colors)
 
-        # placeholders temporários
-        self.ui = FakeUITheme()
-        self.header = FakeHeader()
-        self.super_detail = object()
+    @override
+    def __setattr__(self, name: str, value: object) -> None:
+        object.__setattr__(self, name, value)

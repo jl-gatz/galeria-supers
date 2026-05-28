@@ -1,11 +1,15 @@
-# tests/stubs/theme/fake_radius_theme.py
+from typing import override
 
-from dataclasses import dataclass
+from galeria.ui.theme.models import Radius
 
 
-@dataclass
-class FakeRadiusTheme:
-    sm: int = 4
-    md: int = 8
-    lg: int = 16
-    xl: int = 24
+class FakeRadiusTheme(Radius):
+    xl: int
+
+    def __init__(self, sm: int = 4, md: int = 8, lg: int = 16, xl: int = 24) -> None:
+        super().__init__(sm=sm, md=md, lg=lg)
+        self.xl = xl
+
+    @override
+    def __setattr__(self, name: str, value: object) -> None:
+        object.__setattr__(self, name, value)
