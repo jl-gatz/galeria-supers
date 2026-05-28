@@ -493,6 +493,19 @@ Sempre que possível, decisões como era, período, imagens e textos devem vir d
 
 ---
 
+## Checklist antes de abrir PR
+
+Antes de abrir um Pull Request, rode localmente:
+
+```bash
+poetry run pytest
+poetry run task lint
+poetry run task typecheck
+git status --short
+```
+
+---
+
 ## Release atual
 
 A primeira release planejada é:
@@ -543,22 +556,6 @@ Essa versão marca o primeiro estado estável do projeto, antes da evolução pa
 - Expansão de dados históricos.
 - Melhorias de acessibilidade.
 - Possível painel editorial para manutenção dos dados.
-
----
-
-## Licença
-
-Definir licença do projeto.
-
-Sugestão inicial:
-
-```text
-MIT
-```
-
-Ou outra licença mais adequada caso o projeto envolva acervo institucional, imagens, dados históricos ou restrições de uso.
-
----
 
 ## Créditos
 
