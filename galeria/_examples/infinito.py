@@ -1,4 +1,8 @@
+# galeria/_examples/infinito.py
+"""Exemplo experimental de animação de símbolos de infinito em canvas."""
+
 import asyncio
+from typing import Any, override
 
 import flet as ft
 import flet.canvas as cv
@@ -6,13 +10,10 @@ import flet.canvas as cv
 
 @ft.control
 class InfinityCanvas(ft.Stack):
-    """
-    Componente que desenha e anima símbolos de infinito.
-    Esse componente é um port em Flet do exemplo "Infinito" em flutter, que pode ser visto aqui:
-    https://medium.com/flutter-uae/the-path-to-infinity-with-b%C3%A9zier-curve-in-flutter-e2a2b79d5eb1
-    """
+    """Componente que desenha e anima símbolos de infinito."""
 
-    def __init__(self, infinities_length: int, **kwargs):
+    def __init__(self, infinities_length: int, **kwargs: Any):
+        """Configura quantidade de curvas e canvas interno."""
         super().__init__(**kwargs)
         self.infinities_length = infinities_length
         self.colors = ["#086A9A", "#D8523B", "#F8B023"]
@@ -25,10 +26,13 @@ class InfinityCanvas(ft.Stack):
         )
         self.controls = [self.canvas]
 
+    @override
     def did_mount(self):
+        """Inicia a animação quando o controle é montado."""
         self.page.run_task(self._animate)
         self.update()
 
+    @override
     def will_unmount(self):
         """Cancela a animação quando o controle é removido."""
         if self.animation_task:
@@ -144,6 +148,7 @@ class InfinityCanvas(ft.Stack):
         return points
 
     async def _animate(self):
+        """Executa o loop contínuo de animação."""
         duration = 10.0
         steps = 180
 
@@ -160,7 +165,8 @@ class InfinityCanvas(ft.Stack):
             await asyncio.sleep(0.05)
 
 
-def main(page: ft.Page):
+def main(page: ft.Page) -> None:
+    """Monta a página do exemplo de infinito animado."""
     page.title = "Símbolos de Infinito Animado"
     page.window_width = 1200
     page.window_height = 600

@@ -1,7 +1,11 @@
+# galeria/_examples/blend.py
+"""Exemplo visual para comparar modos de blend em imagens Flet."""
+
 import flet as ft
 
 
 def showcase_card(blend_mode: ft.BlendMode) -> ft.Container:
+    """Cria um card demonstrando um modo de blend."""
     return ft.Container(
         width=280,
         padding=12,
@@ -26,7 +30,8 @@ def showcase_card(blend_mode: ft.BlendMode) -> ft.Container:
     )
 
 
-def main(page: ft.Page):
+def main(page: ft.Page) -> None:
+    """Monta a página de demonstração dos modos de blend."""
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     page.appbar = ft.AppBar(title="BlendMode Showcase")
@@ -53,4 +58,4 @@ def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    ft.run(main)
+    ft.run(main)  # type: ignore

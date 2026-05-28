@@ -1,4 +1,5 @@
-# core/paths.py
+# galeria/core/paths.py
+"""Caminhos centrais para dados e assets da aplicação."""
 
 from pathlib import Path
 
