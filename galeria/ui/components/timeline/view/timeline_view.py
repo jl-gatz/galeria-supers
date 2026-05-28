@@ -1,21 +1,37 @@
 # galeria/ui/components/timeline/view/timeline_view.py
+"""View interativa que une canvas, controller, path builder e renderer."""
 
 
 import math
+from collections.abc import Sequence
+from typing import Any
 
 import flet as ft
 
+from galeria.ui.components.timeline.controller import TimelineController
+from galeria.ui.components.timeline.models import TimelinePoint
 from galeria.ui.components.timeline.utils import (
+    PathBuilder,
     map_indexed_points_to_canvas,
     map_points_to_canvas,
 )
 from galeria.ui.components.timeline.view.timeline_canvas import TimelineCanvas
 from galeria.ui.components.timeline.view.timeline_container import TimelineContainer
+from galeria.ui.components.timeline.view.timeline_renderer import TimelineRenderer
 from galeria.ui.utils.flet_save import safe_update
+
+Coord = tuple[float, float]
 
 
 class TimelineView:
-    def __init__(self, controller, path_builder, renderer):
+    """Coordena desenho da timeline e alvos clicáveis dos pontos."""
+
+    def __init__(
+        self,
+        controller: TimelineController,
+        path_builder: PathBuilder,
+        renderer: TimelineRenderer,
+    ):
         self.controller = controller
         self.path_builder = path_builder
         self.renderer = renderer
@@ -24,7 +40,7 @@ class TimelineView:
 
         self.canvas = TimelineCanvas(on_resize=self._on_resize)
         self.hit_size = 32
-        self._rendered_points = []
+        self._rendered_points: list[tuple[int, float, float]] = []
         self.canvas_background = ft.TransparentPointer(
             content=self.canvas.canvas,
             width=self.canvas.width,
@@ -38,8 +54,8 @@ class TimelineView:
             controls=[self.canvas_background],
         )
 
-        self._cached_curve = None
-        self._last_size = None
+        self._cached_curve: list[Coord] | None = None
+        self._last_size: tuple[float, float] | None = None
 
         self._control = TimelineContainer(
             view=self,
@@ -54,10 +70,12 @@ class TimelineView:
             # ),
         )
 
-    def refresh(self):
+    def refresh(self) -> None:
+        """Redesenha a timeline com o estado atual do controlador."""
         self._draw()
 
-    def _draw(self):
+    def _draw(self) -> None:
+        """Calcula pontos, curva e formas visuais antes de atualizar a UI."""
         width = self.canvas.width
         height = self.canvas.height
 
@@ -91,17 +109,25 @@ class TimelineView:
         # ✅ ponto único de atualização
         safe_update(self.control)
 
-    def _on_resize(self, e):
+    def _on_resize(self, e: Any) -> None:
+        """Invalida cache de curva e redesenha após mudança de tamanho."""
         self._cached_curve = None
         self._last_size = None
 
         if self.canvas.width and self.canvas.height:
             self.refresh()
 
-    def _normalize_points(self, points, width, height):
+    def _normalize_points(
+        self,
+        points: Sequence[TimelinePoint],
+        width: float,
+        height: float,
+    ) -> list[Coord]:
+        """Converte pontos normalizados em coordenadas de canvas."""
         return map_points_to_canvas(points, width, height)
 
-    def _rebuild_clickable_points(self):
+    def _rebuild_clickable_points(self) -> None:
+        """Reconstrói a camada transparente de clique sobre os pontos."""
         self.canvas_stack.width = self.canvas.width
         self.canvas_stack.height = self.canvas.height
         self.canvas_background.width = self.canvas.width
@@ -116,8 +142,9 @@ class TimelineView:
             *self._build_clickable_points(),
         ]
 
-    def _build_clickable_points(self):
-        controls = []
+    def _build_clickable_points(self) -> list[ft.Control]:
+        """Cria controles invisíveis que capturam clique nos pontos."""
+        controls: list[ft.Control] = []
         radius = self.hit_size / 2
 
         for index, x, y in self._rendered_points:
@@ -135,7 +162,7 @@ class TimelineView:
             #     f"top={top}",
             #     f"size={self.hit_size}",
             # )
-            def _on_point_click(e, point_id=point.id):
+            def _on_point_click(e: Any, point_id: str = point.id) -> None:
                 # print(
                 #     "TIMELINE CLICK EVENT:",
                 #     f"id={point_id}",
@@ -166,7 +193,8 @@ class TimelineView:
 
         return controls
 
-    def _handle_point_click(self, point_id: str, e=None):
+    def _handle_point_click(self, point_id: str, e: Any | None = None) -> None:
+        """Encaminha o clique de um ponto ao controlador e redesenha."""
         # print(
         #     "TIMELINE HANDLE CLICK:",
         #     f"id={point_id}",
@@ -181,10 +209,12 @@ class TimelineView:
         # )
         self._rebuild()
 
-    def _rebuild(self):
+    def _rebuild(self) -> None:
+        """Reexecuta o fluxo de renderização da timeline."""
         self.refresh()
 
-    def _get_curve(self, pts, width, height):
+    def _get_curve(self, pts: Sequence[Coord], width: float, height: float) -> list[Coord]:
+        """Retorna a curva cacheada ou reconstrói para o tamanho atual."""
         size = (width, height)
 
         if self._cached_curve is None or size != self._last_size:
@@ -194,5 +224,6 @@ class TimelineView:
         return self._cached_curve
 
     @property
-    def control(self):
+    def control(self) -> ft.Control:
+        """Expõe o controle Flet raiz da timeline."""
         return self._control

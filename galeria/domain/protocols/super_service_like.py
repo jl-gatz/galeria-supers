@@ -1,4 +1,5 @@
-# domain/protocols/super_service_like.py
+# galeria/domain/protocols/super_service_like.py
+"""Protocolo amplo do serviço de superintendentes."""
 
 from collections.abc import Sequence
 from pathlib import Path
@@ -8,6 +9,8 @@ from galeria.domain import Era, Super
 
 
 class SuperServiceLike(Protocol):
+    """Contrato esperado por consumidores que precisam de domínio e UI."""
+
     # leitura
     def listar_supers(self) -> Sequence[Super]: ...
     def listar_eras(self) -> Sequence[Era]: ...

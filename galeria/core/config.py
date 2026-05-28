@@ -1,4 +1,6 @@
-# core/config.py
+# galeria/core/config.py
+"""Constantes globais de configuração da aplicação."""
+
 APP_TITLE = "Galeria dos Superintendentes"
 
 DETAIL_TIMEOUT_SECONDS = 20

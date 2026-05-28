@@ -1,8 +1,18 @@
+# galeria/ui/components/placeholders_row.py
+"""Fábrica dos placeholders laterais opcionais da galeria."""
+
 import flet as ft
 
+from galeria.ui.theme.models import Theme
 
-def placeholders_row(left_active: bool = False, right_active: bool = False, theme=None):
-    bgcolor = getattr(theme.base, "surface_variant", ft.Colors.GREY_300) if theme else ft.Colors.GREY_300
+
+def placeholders_row(
+    left_active: bool = False, right_active: bool = False, theme: Theme | None = None
+) -> ft.Container:
+    """Cria a linha de placeholders decorativos laterais."""
+    bgcolor = (
+        getattr(theme.base, "surface_variant", ft.Colors.GREY_300) if theme else ft.Colors.GREY_300
+    )
     color = getattr(theme.text, "secondary", ft.Colors.GREY_700) if theme else ft.Colors.GREY_700
     radius = getattr(theme.radius, "sm", 10) if theme else 10
     margin_top = getattr(theme.spacing, "md", 20) if theme else 20

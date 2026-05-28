@@ -3,6 +3,8 @@ from unittest.mock import Mock
 import pytest
 
 from galeria.ui.components.super_header import SuperHeader
+from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.themes import CCUEC_THEME
 from galeria.ui.views.super_view import SuperDetail
 from tests.factories import SuperDetailFactory
 from tests.harness import FletTestHarness
@@ -61,6 +63,16 @@ def test_superdetail_timeline_callback_updates_header():
         "Ingresso",
         "Alfredo inicia sua trajetória.",
     ]
+
+
+def test_superdetail_uses_detail_theme_background():
+    detail = SuperDetailFactory.build(
+        auto_start=False,
+        theme=CCUEC_THEME,
+        theme_manager=ThemeManager(CCUEC_THEME),
+    )
+
+    assert detail.inner_container.bgcolor == CCUEC_THEME.super_detail.background
 
 
 @pytest.mark.asyncio

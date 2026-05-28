@@ -1,4 +1,5 @@
 # galeria/ui/theme/themes.py
+"""Definições concretas de temas e mapeamento por era."""
 
 import flet as ft
 
@@ -32,10 +33,11 @@ def create_typography(
     h2: int = 36,
     body: int = 30,
     small: int = 16,
-    weight_regular: ft.FontWeight = ft.FontWeight.W_400,
-    weight_medium: ft.FontWeight = ft.FontWeight.W_500,
-    weight_bold: ft.FontWeight = ft.FontWeight.W_700,
+    weight_regular: str | ft.FontWeight = ft.FontWeight.W_400,
+    weight_medium: str | ft.FontWeight = ft.FontWeight.W_500,
+    weight_bold: str | ft.FontWeight = ft.FontWeight.W_700,
 ) -> Typography:
+    """Cria a escala tipográfica de um tema."""
     return Typography(
         font_family=font_family,
         display=display,
@@ -73,6 +75,7 @@ STYLES = default_component_styles()
 
 
 def official_logo_theme() -> LogoTheme:
+    """Retorna a configuração padrão para logos oficiais."""
     return LogoTheme(
         variant="official",
         tint=None,
@@ -366,6 +369,7 @@ ERA_THEME_IDS = {
 
 
 def theme_by_id(theme_id: str | None, fallback: Theme | None = None) -> Theme | None:
+    """Busca um tema pelo identificador, retornando fallback quando necessário."""
     if theme_id is None:
         return fallback
 
@@ -373,6 +377,7 @@ def theme_by_id(theme_id: str | None, fallback: Theme | None = None) -> Theme | 
 
 
 def theme_for_era(era_id: str | None, fallback: Theme | None = None) -> Theme | None:
+    """Resolve o tema associado a uma era de superintendência."""
     if era_id is None:
         return fallback
 

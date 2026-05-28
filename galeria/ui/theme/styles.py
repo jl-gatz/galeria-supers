@@ -1,3 +1,6 @@
+# galeria/ui/theme/styles.py
+"""Estilos compostos para componentes que usam mais de um token."""
+
 from dataclasses import dataclass
 
 import flet as ft
@@ -5,6 +8,8 @@ import flet as ft
 
 @dataclass(frozen=True)
 class PortraitCaptionStyle:
+    """Tokens específicos da legenda sobre retratos."""
+
     name_size: int
     name_single_line_size: int
     subtitle_size: int
@@ -20,10 +25,13 @@ class PortraitCaptionStyle:
 
 @dataclass(frozen=True)
 class ComponentStyles:
+    """Agrupa estilos compostos usados por componentes da UI."""
+
     portrait_caption: PortraitCaptionStyle
 
 
 def default_component_styles() -> ComponentStyles:
+    """Cria o conjunto padrão de estilos compostos."""
     return ComponentStyles(
         portrait_caption=PortraitCaptionStyle(
             name_size=18,

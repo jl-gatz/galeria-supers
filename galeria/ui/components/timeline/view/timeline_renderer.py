@@ -1,21 +1,41 @@
 # galeria/ui/components/timeline/view/timeline_renderer.py
+"""Renderização da timeline em formas de canvas Flet."""
+
+from collections.abc import Sequence
+from typing import Any
 
 import flet as ft
 import flet.canvas as cv
 
+from galeria.ui.components.timeline.models import TimelinePoint
+from galeria.ui.components.timeline.view.timeline_style import TimelineStyle
+
+Coord = tuple[float, float]
+
 
 class TimelineRenderer:
-    def __init__(self, style):
+    """Converte estado da timeline em formas visuais para o canvas."""
+
+    def __init__(self, style: TimelineStyle):
         self.style = style
 
-    def render(self, pts, curve, progress, active_idx, point_states=None, points=None):
+    def render(
+        self,
+        pts: Sequence[Coord],
+        curve: Sequence[Coord],
+        progress: float,
+        active_idx: int,
+        point_states: dict[int, str] | None = None,
+        points: Sequence[TimelinePoint] | None = None,
+    ) -> list[Any]:
+        """Renderiza linha, pontos, anos e cursor para o progresso atual."""
         if not curve or len(curve) < 2:
             return []
 
         n = min(len(curve), max(1, int(len(curve) * progress)))
         visible = curve[:n]
 
-        shapes = []
+        shapes: list[Any] = []
         shapes += self._line(visible)
         shapes += self._points(pts, active_idx, point_states or {})
         shapes += self._years(pts, points or [], active_idx, point_states or {})
@@ -28,8 +48,15 @@ class TimelineRenderer:
 
         return shapes
 
-    def _years(self, pts, points, active_idx, point_states):
-        shapes = []
+    def _years(
+        self,
+        pts: Sequence[Coord],
+        points: Sequence[TimelinePoint],
+        active_idx: int,
+        point_states: dict[int, str],
+    ) -> list[Any]:
+        """Cria rótulos de ano para cada ponto com ano definido."""
+        shapes: list[Any] = []
 
         for i, p in enumerate(pts):
             if i >= len(points):
@@ -70,7 +97,8 @@ class TimelineRenderer:
 
         return shapes
 
-    def _line(self, curve):
+    def _line(self, curve: Sequence[Coord]) -> list[Any]:
+        """Cria a forma de linha visível da timeline."""
         return [
             cv.Path(
                 [cv.Path.MoveTo(*curve[0]), *[cv.Path.LineTo(x, y) for x, y in curve[1:]]],
@@ -82,8 +110,14 @@ class TimelineRenderer:
             )
         ]
 
-    def _points(self, pts, active_idx, point_states):
-        shapes = []
+    def _points(
+        self,
+        pts: Sequence[Coord],
+        active_idx: int,
+        point_states: dict[int, str],
+    ) -> list[Any]:
+        """Cria os marcadores de pontos da timeline."""
+        shapes: list[Any] = []
 
         for i, p in enumerate(pts):
             color = self.style.point_color
@@ -112,7 +146,8 @@ class TimelineRenderer:
 
         return shapes
 
-    def _cursor(self, curve):
+    def _cursor(self, curve: Sequence[Coord]) -> list[Any]:
+        """Cria o marcador do fim da linha animada."""
         if not curve:
             return []
 

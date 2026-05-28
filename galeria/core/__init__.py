@@ -1,3 +1,6 @@
+# galeria/core/__init__.py
+"""Constantes públicas de configuração e caminhos centrais."""
+
 from .config import (
     ANIMATE_OPACITY,
     APP_TITLE,

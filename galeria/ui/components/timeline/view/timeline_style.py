@@ -1,10 +1,15 @@
 # galeria/ui/components/timeline/view/timeline_style.py
+"""Tokens visuais usados pelo renderer da timeline."""
 
 import flet as ft
 
+from galeria.ui.theme.models import Theme
+
 
 class TimelineStyle:
-    def __init__(self, theme=None):
+    """Agrupa cores, raios e offsets aplicados ao desenho da timeline."""
+
+    def __init__(self, theme: Theme | None = None):
         self.line_color = ft.Colors.RED_400
         self.glow_color = ft.Colors.WHITE
         self.point_color = ft.Colors.BLUE_400
@@ -21,7 +26,7 @@ class TimelineStyle:
         self.point_selected_radius = 12
         self.cursor_radius = 10
         self.year_font_size = 12
-        self.year_color = ft.Colors.WHITE70
+        self.year_color = "#FFFFFFB3"
         self.year_active_color = ft.Colors.WHITE
         self.year_visited_color = ft.Colors.BLUE_100
         self.year_selected_color = ft.Colors.WHITE
@@ -31,7 +36,8 @@ class TimelineStyle:
         if theme:
             self.apply_theme(theme)
 
-    def apply_theme(self, theme):
+    def apply_theme(self, theme: Theme) -> None:
+        """Atualiza tokens visuais a partir do tema ativo."""
         timeline = getattr(theme, "timeline", None)
 
         self.line_color = getattr(timeline, "line", theme.accent.primary)

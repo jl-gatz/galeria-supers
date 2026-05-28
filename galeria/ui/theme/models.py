@@ -1,4 +1,5 @@
 # galeria/ui/theme/models.py
+"""Modelos imutáveis que definem os tokens de tema da interface."""
 
 from dataclasses import dataclass
 
@@ -13,6 +14,8 @@ from galeria.ui.theme.styles import ComponentStyles
 
 @dataclass(frozen=True)
 class BaseColors:
+    """Cores de fundo e superfícies principais."""
+
     background: str
     surface: str
     surface_variant: str
@@ -20,6 +23,8 @@ class BaseColors:
 
 @dataclass(frozen=True)
 class TextColors:
+    """Cores usadas em textos primários, secundários e invertidos."""
+
     primary: str
     secondary: str
     inverse: str
@@ -27,6 +32,8 @@ class TextColors:
 
 @dataclass(frozen=True)
 class AccentColors:
+    """Cores de destaque e contraste do tema."""
+
     primary: str
     secondary: str
     contrast: str
@@ -34,12 +41,16 @@ class AccentColors:
 
 @dataclass(frozen=True)
 class UIColors:
+    """Cores auxiliares para bordas e sombras."""
+
     border: str
     shadow: str
 
 
 @dataclass(frozen=True)
 class ButtonColors:
+    """Cores de botões e estados relacionados."""
+
     bg: str
     fg: str
     hover: str
@@ -47,6 +58,8 @@ class ButtonColors:
 
 @dataclass(frozen=True)
 class TimelineColors:
+    """Cores base usadas pela timeline."""
+
     line: str
     point: str
     point_active: str
@@ -54,6 +67,8 @@ class TimelineColors:
 
 @dataclass(frozen=True)
 class ImageTheme:
+    """Configurações visuais para imagens e máscaras."""
+
     portrait_tint: str | None = None
     portrait_blend_mode: ft.BlendMode | None = None
     portrait_opacity: float = 1.0
@@ -64,6 +79,8 @@ class ImageTheme:
 
 @dataclass(frozen=True)
 class LogoTheme:
+    """Configurações visuais para logos institucionais."""
+
     variant: str = "official"
     tint: str | None = None
     blend_mode: ft.BlendMode | None = None
@@ -77,6 +94,8 @@ class LogoTheme:
 
 @dataclass(frozen=True)
 class Typography:
+    """Escala tipográfica e pesos usados pelo tema."""
+
     font_family: str
 
     display: int
@@ -85,9 +104,9 @@ class Typography:
     body: int
     small: int
 
-    weight_regular: int
-    weight_medium: int
-    weight_bold: int
+    weight_regular: str | ft.FontWeight
+    weight_medium: str | ft.FontWeight
+    weight_bold: str | ft.FontWeight
 
 
 # =========================================================
@@ -97,6 +116,8 @@ class Typography:
 
 @dataclass(frozen=True)
 class GalleryTheme:
+    """Tokens de layout e interação da tela de galeria."""
+
     card_width: int
     card_height: int
     visible_cards: int
@@ -117,6 +138,8 @@ class GalleryTheme:
 
 @dataclass(frozen=True)
 class HeaderTheme:
+    """Tokens do cabeçalho da visão de detalhe."""
+
     height: int
 
     title_size: int
@@ -134,6 +157,8 @@ class HeaderTheme:
 
 @dataclass(frozen=True)
 class SuperDetailTheme:
+    """Tokens específicos da superfície de detalhe."""
+
     content_width: int
     image_height: int
 
@@ -154,6 +179,8 @@ class SuperDetailTheme:
 
 @dataclass(frozen=True)
 class Spacing:
+    """Escala de espaçamentos reutilizável."""
+
     xs: int = 8
     sm: int = 16
     md: int = 24
@@ -163,6 +190,8 @@ class Spacing:
 
 @dataclass(frozen=True)
 class Radius:
+    """Escala de raios de borda reutilizável."""
+
     sm: int = 8
     md: int = 16
     lg: int = 24
@@ -175,6 +204,8 @@ class Radius:
 
 @dataclass(frozen=True)
 class Theme:
+    """Tema completo consumido por views, componentes e controladores."""
+
     id: str
     title: str
 

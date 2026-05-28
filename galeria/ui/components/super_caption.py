@@ -1,15 +1,20 @@
-from typing import Any
+# galeria/ui/components/super_caption.py
+"""Legenda temática exibida sobre retratos de superintendentes."""
+
+from typing import Any, cast, override
 
 import flet as ft
 
-from galeria.ui.theme.manager import ThemeManager
+from galeria.domain.protocols.theme_manager_like import ThemeManagerLike
 from galeria.ui.theme.models import Theme
 
 
 class SuperCaption(ft.Container):
+    """Bloco de nome e subtítulo aplicado sobre imagens de retrato."""
+
     def __init__(
         self,
-        theme_manager: ThemeManager,
+        theme_manager: ThemeManagerLike,
         nome: str,
         subtitle: str | None = None,
         width: float | None = None,
@@ -63,15 +68,14 @@ class SuperCaption(ft.Container):
             self._apply_theme(self.theme_manager.theme)
 
     def apply_theme(self, theme: Theme):
+        """Aplica o tema e atualiza o controle quando estiver montado."""
         self._apply_theme(theme)
 
         if self._mounted and self._has_page():
             self.update()
 
-    def _apply_theme(self, theme: Theme):
-        if theme is None:
-            return
-
+    def _apply_theme(self, theme: Theme) -> None:
+        """Atualiza espaçamento, tipografia e cores da legenda."""
         typography = getattr(theme, "typography", None)
         caption_style = self._caption_style(theme)
         text = getattr(theme, "text", None)
@@ -99,7 +103,7 @@ class SuperCaption(ft.Container):
 
         self.name_text.color = self._theme_token(text, ["inverse", "primary"], "#FFFFFF")
         self.name_text.size = name_size
-        self.name_text.weight = caption_style.name_weight
+        self.name_text.weight = cast(ft.FontWeight, caption_style.name_weight)
         self.name_text.font_family = self._theme_token(typography, ["font_family"], None)
         self.name_text.style = ft.TextStyle(height=caption_style.line_height)
 
@@ -110,7 +114,7 @@ class SuperCaption(ft.Container):
                 "#FFFFFF",
             )
             self.subtitle_text.size = subtitle_size
-            self.subtitle_text.weight = caption_style.subtitle_weight
+            self.subtitle_text.weight = cast(ft.FontWeight, caption_style.subtitle_weight)
             self.subtitle_text.font_family = self._theme_token(
                 typography,
                 ["font_family"],
@@ -118,7 +122,8 @@ class SuperCaption(ft.Container):
             )
             self.subtitle_text.style = ft.TextStyle(height=caption_style.line_height)
 
-    def _caption_style(self, theme):
+    def _caption_style(self, theme: Theme) -> Any:
+        """Obtém o estilo de legenda do tema ou usa o padrão global."""
         styles = getattr(theme, "styles", None)
         caption_style = getattr(styles, "portrait_caption", None)
 
@@ -129,7 +134,8 @@ class SuperCaption(ft.Container):
 
         return default_component_styles().portrait_caption
 
-    def _theme_token(self, source, names: list[str], fallback=None):
+    def _theme_token(self, source: Any, names: list[str], fallback: Any = None) -> Any:
+        """Retorna o primeiro token disponível em uma fonte temática."""
         if source is None:
             return fallback
 
@@ -141,18 +147,24 @@ class SuperCaption(ft.Container):
         return fallback
 
     def _has_page(self) -> bool:
+        """Indica se o controle já possui uma página Flet associada."""
         try:
-            return self.page is not None
+            _ = self.page
+            return True
         except RuntimeError:
             return False
 
-    def did_mount(self):
+    @override
+    def did_mount(self) -> None:
+        """Assina mudanças de tema depois da montagem."""
         self._mounted = True
         if self.theme_manager:
             self.theme_manager.subscribe(self.apply_theme)
             self.apply_theme(self.theme_manager.theme)
 
-    def will_unmount(self):
+    @override
+    def will_unmount(self) -> None:
+        """Remove a assinatura de tema antes da desmontagem."""
         self._mounted = False
         if self.theme_manager:
             self.theme_manager.unsubscribe(self.apply_theme)

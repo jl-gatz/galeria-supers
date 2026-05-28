@@ -1,4 +1,5 @@
 # galeria/ui/utils/flet_save.py
+"""Chamadas auxiliares para atualizar controles Flet com segurança."""
 
 import logging
 
@@ -8,16 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def safe_update(control: ft.Control) -> bool:
-    """
-    Tenta executar control.update() de forma segura.
-
-    Retorna:
-        True  -> update executado com sucesso
-        False -> control ainda não está montado (ignorado)
-
-    Levanta:
-        RuntimeError -> se for um erro inesperado
-    """
+    """Atualiza um controle e ignora apenas o caso de ainda não estar montado."""
     try:
         control.update()
         return True

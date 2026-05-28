@@ -1,3 +1,6 @@
+# galeria/ui/controllers/gallery_scroll_controller.py
+"""Controle de rolagem paginada da galeria horizontal."""
+
 import math
 from collections.abc import Callable
 
@@ -7,6 +10,8 @@ from galeria.core.config import SCROLL_DURATION
 
 
 class GalleryScrollController:
+    """Calcula páginas, offsets e card ativo de uma linha horizontal."""
+
     def __init__(
         self,
         row: ft.Row,
@@ -27,21 +32,23 @@ class GalleryScrollController:
         self.row.on_scroll = self._on_scroll
 
     def group_width(self):
-        """Largura ocupada pelos cards de uma página (sem o espaçamento extra após o último card)."""
+        """Retorna a largura ocupada pelos cards visíveis de uma página."""
         return self.visible_cards * self.card_width + (self.visible_cards - 1) * self.spacing
 
     def page_width(self):
-        """Distância do início de uma página ao início da próxima página (inclui o espaçamento extra)."""
+        """Retorna a distância entre o início de uma página e a próxima."""
         return self.group_width() + self.spacing
 
     def total_pages(self):
+        """Retorna o maior índice de página disponível para a linha."""
         total_cards = len(self.row.controls)
         # Número de páginas baseado nos cards, sem considerar padding
         return max(0, math.ceil(total_cards / self.visible_cards) - 1)
 
     async def _on_scroll(self, e: ft.OnScrollEvent):
+        """Atualiza o índice ativo a partir da posição manual do scroll."""
         pixels = e.pixels
-        max_scroll = e.max_scroll_extent  # noqa: F841
+        # max_scroll = e.max_scroll_extent
         self._notify_active_index(self.active_index_from_offset(pixels))
 
         # DESLIGADO POR ENQUANTO: reset automático ao chegar no final (pode ser confuso se o usuário quiser ir pro final)
@@ -53,6 +60,7 @@ class GalleryScrollController:
         #     )
 
     async def next(self):
+        """Avança para a próxima página da galeria ou retorna ao começo."""
         if self.current_page < self.total_pages():
             self.current_page += 1
         else:
@@ -68,6 +76,7 @@ class GalleryScrollController:
         self._notify_active_index(self.active_index_from_offset(offset))
 
     def active_index_from_offset(self, offset: float) -> int:
+        """Calcula o card central aproximado para um offset de rolagem."""
         total_cards = len(self.row.controls)
         if total_cards == 0:
             return 0
@@ -78,5 +87,6 @@ class GalleryScrollController:
         return max(0, min(total_cards - 1, index))
 
     def _notify_active_index(self, index: int) -> None:
+        """Emite o índice ativo quando há callback registrado."""
         if self.on_active_index_change:
             self.on_active_index_change(index)

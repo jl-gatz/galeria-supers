@@ -1,3 +1,6 @@
+# galeria/_examples/linhas.py
+"""Exemplo experimental de linhas Bézier animadas em canvas."""
+
 import asyncio
 import math
 
@@ -5,7 +8,8 @@ import flet as ft
 import flet.canvas as cv
 
 
-def main(page: ft.Page):
+def main(page: ft.Page) -> None:
+    """Monta a página com linhas animadas."""
     page.bgcolor = "#050505"
     num_linhas = 10
     canvas = cv.Canvas(width=600, height=400)
@@ -13,6 +17,7 @@ def main(page: ft.Page):
     page.add(ft.Container(content=canvas, alignment=ft.Alignment.CENTER, expand=True))
 
     async def animate():
+        """Atualiza continuamente as curvas desenhadas no canvas."""
         t = 0
         while True:
             t += 0.05

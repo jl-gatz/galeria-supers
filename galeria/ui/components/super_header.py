@@ -1,18 +1,24 @@
-from typing import Any
+# galeria/ui/components/super_header.py
+"""Cabeçalho da visão de detalhe de um superintendente."""
+
+from typing import Any, cast, override
 
 import flet as ft
 
 from galeria.core import SUPER_CAPTION_MASK
+from galeria.domain.protocols.theme_manager_like import ThemeManagerLike
 from galeria.ui.components import ThemedMaskedImage
 from galeria.ui.components.media import themed_portrait_src
 from galeria.ui.components.super_caption import SuperCaption
-from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.models import Theme
 
 
 class SuperHeader(ft.Container):
+    """Composição de retrato, legenda, título e texto da visão de detalhe."""
+
     def __init__(
         self,
-        theme_manager: ThemeManager,
+        theme_manager: ThemeManagerLike,
         image_src: str | None = None,
         nome: str = "",
         periodo: str | None = None,
@@ -89,10 +95,8 @@ class SuperHeader(ft.Container):
     # =========================================================
     # 🎨 THEME
     # =========================================================
-    def apply_theme(self, theme):
-        if theme is None:
-            return
-
+    def apply_theme(self, theme: Theme) -> None:
+        """Aplica o tema ao divisor, título e parágrafos."""
         self._apply_divider_theme(theme)
         self._apply_title_theme(theme)
         self._apply_paragraphs_theme(theme)
@@ -101,15 +105,19 @@ class SuperHeader(ft.Container):
             self.update()
 
     def _has_page(self) -> bool:
+        """Indica se o cabeçalho já está ligado a uma página Flet."""
         try:
-            return self.page is not None
+            _ = self.page
+            return True
         except RuntimeError:
             return False
 
-    def _apply_divider_theme(self, theme):
+    def _apply_divider_theme(self, theme: Theme) -> None:
+        """Atualiza a cor do divisor do cabeçalho."""
         self.divider.color = theme.accent.primary
 
-    def _apply_title_theme(self, theme):
+    def _apply_title_theme(self, theme: Theme) -> None:
+        """Atualiza tipografia e cor do título."""
         self.title.color = theme.text.primary
         self.title.size = self._theme_token(
             theme,
@@ -122,11 +130,14 @@ class SuperHeader(ft.Container):
             fallback=self._theme_token(theme, ["font_family"], fallback=None),
         )
 
-    def _apply_paragraphs_theme(self, theme):
+    def _apply_paragraphs_theme(self, theme: Theme) -> None:
+        """Aplica o tema a todos os parágrafos renderizados."""
         for paragraph in self.text_list.controls:
-            self._apply_paragraph_theme(paragraph, theme)
+            if isinstance(paragraph, ft.Text):
+                self._apply_paragraph_theme(paragraph, theme)
 
-    def _apply_paragraph_theme(self, paragraph: ft.Text, theme):
+    def _apply_paragraph_theme(self, paragraph: ft.Text, theme: Theme) -> None:
+        """Aplica estilo textual conforme o papel do parágrafo."""
         role = getattr(paragraph, "data", None)
         paragraph.color = theme.accent.primary if role == "timeline_year" else theme.text.secondary
         paragraph.size = self._theme_token(
@@ -148,7 +159,7 @@ class SuperHeader(ft.Container):
             fallback=self._theme_token(theme, ["font_family"], fallback=None),
         )
         paragraph.weight = (
-            self._theme_token(theme, ["weight_bold"], fallback=ft.FontWeight.BOLD)
+            cast(ft.FontWeight, self._theme_token(theme, ["weight_bold"], fallback=ft.FontWeight.BOLD))
             if role in {"timeline_year", "timeline_label"}
             else None
         )
@@ -162,7 +173,8 @@ class SuperHeader(ft.Container):
         if line_height is not None:
             paragraph.style = ft.TextStyle(height=line_height)
 
-    def _theme_token(self, theme, names: list[str], fallback=None):
+    def _theme_token(self, theme: Theme, names: list[str], fallback: Any = None) -> Any:
+        """Retorna o primeiro token tipográfico disponível no tema."""
         typography = getattr(theme, "typography", None)
 
         if typography is None:
@@ -180,22 +192,26 @@ class SuperHeader(ft.Container):
     # 🧩 TEXTO
     # =========================================================
     def _set_paragraphs(self, text: str):
+        """Divide texto em parágrafos e recria os controles da lista."""
         paragraphs = [p for p in text.split("\n\n") if p.strip()]
         self.text_list.controls = [self._create_paragraph_control(p) for p in paragraphs]
 
     def _create_paragraph_control(self, text: str) -> ft.Text:
+        """Cria um controle de texto básico para um parágrafo."""
         return ft.Text(text, size=14)
 
     def update_text(self, new_text: str):
+        """Substitui o texto corrente do detalhe e restaura o scroll."""
         self._set_paragraphs(new_text)
 
-        if hasattr(self.text_list, "_i"):
-            self.text_list.scroll_to(offset=0)
+        if hasattr(self.text_list, "_i") and self._has_page():
+            cast(Any, self.page).run_task(self.text_list.scroll_to, offset=0)
 
         if self.theme_manager:
             self.apply_theme(self.theme_manager.theme)
 
-    def set_timeline_event(self, year: int, label: str, text: str):
+    def set_timeline_event(self, year: int | None, label: str, text: str) -> None:
+        """Exibe no cabeçalho o evento selecionado na timeline."""
         self.text_list.controls = [
             self._create_paragraph_control(str(year)),
             self._create_paragraph_control(label),
@@ -204,8 +220,8 @@ class SuperHeader(ft.Container):
         self.text_list.controls[0].data = "timeline_year"
         self.text_list.controls[1].data = "timeline_label"
 
-        if hasattr(self.text_list, "_i"):
-            self.text_list.scroll_to(offset=0)
+        if hasattr(self.text_list, "_i") and self._has_page():
+            cast(Any, self.page).run_task(self.text_list.scroll_to, offset=0)
 
         if self.theme_manager:
             self.apply_theme(self.theme_manager.theme)
@@ -213,7 +229,9 @@ class SuperHeader(ft.Container):
     # =========================================================
     # 🎬 LIFECYCLE
     # =========================================================
-    def did_mount(self):
+    @override
+    def did_mount(self) -> None:
+        """Aplica o tema inicial quando o cabeçalho é montado."""
         self._mounted = True
         if self.theme_manager:
             self.apply_theme(self.theme_manager.theme)

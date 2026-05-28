@@ -1,4 +1,5 @@
 # galeria/ui/components/timeline/view/__init__.py
+"""Peças visuais responsáveis por desenhar e hospedar a timeline."""
 
 from .timeline_canvas import TimelineCanvas
 from .timeline_container import TimelineContainer

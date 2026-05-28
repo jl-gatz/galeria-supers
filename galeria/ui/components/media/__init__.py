@@ -1,3 +1,6 @@
+# galeria/ui/components/media/__init__.py
+"""Componentes e utilitários de mídia com suporte a tema."""
+
 from .portrait_src import themed_portrait_src
 from .themed_image import ThemedImage
 from .themed_logo import ThemedLogo

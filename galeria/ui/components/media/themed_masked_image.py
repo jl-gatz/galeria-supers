@@ -1,14 +1,22 @@
-from typing import Any
+# galeria/ui/components/media/themed_masked_image.py
+"""Imagem composta por retrato e máscara tematizada."""
+
+from typing import Any, override
 
 import flet as ft
 
+from galeria.domain.protocols.theme_manager_like import ThemeManagerLike
+from galeria.ui.theme.models import Theme
+
 
 class ThemedMaskedImage(ft.Stack):
+    """Stack que sobrepõe uma máscara visual ao retrato quando necessário."""
+
     def __init__(
         self,
         src: str | None,
         mask_src: str,
-        theme: Any,
+        theme: ThemeManagerLike,
         width: int | None = None,
         height: int | None = None,
         fit: ft.BoxFit = ft.BoxFit.CONTAIN,
@@ -21,7 +29,7 @@ class ThemedMaskedImage(ft.Stack):
         self._has_src = src is not None
 
         self.base_image = ft.Image(
-            src=src,
+            src=src or "",
             width=width,
             height=height,
             fit=fit,
@@ -44,7 +52,8 @@ class ThemedMaskedImage(ft.Stack):
 
         self._apply_theme(self.theme_manager.theme)
 
-    def _apply_theme(self, theme):
+    def _apply_theme(self, theme: Theme) -> None:
+        """Aplica visibilidade e tint da máscara conforme o tema."""
         self.base_image.visible = self._has_src
         self.base_image.color = None
         self.base_image.color_blend_mode = None
@@ -64,16 +73,22 @@ class ThemedMaskedImage(ft.Stack):
             self.update()
 
     def _has_page(self) -> bool:
+        """Indica se a imagem composta já está associada a uma página Flet."""
         try:
-            return self.page is not None
+            _ = self.page
+            return True
         except RuntimeError:
             return False
 
-    def did_mount(self):
+    @override
+    def did_mount(self) -> None:
+        """Assina mudanças de tema quando a imagem composta é montada."""
         self._mounted = True
         self.theme_manager.subscribe(self._apply_theme)
         self._apply_theme(self.theme_manager.theme)
 
-    def will_unmount(self):
+    @override
+    def will_unmount(self) -> None:
+        """Remove a assinatura de tema antes da desmontagem."""
         self._mounted = False
         self.theme_manager.unsubscribe(self._apply_theme)
