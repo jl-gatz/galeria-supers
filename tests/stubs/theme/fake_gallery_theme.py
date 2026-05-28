@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 @dataclass
 class FakeGalleryTheme:
+    title: str = "Galeria de Superintendentes"
     card_width: int = 300
     card_height: int = 420
     visible_cards: int = 5

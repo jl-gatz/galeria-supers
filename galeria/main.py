@@ -1,7 +1,6 @@
 # galeria/main.py
 """Ponto de entrada da aplicação Flet."""
 
-
 import flet as ft
 from infrastructure.repositories.super_repository import SuperRepository
 from ui.config.page_config import configurar_page
@@ -10,7 +9,7 @@ from galeria.core import ASSETS_URL
 from galeria.domain import SuperService
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme.manager import ThemeManager
-from galeria.ui.theme.themes import DETIC_THEME
+from galeria.ui.theme.themes import CCUEC_THEME
 from galeria.ui.views import GalleryView
 
 
@@ -22,7 +21,7 @@ def main(page: ft.Page) -> None:
     service = SuperService(repository=repository)
 
     # Tema padrão da galeria (pode ser alterado dinamicamente depois)
-    theme = ThemeManager(DETIC_THEME)
+    theme = ThemeManager(CCUEC_THEME)
     # Criamos a galeria primeiro
     gallery = GalleryView(
         service=service, page=page, root_layout=None, theme=theme

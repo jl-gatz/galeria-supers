@@ -129,6 +129,7 @@ class GalleryTheme:
 
     image_overlay: str
     hover_overlay: str
+    title: str = "Galeria de Superintendentes"
 
 
 # =========================================================
