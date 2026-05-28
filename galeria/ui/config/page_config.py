@@ -1,13 +1,12 @@
-# config/page_config.py
+# galeria/ui/config/page_config.py
+"""Configuração global da página principal do aplicativo."""
 
 import flet as ft
 from core.config import APP_TITLE
 
 
 def configurar_page(page: ft.Page) -> None:
-    """
-    Configurações gerais da janela do app
-    """
+    """Aplica opções de janela, alinhamento, rolagem e fontes da aplicação."""
     page.title = APP_TITLE
     page.window.full_screen = True
     page.window.title_bar_hidden = True

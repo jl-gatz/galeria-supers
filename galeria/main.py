@@ -1,4 +1,5 @@
-# main.py
+# galeria/main.py
+"""Ponto de entrada da aplicação Flet."""
 
 
 import flet as ft
@@ -13,7 +14,8 @@ from galeria.ui.theme.themes import DETIC_THEME
 from galeria.ui.views import GalleryView
 
 
-def main(page: ft.Page):
+def main(page: ft.Page) -> None:
+    """Configura dependências, tema e layout raiz da aplicação."""
     configurar_page(page)
 
     repository = SuperRepository()

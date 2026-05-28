@@ -1,39 +1,26 @@
+# galeria/ui/controllers/auto_time_controller.py
+"""Controle assíncrono de timeout reiniciável."""
+
 import asyncio
 from collections.abc import Callable, Coroutine
+from typing import Any, override
 
 
 class AutoTimeoutController:
-    """
-    Controller responsável por disparar uma ação após um período de inatividade.
-
-    Características:
-    - reiniciável
-    - cancelável
-    - compatível com asyncio
-    - testável via scheduler injetado
-    """
+    """Dispara uma ação após inatividade, com suporte a reset e cancelamento."""
 
     def __init__(
         self,
         seconds: float,
         on_timeout: Callable[[], None],
-        scheduler: Callable[[Coroutine], asyncio.Task] | None = None,
+        scheduler: Callable[[Coroutine[Any, Any, None]], asyncio.Task[None]] | None = None,
     ):
-        """
-        Parameters
-        ----------
-        seconds:
-            tempo de espera antes do timeout
-        on_timeout:
-            callback executado após timeout
-        scheduler:
-            função responsável por criar a task (usado para testes)
-        """
+        """Configura duração, callback e scheduler opcional para testes."""
         self.seconds = seconds
         self.on_timeout = on_timeout
         self.scheduler = scheduler
 
-        self._task: asyncio.Task | None = None
+        self._task: asyncio.Task[None] | None = None
         self._token = 0
 
     # ---------------------------------------------------------
@@ -41,6 +28,7 @@ class AutoTimeoutController:
     # ---------------------------------------------------------
 
     def start(self):
+        """Inicia uma nova task de timeout, cancelando a anterior."""
 
         self.cancel()
 
@@ -61,15 +49,11 @@ class AutoTimeoutController:
         self._task = loop.create_task(coro)
 
     def restart(self):
-        """
-        Reinicia o contador.
-        """
+        """Reinicia o contador de inatividade."""
         self.start()
 
     def cancel(self):
-        """
-        Cancela o timeout atual.
-        """
+        """Cancela a task de timeout atual."""
         if self._task and not self._task.done():
             self._task.cancel()
 
@@ -80,6 +64,7 @@ class AutoTimeoutController:
     # ---------------------------------------------------------
 
     async def _run(self, token: int):
+        """Aguarda o período configurado e executa o callback vigente."""
 
         try:
             await asyncio.sleep(self.seconds)
@@ -104,12 +89,12 @@ class AutoTimeoutController:
 
     @property
     def running(self):
-        """
-        Indica se o timer está ativo.
-        """
+        """Indica se há um timeout ativo."""
         return self._task is not None and not self._task.done()
 
-    def __repr__(self):
+    @override
+    def __repr__(self) -> str:
+        """Retorna uma representação textual do estado do controller."""
 
         state = "running" if self.running else "stopped"
 

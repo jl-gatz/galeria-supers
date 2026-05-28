@@ -1,11 +1,20 @@
+# galeria/debug/debug_panel.py
+"""Painel visual para alternar e inspecionar temas em desenvolvimento."""
+
+from typing import Any, override
+
 import flet as ft
 
+from galeria.ui.theme.models import Theme
 from galeria.ui.theme.theme import ThemeManager
 from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME, GREENISH_THEME
 
 
 class ThemeDebugPanel(ft.Container):
+    """Overlay de debug para troca manual de tema e inspeção de tokens."""
+
     def __init__(self, theme_manager: ThemeManager):
+        """Monta controles de debug e assina mudanças de tema."""
         super().__init__()
 
         self.theme_manager = theme_manager
@@ -86,17 +95,20 @@ class ThemeDebugPanel(ft.Container):
     # 🎛️ AÇÕES
     # =========================================================
 
-    def _toggle_visibility(self, e=None):
+    def _toggle_visibility(self, e: Any = None) -> None:
+        """Oculta o painel de debug."""
         self.visible = False
         if self._mounted:
             self.update()
 
-    def _on_toggle_auto_theme(self, e):
+    def _on_toggle_auto_theme(self, e: Any) -> None:
+        """Encaminha a preferência de troca automática ao gerenciador."""
         value = e.control.value
         if hasattr(self.theme_manager, "set_auto_mode"):
             self.theme_manager.set_auto_mode(value)
 
-    def _set_theme(self, theme):
+    def _set_theme(self, theme: Theme) -> None:
+        """Aplica manualmente um tema e desliga a troca automática."""
         if hasattr(self.theme_manager, "set_theme"):
             print("SET_THEME CALLED:", theme.title, id(theme))
             self.auto_theme_switch.value = False
@@ -106,7 +118,8 @@ class ThemeDebugPanel(ft.Container):
     # 🎨 THEME
     # =========================================================
 
-    def apply_theme(self, theme):
+    def apply_theme(self, theme: Theme | None) -> None:
+        """Atualiza textos e superfície do painel para o tema ativo."""
         if theme is None:
             return
 
@@ -142,9 +155,13 @@ class ThemeDebugPanel(ft.Container):
     # 🎬 LIFECYCLE
     # =========================================================
 
-    def did_mount(self):
+    @override
+    def did_mount(self) -> None:
+        """Aplica o tema inicial após a montagem do painel."""
         self._mounted = True
         self.apply_theme(self.theme_manager.theme)
 
-    def will_unmount(self):
+    @override
+    def will_unmount(self) -> None:
+        """Remove a assinatura de tema antes da desmontagem."""
         self.theme_manager.unsubscribe(self.apply_theme)

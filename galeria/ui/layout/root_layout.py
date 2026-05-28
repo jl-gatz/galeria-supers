@@ -1,16 +1,22 @@
-# ui/layout/root_layout.py
+# galeria/ui/layout/root_layout.py
+"""Layout raiz que compõe galeria, backdrop, debug e overlays."""
 
 import asyncio
+from typing import Any, cast, override
 
 import flet as ft
 
 from galeria.core.config import FADE_OUT_ASYNC_SLEEP
 from galeria.debug.debug_panel import ThemeDebugPanel
 from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.models import Theme
 
 
 class RootLayout(ft.Container):
+    """Superfície principal da UI e controlador de overlays."""
+
     def __init__(self, gallery_view: ft.Control, theme_manager: ThemeManager):
+        """Monta a pilha base com galeria, backdrop e painel de debug."""
         self.gallery = gallery_view
         self.theme_manager = theme_manager
         self._current_detail = None
@@ -51,7 +57,8 @@ class RootLayout(ft.Container):
     # 🎨 THEME
     # =========================================================
 
-    def apply_theme(self, theme=None):
+    def apply_theme(self, theme: Theme | None = None) -> None:
+        """Aplica tema ao fundo global e ao backdrop."""
         theme = theme or self.theme_manager.theme
 
         # 🎯 Fundo do layout
@@ -67,22 +74,27 @@ class RootLayout(ft.Container):
         if self.page:
             self.update()
 
-    def did_mount(self):
+    @override
+    def did_mount(self) -> None:
+        """Finaliza configuração de tema e teclado após montagem."""
         self.apply_theme()
 
         if self.page:
             self.page.bgcolor = self.theme_manager.theme.base.background
 
-        self.page.on_keyboard_event = self._handle_key
+        cast(Any, self.page).on_keyboard_event = self._handle_key
 
-    def will_unmount(self):
+    @override
+    def will_unmount(self) -> None:
+        """Remove a assinatura de tema antes da desmontagem."""
         self.theme_manager.unsubscribe(self.apply_theme)
 
     # =========================================================
     # 🎹 INPUT
     # =========================================================
 
-    def _handle_key(self, e: ft.KeyboardEvent):
+    def _handle_key(self, e: ft.KeyboardEvent) -> None:
+        """Alterna o painel de debug ao pressionar a tecla configurada."""
         if e.key == "D":
             self.debug_panel.visible = not self.debug_panel.visible
             self.update()
@@ -91,7 +103,8 @@ class RootLayout(ft.Container):
     # 🎭 OVERLAY CONTROL
     # =========================================================
 
-    def show_overlay(self, detail: ft.Control):
+    def show_overlay(self, detail: ft.Control) -> None:
+        """Mostra um detalhe sobre a galeria com backdrop ativo."""
         self._current_detail = detail
 
         # ativa backdrop
@@ -103,7 +116,8 @@ class RootLayout(ft.Container):
 
         self.update()
 
-    def hide_overlay(self, detail: ft.Control = None):
+    def hide_overlay(self, detail: ft.Control | None = None) -> None:
+        """Oculta um overlay e remove o controle após o fade."""
         detail = detail or self._current_detail
 
         if not detail:
@@ -130,4 +144,4 @@ class RootLayout(ft.Container):
 
             self.update()
 
-        self.page.run_task(remove)
+        cast(Any, self.page).run_task(remove)

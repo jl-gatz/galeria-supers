@@ -1,11 +1,13 @@
 # galeria/ui/views/super_view.py
+"""Overlay de detalhe de um superintendente e sua linha do tempo."""
 
 from collections.abc import Callable
-from typing import override
+from typing import Any, cast, override
 
 import flet as ft
 
 from galeria.core.config import ANIMATE_OPACITY, AUTO_TIME_VIEW_BACK
+from galeria.domain.protocols.theme_manager_like import ThemeManagerLike
 from galeria.ui.behaviors import AutoCloseBehavior
 from galeria.ui.components import (
     FloatingNavButton,
@@ -21,16 +23,24 @@ from galeria.ui.components.timeline import (
     TimelineView,
     extract_points_from_super,
 )
+from galeria.ui.components.timeline.models import TimelinePoint
 from galeria.ui.controllers import SuperDetailController
-from galeria.ui.theme.manager import ThemeManager
+from galeria.ui.theme.models import Theme
 
 
 class SuperDetail(ft.Container):
+    """Visão em overlay que apresenta um superintendente em detalhe.
+
+    O componente coordena cabeçalho, navegação anterior/próxima, seleção na
+    linha do tempo, atualização de tema e fechamento automático enquanto está
+    montado sobre a galeria.
+    """
+
     def __init__(
         self,
         controller: SuperDetailController,
         on_request_close: Callable[[], None],
-        theme_manager: ThemeManager,
+        theme_manager: ThemeManagerLike,
     ):
         super().__init__()
 
@@ -83,16 +93,21 @@ class SuperDetail(ft.Container):
     # =========================================================
     # 🎨 THEME
     # =========================================================
-    def apply_theme(self, theme):
+    def apply_theme(self, theme: Theme) -> None:
+        """Aplica uma atualização de tema à superfície e à timeline."""
         if not hasattr(self, "inner_container"):
             return
 
-        self.timeline_style.apply_theme(theme)
+        cast(Any, self.timeline_style).apply_theme(theme)
 
         if hasattr(self, "timeline_view"):
             self.timeline_view.refresh()
 
-        self.inner_container.bgcolor = theme.base.surface
+        self.inner_container.bgcolor = getattr(
+            theme.super_detail,
+            "background",
+            theme.base.surface,
+        )
         self.inner_container.shadow = ft.BoxShadow(
             blur_radius=20,
             spread_radius=2,
@@ -106,6 +121,7 @@ class SuperDetail(ft.Container):
     # 🎬 Animações
     # -------------------------
     def _fade_in(self) -> None:
+        """Exibe o overlay e inicia o autofechamento apenas após a montagem."""
         self.opacity = 1
 
         if self._mounted:
@@ -113,6 +129,7 @@ class SuperDetail(ft.Container):
             self.auto_close.start()
 
     def _fade_out(self) -> None:
+        """Oculta o overlay e interrompe o temporizador de autofechamento."""
         self.auto_close.stop()
         self.opacity = 0
         self.update()
@@ -122,11 +139,16 @@ class SuperDetail(ft.Container):
     # =========================================================
 
     def _build_main_container(self):
+        """Monta a superfície temática que contém o detalhe."""
         self.inner_container = ft.Container(
             expand=True,
             padding=60,
             border_radius=20,
-            bgcolor=self.theme_manager.theme.base.surface,
+            bgcolor=getattr(
+                self.theme_manager.theme.super_detail,
+                "background",
+                self.theme_manager.theme.base.surface,
+            ),
             shadow=ft.BoxShadow(
                 blur_radius=20,
                 spread_radius=2,
@@ -142,6 +164,7 @@ class SuperDetail(ft.Container):
         )
 
     def _build_layout(self):
+        """Monta a pilha raiz do overlay."""
         return ft.Stack(
             expand=True,
             controls=[
@@ -150,6 +173,7 @@ class SuperDetail(ft.Container):
         )
 
     def _build_main_column(self):
+        """Monta a composição vertical de cabeçalho, navegação e timeline."""
         return ft.Column(
             expand=True,
             spacing=40,
@@ -162,6 +186,7 @@ class SuperDetail(ft.Container):
         )
 
     def _build_timeline_section(self):
+        """Monta a área da timeline e sobrepõe a ação de voltar."""
         return ft.Container(
             expand=True,
             height=300,
@@ -182,6 +207,7 @@ class SuperDetail(ft.Container):
         )
 
     def _build_fab(self):
+        """Monta o botão flutuante de voltar da visão de detalhe."""
         return FloatingNavButton.back(
             on_click=self._handle_voltar,
             key="detail_back",
@@ -193,6 +219,7 @@ class SuperDetail(ft.Container):
     # =========================================================
 
     def _build_header(self):
+        """Monta o cabeçalho do superintendente com o texto do slide atual."""
         return SuperHeader(
             theme_manager=self.theme_manager,
             image_src=self.controller.image_src,
@@ -203,6 +230,7 @@ class SuperDetail(ft.Container):
         )
 
     def _build_navigation(self):
+        """Monta controles anterior/próximo ligados ao controlador de slides."""
         return NavigationControls(
             on_prev=self.prev,
             on_next=self.next,
@@ -213,28 +241,34 @@ class SuperDetail(ft.Container):
     # 🎮 INTERAÇÕES
     # =========================================================
 
-    def next(self, e=None):
+    def next(self, e: ft.ControlEvent | None = None) -> None:
+        """Avança para o próximo slide e reinicia o timeout de inatividade."""
         if self.controller.next():
             self._refresh_slide()
             self.auto_close.reset()
 
-    def prev(self, e=None):
+    def prev(self, e: ft.ControlEvent | None = None) -> None:
+        """Retorna ao slide anterior e reinicia o timeout de inatividade."""
         if self.controller.prev():
             self._refresh_slide()
             self.auto_close.reset()
 
-    def _goto_slide(self, index: int):
+    def _goto_slide(self, index: int) -> None:
+        """Vai para um slide pelo índice e atualiza o texto visível."""
         if self.controller.goto(index):
             self._refresh_slide()
 
-    def _handle_voltar(self, e):
+    def _handle_voltar(self, e: ft.ControlEvent) -> None:
+        """Fecha o overlay a partir da ação explícita de voltar."""
         self.auto_close.stop()
         self._on_request_close()
 
-    def _timeout_close(self):
+    def _timeout_close(self) -> None:
+        """Fecha o overlay quando o temporizador de inatividade expira."""
         self._on_request_close()
 
-    def _handle_timeline_point(self, point):
+    def _handle_timeline_point(self, point: TimelinePoint) -> None:
+        """Reflete no cabeçalho o ponto selecionado na timeline."""
         # print(
         #     "SUPER DETAIL TIMELINE CALLBACK:",
         #     f"id={point.id}",
@@ -248,7 +282,8 @@ class SuperDetail(ft.Container):
     # 🔄 ATUALIZAÇÃO
     # =========================================================
 
-    def _refresh_slide(self):
+    def _refresh_slide(self) -> None:
+        """Atualiza o texto do cabeçalho a partir do slide atual."""
         if not self._mounted:
             return
 
@@ -259,6 +294,7 @@ class SuperDetail(ft.Container):
     # =========================================================
     @override
     def did_mount(self):
+        """Finaliza tema e animação depois que o Flet monta o overlay."""
         self._mounted = True
 
         self.apply_theme(self.theme_manager.theme)
