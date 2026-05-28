@@ -1,4 +1,5 @@
-# domain/protocols/gallery_service_like.py
+# galeria/domain/protocols/gallery_service_like.py
+"""Protocolo do serviço consumido pela visão de galeria."""
 
 from collections.abc import Sequence
 from pathlib import Path
@@ -8,6 +9,8 @@ from galeria.domain import Era, Super
 
 
 class GalleryServiceLike(Protocol):
+    """Contrato necessário para listar e abrir itens na galeria."""
+
     def listar_supers(self) -> Sequence[Super]: ...
     def listar_eras(self) -> Sequence[Era]: ...
     def obter_era(self, era_id: str) -> Era | None: ...

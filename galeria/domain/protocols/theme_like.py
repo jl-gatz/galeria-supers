@@ -1,7 +1,12 @@
+# galeria/domain/protocols/theme_like.py
+"""Protocolo flexível para objetos de tema."""
+
 from typing import Any, Protocol
 
 
 class ThemeLike(Protocol):
+    """Contrato estrutural amplo usado por gerenciadores de tema."""
+
     id: str
 
     accent: Any
