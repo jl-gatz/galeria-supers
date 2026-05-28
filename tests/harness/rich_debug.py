@@ -11,6 +11,8 @@ from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
 
+from tests.utils.types import HasSrc, HasValue, InspectorLike
+
 console = Console()
 
 
@@ -18,14 +20,14 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def _tree_to_lines(root, inspector):
+    def _tree_to_lines(root: object, inspector: InspectorLike) -> list[str]:
         """
         Converte árvore de controles em linhas de texto.
         """
 
-        lines = []
+        lines: list[str] = []
 
-        def walk(node, depth=0):
+        def walk(node: object, depth: int = 0) -> None:
             indent = "  " * depth
             lines.append(f"{indent}{node.__class__.__name__}")
 
@@ -39,12 +41,12 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def print_tree(root, inspector):
+    def print_tree(root: object, inspector: InspectorLike) -> None:
         """
         Renderiza árvore de controles.
         """
 
-        def build(node, branch):
+        def build(node: object, branch: Tree) -> None:
 
             label = f"[bold cyan]{node.__class__.__name__}[/]"
             child_branch = branch.add(label)
@@ -62,7 +64,7 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def print_query(results):
+    def print_query(results: list[object]) -> None:
         """
         Mostra resultado de query.
         """
@@ -85,7 +87,7 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def print_node(node):
+    def print_node(node: object) -> None:
         """
         Mostra detalhes de um controle.
         """
@@ -101,7 +103,7 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def print_controls_table(nodes):
+    def print_controls_table(nodes: list[object]) -> None:
         """
         Tabela com controles encontrados.
         """
@@ -113,12 +115,12 @@ class RichDebug:
         table.add_column("Attributes")
 
         for i, node in enumerate(nodes):
-            attrs = []
+            attrs: list[str] = []
 
-            if hasattr(node, "src"):
+            if isinstance(node, HasSrc):
                 attrs.append(f"src={node.src}")
 
-            if hasattr(node, "value"):
+            if isinstance(node, HasValue):
                 attrs.append(f"value={node.value}")
 
             table.add_row(
@@ -132,7 +134,9 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def print_snapshot_diff(expected_root, actual_root, inspector):
+    def print_snapshot_diff(
+        expected_root: object, actual_root: object, inspector: InspectorLike
+    ) -> None:
         """
         Mostra diff entre duas árvores.
         """
@@ -182,7 +186,7 @@ class RichDebug:
     # -------------------------
 
     @staticmethod
-    def highlight_selector(selector):
+    def highlight_selector(selector: str) -> None:
         """
         Destaque visual de selector.
         """

@@ -6,7 +6,7 @@ from rich.pretty import Pretty
 from .console import console
 
 
-def render_node(node):
+def render_node(node: object) -> None:
 
     panel = Panel(
         Pretty(node),

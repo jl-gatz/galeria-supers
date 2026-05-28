@@ -6,7 +6,7 @@ from rich.table import Table
 console = Console()
 
 
-def render_summary(nodes):
+def render_summary(nodes: list[object]) -> None:
 
     types = [node.__class__.__name__ for node in nodes]
 

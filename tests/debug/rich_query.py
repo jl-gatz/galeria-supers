@@ -6,7 +6,7 @@ from rich.table import Table
 console = Console()
 
 
-def render_query(nodes, title="Query Result"):
+def render_query(nodes: list[object], title: str = "Query Result") -> None:
     table = Table(title=title)
 
     table.add_column("#")

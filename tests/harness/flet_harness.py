@@ -7,6 +7,7 @@ import flet as ft
 from tests.debug import render_node, render_query, render_summary, render_tree
 from tests.harness.tree_inspector import TreeInspector
 from tests.stubs import FakePage
+from tests.utils.types import AsyncUpdatable, Selector, TestPageLike
 
 
 class FletTestHarness:
@@ -51,7 +52,7 @@ class FletTestHarness:
         componentes.
     """
 
-    def __init__(self, page: FakePage):
+    def __init__(self, page: FakePage) -> None:
         """
         Inicializa o harness com uma página de teste.
 
@@ -60,11 +61,11 @@ class FletTestHarness:
         page : FakePage | ft.Page
             Página onde os componentes serão montados.
         """
-        self.page = page
-        self.root = None
-        self.inspector = None
+        self.page: TestPageLike = page
+        self.root: object | None = None
+        self.inspector: TreeInspector | None = None
 
-    async def mount(self, control: ft.Control):
+    async def mount(self, control: ft.Control) -> None:
         """
         Monta um controle na página de teste.
 
@@ -85,9 +86,9 @@ class FletTestHarness:
         self.page.add(control)
 
         # suporta Page real e FakePage
-        if hasattr(self.page, "update_async"):
+        if isinstance(self.page, AsyncUpdatable):
             await self.page.update_async()
-        elif hasattr(self.page, "update"):
+        else:
             self.page.update()
 
         self.root = control
@@ -97,7 +98,7 @@ class FletTestHarness:
     # Query facade (TreeInspector delegation)
     # ------------------------------------------------------------------
 
-    def find(self, selector: str):
+    def find(self, selector: Selector) -> list[object]:
         """
         Retorna todos os nós da árvore que correspondem ao seletor.
 
@@ -110,38 +111,35 @@ class FletTestHarness:
         -------
         list[ft.Control]
         """
-        self._ensure_mounted()
-        return self.inspector.find(selector)
+        return self._mounted_inspector().find(selector)
 
-    def one(self, selector: str):
+    def one(self, selector: Selector) -> object:
         """
         Retorna exatamente um nó correspondente ao seletor.
 
         Levanta erro se nenhum ou mais de um nó for encontrado.
         """
-        self._ensure_mounted()
-        return self.inspector.one(selector)
+        return self._mounted_inspector().one(selector)
 
-    def count(self, selector: str):
+    def count(self, selector: Selector) -> int:
         """
         Conta quantos nós correspondem ao seletor.
         """
-        self._ensure_mounted()
-        return self.inspector.count(selector)
+        return self._mounted_inspector().count(selector)
 
-    def find_descendants(self, node, selector):
+    def find_descendants(self, node: object, selector: Selector) -> list[object]:
         """
         Busca descendentes de um nó específico que correspondem ao seletor.
         """
-        return self.inspector.find_descendants(node, selector)
+        return self._mounted_inspector().find_descendants(node, selector)
 
-    def find_children(self, node, selector):
+    def find_children(self, node: object, selector: Selector) -> list[object]:
         """
         Busca apenas filhos diretos de um nó que correspondem ao seletor.
         """
-        return self.inspector.find_children(node, selector)
+        return self._mounted_inspector().find_children(node, selector)
 
-    def count_path(self, path):
+    def count_path(self, path: str | list[str]) -> int:
         """
         Conta ocorrências de uma sequência estrutural na árvore.
 
@@ -151,12 +149,12 @@ class FletTestHarness:
         harness.count_path(["GalleryView", "GalleryRow", "Image"])
         ```
         """
-        return self.inspector.count_path(path)
+        return self._mounted_inspector().count_path(path)
 
-    def all_nodes(self):
-        return list(self.inspector.walk())
+    def all_nodes(self) -> list[object]:
+        return list(self._mounted_inspector().walk())
 
-    def _ensure_mounted(self):
+    def _mounted_inspector(self) -> TreeInspector:
         """
         Garante que um componente foi montado antes de executar queries.
 
@@ -178,12 +176,13 @@ class FletTestHarness:
                 "FletTestHarness não montado.\n"
                 "Use: await harness.mount(control) antes de executar queries."
             )
+        return self.inspector
 
     # ------------------------------------------------------------------
     # Selector engine
     # ------------------------------------------------------------------
 
-    def select(self, selector: str):
+    def select(self, selector: str) -> list[object]:
         """
         Executa uma query hierárquica simples baseada em nomes de classe.
 
@@ -205,15 +204,18 @@ class FletTestHarness:
         -------
         list[ft.Control]
         """
-        self._ensure_mounted()
+        inspector = self._mounted_inspector()
+        if self.root is None:
+            return []
+
         parts = selector.split()
-        current = [self.root]
+        current: list[object] = [self.root]
 
         for part in parts:
-            next_nodes = []
+            next_nodes: list[object] = []
 
             for node in current:
-                descendants = self.inspector.descendants(node)
+                descendants = inspector.descendants(node)
 
                 for d in descendants:
                     if d.__class__.__name__ == part:
@@ -227,25 +229,26 @@ class FletTestHarness:
     # Debug utilities
     # ------------------------------------------------------------------
 
-    def debug_tree(self):
+    def debug_tree(self) -> None:
         """
         Imprime uma representação textual simples da árvore de componentes.
         """
-        print(self.inspector.format_tree())
+        print(self._mounted_inspector().format_tree())
 
-    def rich_tree(self):
+    def rich_tree(self) -> object:
         """
         Retorna uma representação Rich da árvore de componentes.
         """
-        return self.inspector.rich_tree()
+        return self._mounted_inspector().rich_tree()
 
-    def rich_debug_tree(self):
+    def rich_debug_tree(self) -> None:
         """
         Renderiza a árvore usando utilitários Rich customizados.
         """
-        render_tree(self.root, self.inspector)
+        if self.root is not None:
+            render_tree(self.root, self._mounted_inspector())
 
-    def rich_query(self, selector: str | None = None):
+    def rich_query(self, selector: str | None = None) -> None:
         """
         Renderiza visualmente os resultados de uma query.
         """
@@ -257,7 +260,7 @@ class FletTestHarness:
         nodes = self.select(selector)
         render_query(nodes, title=f"Query: {selector}")
 
-    def rich_node(self, node):
+    def rich_node(self, node: object) -> None:
         """
         Exibe informações detalhadas de um nó específico.
         """
@@ -267,7 +270,7 @@ class FletTestHarness:
     # Snapshot testing
     # ------------------------------------------------------------------
 
-    def assert_tree_snapshot(self, snapshot_name: str):
+    def assert_tree_snapshot(self, snapshot_name: str) -> None:
         """
         Verifica se a árvore atual corresponde a um snapshot salvo.
 
@@ -285,7 +288,7 @@ class FletTestHarness:
             Caso o snapshot não exista ou a árvore atual seja diferente.
         """
 
-        tree = self.inspector.format_tree().strip()
+        tree = self._mounted_inspector().format_tree().strip()
 
         snapshot_path = Path("tests/snapshots") / f"{snapshot_name}.snap"
 
