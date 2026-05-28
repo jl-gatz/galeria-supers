@@ -137,6 +137,7 @@ class GalleryView(ft.Container):
             return
 
         t = self._theme.typography
+        self.title_text.value = self._theme.gallery.title
         self.title_text.size = t.h1
         self.title_text.font_family = t.font_family
         self.title_text.weight = cast(ft.FontWeight, t.weight_bold)
@@ -180,7 +181,7 @@ class GalleryView(ft.Container):
     def _build_main_column(self) -> ft.Column:
         """Monta o layout vertical principal da tela de galeria."""
         self.title_text = self._text(
-            "Galeria de Superintendentes",
+            self._theme.gallery.title,
             variant="h1",
             weight=self._theme.typography.weight_bold,
         )

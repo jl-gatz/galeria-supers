@@ -151,6 +151,7 @@ DETIC_THEME = Theme(
         max_width=1920,
         image_overlay="rgba(0,0,0,0.15)",
         hover_overlay="rgba(225,5,20,0.10)",
+        title="Galeria de Superintendentes da DETIC",
     ),
     header=HeaderTheme(
         height=120,
@@ -242,6 +243,7 @@ CCUEC_THEME = Theme(
         max_width=1920,
         image_overlay="rgba(0,0,0,0.1)",
         hover_overlay="rgba(29,78,216,0.10)",
+        title="Galeria de Superintendentes da CCUEC",
     ),
     header=HeaderTheme(
         height=120,
@@ -334,6 +336,7 @@ GREENISH_THEME = Theme(
         max_width=1920,
         image_overlay="rgba(0,0,0,0.35)",
         hover_overlay="rgba(34,197,94,0.15)",
+        title="Galeria de Superintendentes",
     ),
     header=HeaderTheme(
         height=120,
