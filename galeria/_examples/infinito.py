@@ -2,10 +2,12 @@
 """Exemplo experimental de animação de símbolos de infinito em canvas."""
 
 import asyncio
-from typing import Any, override
+from typing import Any, cast, override
 
 import flet as ft
 import flet.canvas as cv
+
+type Point = tuple[float, float]
 
 
 @ft.control
@@ -18,7 +20,7 @@ class InfinityCanvas(ft.Stack):
         self.infinities_length = infinities_length
         self.colors = ["#086A9A", "#D8523B", "#F8B023"]
         self.progress = 0.0
-        self.animation_task = None
+        self.animation_task: Any | None = None
 
         # Cria o Canvas, que será o único filho do Stack
         self.canvas = cv.Canvas(
@@ -27,28 +29,28 @@ class InfinityCanvas(ft.Stack):
         self.controls = [self.canvas]
 
     @override
-    def did_mount(self):
+    def did_mount(self) -> None:
         """Inicia a animação quando o controle é montado."""
-        self.page.run_task(self._animate)
+        self.animation_task = cast(Any, self.page).run_task(self._animate)
         self.update()
 
     @override
-    def will_unmount(self):
+    def will_unmount(self) -> None:
         """Cancela a animação quando o controle é removido."""
         if self.animation_task:
             self.animation_task.cancel()
 
-    def _on_canvas_resize(self, e: cv.CanvasResizeEvent):
+    def _on_canvas_resize(self, e: cv.CanvasResizeEvent) -> None:
         """Redesenha quando o Canvas é redimensionado."""
         self._draw_infinities(e.width, e.height, self.progress)
 
-    def _draw_infinities(self, width: float, height: float, progress: float):
+    def _draw_infinities(self, width: float, height: float, progress: float) -> None:
         """Desenha os símbolos de infinito com coordenadas normalizadas e sem clipping."""
 
         if width <= 0 or height <= 0:
             return
 
-        shapes = []
+        shapes: list[Any] = []
         stroke_width = 10.0
         num_segments = 120
 
@@ -59,7 +61,7 @@ class InfinityCanvas(ft.Stack):
         safe_width = width - 2 * pad_x
         safe_height = height - 2 * pad_y
 
-        def to_screen(nx, ny):
+        def to_screen(nx: float, ny: float) -> Point:
             """Converte coordenadas normalizadas (0-1) para pixels"""
             return (
                 pad_x + nx * safe_width,
@@ -104,7 +106,7 @@ class InfinityCanvas(ft.Stack):
             # ✂️ Progresso da animação
             num_points_to_draw = max(2, int(len(all_points) * progress))
 
-            elements = [cv.Path.MoveTo(*all_points[0])]
+            elements: list[Any] = [cv.Path.MoveTo(*all_points[0])]
 
             for j in range(1, num_points_to_draw):
                 elements.append(cv.Path.LineTo(*all_points[j]))
@@ -125,11 +127,18 @@ class InfinityCanvas(ft.Stack):
         self.canvas.shapes = shapes
         self.canvas.update()
 
-    def _generate_cubic_curve(self, start, cp1, cp2, end, num_segments=100):
+    def _generate_cubic_curve(
+        self,
+        start: Point,
+        cp1: Point,
+        cp2: Point,
+        end: Point,
+        num_segments: int = 100,
+    ) -> list[Point]:
         """
         Gera uma lista de pontos (x, y) para uma curva cúbica de Bézier.
         """
-        points = []
+        points: list[Point] = []
         for t in range(num_segments + 1):
             t_param = t / num_segments
             x = (
@@ -147,7 +156,7 @@ class InfinityCanvas(ft.Stack):
             points.append((x, y))
         return points
 
-    async def _animate(self):
+    async def _animate(self) -> None:
         """Executa o loop contínuo de animação."""
         duration = 10.0
         steps = 180
@@ -168,10 +177,11 @@ class InfinityCanvas(ft.Stack):
 def main(page: ft.Page) -> None:
     """Monta a página do exemplo de infinito animado."""
     page.title = "Símbolos de Infinito Animado"
-    page.window_width = 1200
-    page.window_height = 600
+    page.window.width = 1200
+    page.window.height = 600
     infinity_canvas = InfinityCanvas(infinities_length=5, expand=True)
     page.add(ft.Container(content=infinity_canvas, expand=True))
 
 
-ft.app(target=main)
+run_app: Any = getattr(ft, "app")  # noqa: B009
+run_app(target=main)

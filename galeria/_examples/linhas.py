@@ -3,6 +3,7 @@
 
 import asyncio
 import math
+from typing import Any
 
 import flet as ft
 import flet.canvas as cv
@@ -16,12 +17,12 @@ def main(page: ft.Page) -> None:
 
     page.add(ft.Container(content=canvas, alignment=ft.Alignment.CENTER, expand=True))
 
-    async def animate():
+    async def animate() -> None:
         """Atualiza continuamente as curvas desenhadas no canvas."""
         t = 0
         while True:
             t += 0.05
-            novas_formas = []
+            novas_formas: list[Any] = []
             for i in range(num_linhas):
                 v1 = math.sin(t + i * 0.5) * 50
                 v2 = math.cos(t + i * 0.5) * 50
@@ -49,7 +50,8 @@ def main(page: ft.Page) -> None:
     page.update()
 
 
-ft.app(target=main)
+run_app: Any = getattr(ft, "app")  # noqa: B009
+run_app(target=main)
 
 
 # def main2(page: ft.Page):
