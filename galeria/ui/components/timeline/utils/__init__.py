@@ -1,4 +1,5 @@
 # galeria/ui/components/timeline/utils/__init__.py
+"""Utilitários de mapeamento e construção de caminhos da timeline."""
 
 from .path_builder import PathBuilder
 from .timeline_mapper import (

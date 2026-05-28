@@ -1,4 +1,5 @@
 # galeria/ui/components/timeline/__init__.py
+"""Componentes da timeline interativa usada na visão de detalhe."""
 
 from .controller import TimelineController
 from .models import TimelineModel, TimelinePoint

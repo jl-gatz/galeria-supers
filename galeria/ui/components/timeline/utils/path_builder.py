@@ -1,11 +1,17 @@
 # galeria/ui/components/timeline/utils/path_builder.py
+"""Construção de caminhos visuais a partir de pontos da timeline."""
 
 
 import math
+from collections.abc import Sequence
+
+Coord = tuple[float, float]
 
 
 class PathBuilder:
-    def __init__(self, mode="smooth", tension=0.5):
+    """Gera curvas lineares, suaves ou decorativas para o renderer."""
+
+    def __init__(self, mode: str = "smooth", tension: float = 0.5):
         self.mode = mode
         self.tension = tension
 
@@ -13,7 +19,8 @@ class PathBuilder:
     # 🛡️ PROTEÇÕES
     # =========================================================
 
-    def _is_valid(self, x, y):
+    def _is_valid(self, x: float | None, y: float | None) -> bool:
+        """Valida coordenadas antes de incluí-las em uma curva."""
         return (
             x is not None
             and y is not None
@@ -23,14 +30,16 @@ class PathBuilder:
             and math.isfinite(y)
         )
 
-    def _sanitize_points(self, points):
+    def _sanitize_points(self, points: Sequence[Coord]) -> list[Coord]:
+        """Remove pontos com coordenadas inválidas."""
         return [p for p in points if self._is_valid(p[0], p[1])]
 
     # =========================================================
     # 🎯 ENTRYPOINT
     # =========================================================
 
-    def build_path(self, points):
+    def build_path(self, points: Sequence[Coord]) -> list[Coord]:
+        """Constrói o caminho final conforme o modo configurado."""
         # print("RAW:", points)
 
         pts = self._sanitize_points(points)
@@ -55,8 +64,9 @@ class PathBuilder:
     # 🧵 CATMULL-ROM SPLINE (suave)
     # =========================================================
 
-    def _catmull_rom(self, pts, segments=20):
-        curve = []
+    def _catmull_rom(self, pts: Sequence[Coord], segments: int = 20) -> list[Coord]:
+        """Gera uma curva Catmull-Rom suave entre os pontos."""
+        curve: list[Coord] = []
 
         for i in range(len(pts) - 1):
             p0 = pts[i - 1] if i > 0 else pts[i]
@@ -93,8 +103,9 @@ class PathBuilder:
     # ♾️ CURVA INFINITA (estética)
     # =========================================================
 
-    def _infinity_curve(self, pts, segments=40):
-        curve = []
+    def _infinity_curve(self, pts: Sequence[Coord], segments: int = 40) -> list[Coord]:
+        """Gera uma curva decorativa com oscilação entre os pontos."""
+        curve: list[Coord] = []
 
         for i in range(len(pts) - 1):
             x1, y1 = pts[i]
