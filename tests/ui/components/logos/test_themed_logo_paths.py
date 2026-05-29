@@ -1,11 +1,14 @@
-from types import SimpleNamespace
+from pathlib import Path
+
+import pytest
 
 from galeria.ui.components.media.themed_logo import ThemedLogo, resolve_logo_src
+from galeria.ui.theme.themes import CCUEC_THEME
 from tests.stubs.fake_theme import FakeTheme
 from tests.stubs.fake_theme_manager import FakeThemeManager
 
 
-def test_resolve_logo_src_returns_themed_logo_when_file_exists(tmp_path):
+def test_resolve_logo_src_returns_themed_logo_when_file_exists(tmp_path: Path) -> None:
     logos_dir = tmp_path / "logos"
     themed_dir = logos_dir / "ccuec_era"
     themed_dir.mkdir(parents=True)
@@ -18,7 +21,9 @@ def test_resolve_logo_src_returns_themed_logo_when_file_exists(tmp_path):
     )
 
 
-def test_resolve_logo_src_returns_fallback_when_themed_logo_is_missing(tmp_path):
+def test_resolve_logo_src_returns_fallback_when_themed_logo_is_missing(
+    tmp_path: Path,
+) -> None:
     logos_dir = tmp_path / "logos"
     logos_dir.mkdir()
     (logos_dir / "logo-detic-4x.png").touch()
@@ -29,7 +34,9 @@ def test_resolve_logo_src_returns_fallback_when_themed_logo_is_missing(tmp_path)
     )
 
 
-def test_themed_logo_updates_src_when_theme_changes(monkeypatch, tmp_path):
+def test_themed_logo_updates_src_when_theme_changes(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
     logos_dir = tmp_path / "logos"
     themed_dir = logos_dir / "ccuec_era"
     themed_dir.mkdir(parents=True)
@@ -42,7 +49,7 @@ def test_themed_logo_updates_src_when_theme_changes(monkeypatch, tmp_path):
     )
 
     theme = FakeTheme()
-    theme.id = "missing_theme"
+    object.__setattr__(theme, "id", "missing_theme")
     manager = FakeThemeManager(theme)
     logo = ThemedLogo(
         theme_manager=manager,
@@ -51,6 +58,6 @@ def test_themed_logo_updates_src_when_theme_changes(monkeypatch, tmp_path):
 
     assert logo.src == "images/logos/logo-detic-4x.png"
 
-    logo._apply_theme(SimpleNamespace(id="ccuec_era"))
+    logo._apply_theme(CCUEC_THEME)
 
     assert logo.src == "images/logos/ccuec_era/logo-detic-4x.png"

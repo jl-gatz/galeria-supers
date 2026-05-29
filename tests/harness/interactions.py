@@ -1,16 +1,18 @@
 # tests/harness/interactions.py
 
+from tests.utils.types import Changeable, Clickable, HasValue
 
-def click(control):
 
-    if hasattr(control, "on_click") and control.on_click:
+def click(control: object) -> None:
+
+    if isinstance(control, Clickable) and control.on_click:
         control.on_click(None)
 
 
-def change_text(control, value):
+def change_text(control: object, value: object) -> None:
 
-    if hasattr(control, "value"):
+    if isinstance(control, HasValue):
         control.value = value
 
-    if hasattr(control, "on_change") and control.on_change:
+    if isinstance(control, Changeable) and control.on_change:
         control.on_change(None)

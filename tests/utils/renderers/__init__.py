@@ -6,6 +6,6 @@ from .json_renderer import render_json
 from .render_simple import render_simple
 
 
-def register_default_renderers():
+def register_default_renderers() -> None:
     registry.register("json", render_json)
     registry.register("simple", render_simple)

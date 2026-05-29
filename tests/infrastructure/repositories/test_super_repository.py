@@ -2,13 +2,14 @@ import json
 from pathlib import Path
 
 from galeria.infrastructure.repositories.super_repository import SuperRepository
+from tests.utils.types import JsonValue
 
 
-def _write_json(path: Path, data):
+def _write_json(path: Path, data: JsonValue) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
 
 
-def _super_payload(super_id: int, nome: str, foto: str = "ada__gray.png"):
+def _super_payload(super_id: int, nome: str, foto: str = "ada__gray.png") -> dict[str, JsonValue]:
     return {
         "id": super_id,
         "nome": nome,
@@ -20,7 +21,7 @@ def _super_payload(super_id: int, nome: str, foto: str = "ada__gray.png"):
     }
 
 
-def test_repository_loads_grouped_supers_and_injects_era_id(tmp_path):
+def test_repository_loads_grouped_supers_and_injects_era_id(tmp_path: Path) -> None:
     supers_path = tmp_path / "supers.json"
     eras_path = tmp_path / "eras.json"
     _write_json(
@@ -41,7 +42,7 @@ def test_repository_loads_grouped_supers_and_injects_era_id(tmp_path):
     assert supers[0].foto == Path("images/supers/grayscale/ada__gray.png")
 
 
-def test_repository_supports_legacy_flat_super_list(tmp_path):
+def test_repository_supports_legacy_flat_super_list(tmp_path: Path) -> None:
     supers_path = tmp_path / "supers.json"
     eras_path = tmp_path / "eras.json"
     detic_super = _super_payload(2, "Grace")
@@ -56,7 +57,7 @@ def test_repository_supports_legacy_flat_super_list(tmp_path):
     assert [super_data.era_id for super_data in supers] == ["ccuec", "detic"]
 
 
-def test_repository_loads_eras_and_theme_by_id(tmp_path):
+def test_repository_loads_eras_and_theme_by_id(tmp_path: Path) -> None:
     supers_path = tmp_path / "supers.json"
     eras_path = tmp_path / "eras.json"
     _write_json(supers_path, {})
@@ -87,8 +88,10 @@ def test_repository_loads_eras_and_theme_by_id(tmp_path):
     repository = SuperRepository(supers_path=supers_path, eras_path=eras_path)
 
     eras = repository.listar_eras()
+    detic_era = repository.obter_era("detic")
 
     assert [era.id for era in eras] == ["ccuec", "detic"]
-    assert repository.obter_era("detic").nome == "Era DETIC"
+    assert detic_era is not None
+    assert detic_era.nome == "Era DETIC"
     assert repository.obter_theme_da_era("ccuec") == "ccuec_era"
     assert repository.obter_theme_da_era("missing") is None

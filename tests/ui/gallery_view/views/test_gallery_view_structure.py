@@ -1,9 +1,14 @@
+from typing import cast
+
+import flet as ft
 import pytest
 
+from galeria.domain import SuperService
 from galeria.ui.theme.manager import ThemeManager
 from galeria.ui.theme.themes import CCUEC_THEME, DETIC_THEME
 from galeria.ui.views.gallery_view import GalleryView
 from tests.harness import FletTestHarness
+from tests.stubs.fake_page import FakePage
 
 
 @pytest.mark.asyncio
@@ -39,12 +44,14 @@ async def test_gallery_row_is_descendant_of_gallery_view(
     assert len(rows) == 1
 
 
-def test_gallery_title_updates_when_theme_changes(fake_page, service):
+def test_gallery_title_updates_when_theme_changes(
+    fake_page: FakePage, service: SuperService
+) -> None:
     theme_manager = ThemeManager(CCUEC_THEME)
     gallery = GalleryView(
         service=service,
         root_layout=None,
-        page=fake_page,
+        page=cast(ft.Page, fake_page),
         theme=theme_manager,
     )
 

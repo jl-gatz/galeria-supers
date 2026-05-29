@@ -11,7 +11,7 @@ from tests.utils.tree_helpers import (
 )
 
 
-def render_simple_tree(view) -> str:
+def render_simple_tree(view: object) -> str:
     root = getattr(view, "content", None)
 
     if not root:

@@ -3,6 +3,8 @@
 from rich.text import Text
 from rich.tree import Tree
 
+from tests.utils.types import HasSrc, HasText, HasValue, InspectorLike
+
 from .console import console
 
 ATTRIBUTES = [
@@ -14,21 +16,29 @@ ATTRIBUTES = [
 ]
 
 
-def _collect_attrs(node):
+def _collect_attrs(node: object) -> list[str]:
 
-    attrs = []
+    attrs: list[str] = []
 
     for attr in ATTRIBUTES:
-        if hasattr(node, attr):
-            value = getattr(node, attr)
+        value: object | None = None
 
-            if value:
-                attrs.append(f"{attr}={value}")
+        if attr == "src" and isinstance(node, HasSrc):
+            value = node.src
+        elif attr == "value" and isinstance(node, HasValue):
+            value = node.value
+        elif attr == "text" and isinstance(node, HasText):
+            value = node.text
+        elif attr in {"width", "height"}:
+            value = getattr(node, attr, None)
+
+        if value:
+            attrs.append(f"{attr}={value}")
 
     return attrs
 
 
-def _format_label(node):
+def _format_label(node: object) -> Text:
 
     typename = node.__class__.__name__
 
@@ -43,12 +53,12 @@ def _format_label(node):
     return label
 
 
-def render_tree(root, inspector):
+def render_tree(root: object, inspector: InspectorLike) -> None:
     """
     Renderiza árvore de componentes com atributos
     """
 
-    def build(node, branch):
+    def build(node: object, branch: Tree) -> None:
 
         label = _format_label(node)
 

@@ -1,8 +1,8 @@
 class FakeControl:
-    def __init__(self):
-        self.controls = []
+    def __init__(self) -> None:
+        self.controls: list[object] = []
         self.visible = True
-        self.content = None
+        self.content: object | None = None
 
-    def update(self):
+    def update(self) -> None:
         pass

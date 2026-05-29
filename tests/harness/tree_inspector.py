@@ -1,9 +1,9 @@
-# tests/harness/tree_inspector.py
-
+from collections.abc import Callable, Iterator, Sequence
 
 from rich.tree import Tree
 
 from tests.utils.tree_helpers import get_children
+from tests.utils.types import HasKey, HasSrc, HasText, Selector
 
 
 class TreeInspector:
@@ -24,7 +24,7 @@ class TreeInspector:
     inspector.find_path("GalleryView GalleryRow Image")
     """
 
-    def __init__(self, root):
+    def __init__(self, root: object) -> None:
         """
         Inicializa o inspector com o nó raiz da árvore.
 
@@ -39,7 +39,7 @@ class TreeInspector:
     # child discovery
     # -------------------------
 
-    def children(self, control):
+    def children(self, control: object) -> list[object]:
         """
         Retorna os filhos diretos de um controle.
 
@@ -63,33 +63,13 @@ class TreeInspector:
         list[Control]
             Lista de filhos diretos do controle.
         """
-
-        # kids = []
-        # items = getattr(control, "items", None)
-
-        # if hasattr(control, "controls") and control.controls:
-        #     kids.extend(control.controls)
-
-        # if hasattr(control, "content") and control.content:
-        #     kids.append(control.content)
-
-        # if not callable(items) and isinstance(items, list):
-        #     kids.extend(items)
-
-        # if hasattr(control, "tabs") and control.tabs:
-        #     kids.extend(control.tabs)
-
-        # if hasattr(control, "actions") and control.actions:
-        #     kids.extend(control.actions)
-
-        # return [k for k in kids if k]
         return get_children(control)
 
     # -------------------------
     # traversal
     # -------------------------
 
-    def walk(self, node=None):
+    def walk(self, node: object | None = None) -> Iterator[object]:
         """
         Percorre a árvore de controles em profundidade (DFS).
 
@@ -119,7 +99,7 @@ class TreeInspector:
     # selector helpers
     # -------------------------
 
-    def _matches(self, node, selector):
+    def _matches(self, node: object, selector: Selector) -> bool:
         """
         Verifica se um nó corresponde a um seletor.
 
@@ -143,7 +123,7 @@ class TreeInspector:
     # base queries
     # -------------------------
 
-    def find(self, selector):
+    def find(self, selector: Selector) -> list[object]:
         """
         Retorna todos os nós que correspondem ao seletor.
 
@@ -158,7 +138,7 @@ class TreeInspector:
 
         return [n for n in self.walk() if self._matches(n, selector)]
 
-    def first(self, selector):
+    def first(self, selector: Selector) -> object:
         """
         Retorna o primeiro elemento que corresponde ao seletor.
 
@@ -175,7 +155,7 @@ class TreeInspector:
 
         return results[0]
 
-    def one(self, selector):
+    def one(self, selector: Selector) -> object:
         """
         Retorna exatamente um elemento que corresponde ao seletor.
 
@@ -193,7 +173,7 @@ class TreeInspector:
 
         return results[0]
 
-    def count(self, selector):
+    def count(self, selector: Selector) -> int:
         """
         Conta quantos elementos correspondem ao seletor.
         """
@@ -204,7 +184,7 @@ class TreeInspector:
     # property queries
     # -------------------------
 
-    def find_prop(self, prop, value):
+    def find_prop(self, prop: str, value: object) -> list[object]:
         """
         Encontra elementos com um valor específico de propriedade.
 
@@ -215,7 +195,7 @@ class TreeInspector:
 
         return [n for n in self.walk() if hasattr(n, prop) and getattr(n, prop) == value]
 
-    def find_where(self, predicate):
+    def find_where(self, predicate: Callable[[object], bool]) -> list[object]:
         """
         Encontra elementos que satisfaçam um predicado.
 
@@ -230,19 +210,19 @@ class TreeInspector:
     # structural queries
     # -------------------------
 
-    def find_children(self, node, selector):
+    def find_children(self, node: object, selector: Selector) -> list[object]:
         """
         Retorna os filhos diretos de um nó que correspondem ao seletor.
         """
 
         return [child for child in self.children(node) if self._matches(child, selector)]
 
-    def find_descendants(self, node, selector):
+    def find_descendants(self, node: object, selector: Selector) -> list[object]:
         """
         Retorna todos os descendentes de um nó que correspondem ao seletor.
         """
 
-        results = []
+        results: list[object] = []
 
         for child in self.children(node):
             if self._matches(child, selector):
@@ -252,12 +232,12 @@ class TreeInspector:
 
         return results
 
-    def path_to(self, target):
+    def path_to(self, target: object) -> list[object]:
         """
         Retorna o caminho da raiz até um nó específico.
         """
 
-        def search(node, path):
+        def search(node: object, path: list[object]) -> list[object] | None:
 
             if node is target:
                 return [*path, node]
@@ -272,7 +252,7 @@ class TreeInspector:
 
         return search(self.root, []) or []
 
-    def find_ancestors(self, node):
+    def find_ancestors(self, node: object) -> list[object]:
         """
         Retorna todos os ancestrais de um nó.
         """
@@ -288,7 +268,7 @@ class TreeInspector:
     # path queries
     # -------------------------
 
-    def find_path(self, path):
+    def find_path(self, path: str | Sequence[str]) -> list[object]:
         """
         Encontra nós que correspondem a um caminho estrutural.
 
@@ -302,12 +282,12 @@ class TreeInspector:
         if isinstance(path, str):
             path = path.split()
 
-        def search(node, remaining):
+        def search(node: object, remaining: Sequence[str]) -> list[object]:
 
             if not remaining:
                 return [node]
 
-            results = []
+            results: list[object] = []
 
             for child in self.children(node):
                 if self._matches(child, remaining[0]):
@@ -315,7 +295,7 @@ class TreeInspector:
 
             return results
 
-        results = []
+        results: list[object] = []
 
         for node in self.walk():
             if self._matches(node, path[0]):
@@ -323,7 +303,7 @@ class TreeInspector:
 
         return results
 
-    def count_path(self, path):
+    def count_path(self, path: str | Sequence[str]) -> int:
         """
         Conta quantas ocorrências existem para um caminho estrutural.
         """
@@ -334,12 +314,12 @@ class TreeInspector:
     # debug (plain)
     # -------------------------
 
-    def print_tree(self):
+    def print_tree(self) -> None:
         """
         Imprime a árvore de componentes em formato simples.
         """
 
-        def _print(node, depth=0):
+        def _print(node: object, depth: int = 0) -> None:
 
             indent = " " * depth
             print(f"{indent}{node.__class__.__name__}")
@@ -353,7 +333,7 @@ class TreeInspector:
     # debug (formatted)
     # -------------------------
 
-    def format_tree(self, show_props=True, max_depth=None):
+    def format_tree(self, show_props: bool = True, max_depth: int | None = None) -> str:
         """
         Retorna uma representação textual formatada da árvore.
 
@@ -368,24 +348,24 @@ class TreeInspector:
         max_depth : int | None
         """
 
-        lines = []
+        lines: list[str] = []
 
-        def node_label(node):
+        def node_label(node: object) -> str:
 
             name = node.__class__.__name__
 
             if not show_props:
                 return name
 
-            props = []
+            props: list[str] = []
 
-            if hasattr(node, "key") and node.key:
+            if isinstance(node, HasKey) and node.key:
                 props.append(f"key='{node.key}'")
 
-            if hasattr(node, "text") and node.text:
+            if isinstance(node, HasText) and node.text:
                 props.append(f"text='{node.text}'")
 
-            if hasattr(node, "src") and node.src:
+            if isinstance(node, HasSrc) and node.src:
                 props.append(f"src='{node.src}'")
 
             if props:
@@ -393,7 +373,7 @@ class TreeInspector:
 
             return name
 
-        def walk(node, depth=0):
+        def walk(node: object, depth: int = 0) -> None:
 
             if max_depth is not None and depth > max_depth:
                 return
@@ -408,29 +388,29 @@ class TreeInspector:
 
         return "\n".join(lines)
 
-    def rich_tree(self, show_props=True, max_depth=None):
+    def rich_tree(self, show_props: bool = True, max_depth: int | None = None) -> Tree:
         """
         Retorna uma árvore visual usando a biblioteca Rich.
 
         Útil para debugging interativo nos testes.
         """
 
-        def node_label(node):
+        def node_label(node: object) -> str:
 
             name = node.__class__.__name__
 
             if not show_props:
                 return name
 
-            props = []
+            props: list[str] = []
 
-            if hasattr(node, "key") and node.key:
+            if isinstance(node, HasKey) and node.key:
                 props.append(f"key='{node.key}'")
 
-            if hasattr(node, "text") and node.text:
+            if isinstance(node, HasText) and node.text:
                 props.append(f"text='{node.text}'")
 
-            if hasattr(node, "src") and node.src:
+            if isinstance(node, HasSrc) and node.src:
                 props.append(f"src='{node.src}'")
 
             if props:
@@ -438,7 +418,7 @@ class TreeInspector:
 
             return name
 
-        def build(node, branch, depth=0):
+        def build(node: object, branch: Tree, depth: int = 0) -> None:
 
             if max_depth is not None and depth > max_depth:
                 return
@@ -453,7 +433,7 @@ class TreeInspector:
 
         return root
 
-    def descendants(self, node):
+    def descendants(self, node: object) -> Iterator[object]:
         """
         Iterador que retorna todos os descendentes de um nó.
         """

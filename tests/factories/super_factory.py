@@ -1,13 +1,9 @@
-# tests/factories/super_factory.py
-
-from galeria.domain.models import Super
 from tests.stubs.super_stub import SuperStub
 
 
 class SuperFactory:
     @staticmethod
-    def build(i: int) -> Super:
-
+    def build(i: int) -> SuperStub:
         return SuperStub(
             id=f"super-{i}",
             nome=f"Super {i}",
@@ -18,6 +14,5 @@ class SuperFactory:
         )
 
     @staticmethod
-    def batch(n: int):
-
+    def batch(n: int) -> list[SuperStub]:
         return [SuperFactory.build(i) for i in range(n)]

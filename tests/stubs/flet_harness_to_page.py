@@ -37,7 +37,7 @@ def attach_fake_page(control: object, fake_page: PageLike) -> None:
     Injeta um fake_page em um controle Flet, sobrescrevendo
     a propriedade `page` (que é read-only no framework).
     """
-    type(control).page = PropertyMock(return_value=fake_page)
+    setattr(type(control), "page", PropertyMock(return_value=fake_page))  # noqa: B010
 
 
 def mount[T](control: T, fake_page: PageLike) -> T:
@@ -49,7 +49,7 @@ def mount[T](control: T, fake_page: PageLike) -> T:
         fake_page.add(control)
 
     # lifecycle
-    if hasattr(control, "did_mount"):
+    if isinstance(control, Mountable):
         control.did_mount()
 
     return control

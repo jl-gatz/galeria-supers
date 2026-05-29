@@ -13,7 +13,7 @@ def test_timeline_canvas_creates_canvas_with_default_dimensions():
 
 
 def test_timeline_canvas_accepts_resize_callback():
-    def on_resize(_):
+    def on_resize(_: object) -> None:
         pass
 
     timeline_canvas = TimelineCanvas(on_resize=on_resize)

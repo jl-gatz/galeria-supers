@@ -1,9 +1,10 @@
 # tests/utils/snapshot_presets.py
 
 from .snapshot_config import SnapshotConfig
+from .types import JsonValue
 
 
-def mask_image(_):
+def mask_image(_: JsonValue) -> JsonValue:
     return "[IMAGE]"
 
 

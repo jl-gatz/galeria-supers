@@ -37,7 +37,7 @@ jobs:
         run: poetry run task lint
 
       - name: Run typecheck
-        run: poetry run task typecheck
+        run: poetry run task typecheck-all
 
       - name: Check working tree
         run: |

@@ -3,13 +3,20 @@ import flet as ft
 from galeria.ui.components.media import ThemedImage, ThemedLogo, themed_portrait_src
 from tests.stubs.fake_theme import FakeTheme
 from tests.stubs.fake_theme_manager import FakeThemeManager
+from tests.stubs.theme import FakeImageTheme, FakeLogoTheme
 
 
 def test_themed_image_applies_theme_after_mount():
     theme = FakeTheme()
-    theme.image.portrait_tint = "#00ff00"
-    theme.image.portrait_blend_mode = ft.BlendMode.COLOR
-    theme.image.portrait_opacity = 0.8
+    object.__setattr__(
+        theme,
+        "image",
+        FakeImageTheme(
+            portrait_tint="#00ff00",
+            portrait_blend_mode=ft.BlendMode.COLOR,
+            portrait_opacity=0.8,
+        ),
+    )
     manager = FakeThemeManager(theme)
 
     image = ThemedImage(src="image.png", theme=manager, apply_tint=True)
@@ -37,9 +44,15 @@ def test_themed_image_reacts_to_theme_change():
     image.did_mount()
 
     next_theme = FakeTheme()
-    next_theme.image.portrait_tint = "#0000ff"
-    next_theme.image.portrait_blend_mode = ft.BlendMode.MULTIPLY
-    next_theme.image.portrait_opacity = 0.4
+    object.__setattr__(
+        next_theme,
+        "image",
+        FakeImageTheme(
+            portrait_tint="#0000ff",
+            portrait_blend_mode=ft.BlendMode.MULTIPLY,
+            portrait_opacity=0.4,
+        ),
+    )
 
     manager.set_theme(next_theme)
 
@@ -64,10 +77,16 @@ def test_themed_image_does_not_update_before_mount():
 
 def test_themed_logo_preserves_official_variant():
     theme = FakeTheme()
-    theme.logo.variant = "official"
-    theme.logo.tint = "#ff0000"
-    theme.logo.blend_mode = ft.BlendMode.COLOR
-    theme.logo.opacity = 0.2
+    object.__setattr__(
+        theme,
+        "logo",
+        FakeLogoTheme(
+            variant="official",
+            tint="#ff0000",
+            blend_mode=ft.BlendMode.COLOR,
+            opacity=0.2,
+        ),
+    )
     manager = FakeThemeManager(theme)
 
     logo = ThemedLogo(src="logo.png", theme=manager)

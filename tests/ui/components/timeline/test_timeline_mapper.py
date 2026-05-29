@@ -1,5 +1,7 @@
 # tests/ui/components/timeline/test_timeline_mapper.py
 
+from typing import cast
+
 from galeria.ui.components.timeline.models import TimelinePoint
 from galeria.ui.components.timeline.utils import (
     extract_points_from_super,
@@ -89,7 +91,7 @@ def test_mapper_maps_points_to_canvas_coordinates():
 def test_mapper_maps_indexed_points_and_skips_invalid_coordinates():
     points = [
         TimelinePoint(0.1, 0.2),
-        TimelinePoint("invalid", 0.8),
+        TimelinePoint(cast(float, "invalid"), 0.8),
         TimelinePoint(0.5, 0.6),
     ]
 

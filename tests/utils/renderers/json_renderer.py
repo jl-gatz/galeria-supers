@@ -2,8 +2,10 @@
 
 import json
 
+from tests.utils.types import SerializedTree
 
-def render_json(tree) -> str:
+
+def render_json(tree: SerializedTree) -> str:
     return json.dumps(
         tree,
         indent=2,

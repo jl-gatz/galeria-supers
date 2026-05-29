@@ -1,11 +1,21 @@
-# tests/stubs/theme/fake_base_theme.py
+from typing import override
 
-from dataclasses import dataclass
+from galeria.ui.theme.models import TextColors
 
 
-@dataclass
-class FakeTextTheme:
-    primary: str = "#FFFFFF"
-    secondary: str = "#BBBBBB"
-    muted: str = "#888888"
-    inverse: str = "#000000"
+class FakeTextTheme(TextColors):
+    muted: str
+
+    def __init__(
+        self,
+        primary: str = "#FFFFFF",
+        secondary: str = "#BBBBBB",
+        inverse: str = "#000000",
+        muted: str = "#888888",
+    ) -> None:
+        super().__init__(primary=primary, secondary=secondary, inverse=inverse)
+        self.muted = muted
+
+    @override
+    def __setattr__(self, name: str, value: object) -> None:
+        object.__setattr__(self, name, value)

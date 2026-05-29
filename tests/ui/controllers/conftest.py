@@ -16,8 +16,10 @@ def make_super() -> Callable[[list[str]], SuperLike]:
 
 
 @pytest.fixture
-def make_controller(make_super: Callable[[list[str]], SuperLike]):
-    def _make(historias: list[str]):
+def make_controller(
+    make_super: Callable[[list[str]], SuperLike],
+) -> Callable[[list[str]], SuperDetailController]:
+    def _make(historias: list[str]) -> SuperDetailController:
         super_data: SuperLike = make_super(historias)
         return SuperDetailController(super_data)
 

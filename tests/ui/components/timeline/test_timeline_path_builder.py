@@ -1,10 +1,14 @@
 # tests/ui/components/timeline/test_timeline_path_builder.py
 
 import math
-
-import pytest
+from typing import cast
 
 from galeria.ui.components.timeline.utils import PathBuilder
+
+
+def _assert_coord_close(actual: tuple[float, float], expected: tuple[float, float]) -> None:
+    assert abs(actual[0] - expected[0]) < 1e-9
+    assert abs(actual[1] - expected[1]) < 1e-9
 
 
 def test_path_builder_returns_empty_list_for_empty_points():
@@ -23,7 +27,9 @@ def test_path_builder_returns_single_valid_point_without_interpolation():
 def test_path_builder_sanitizes_invalid_points():
     builder = PathBuilder(mode="linear")
 
-    points = [
+    points = cast(
+        list[tuple[float, float]],
+        [
         (10, 20),
         (None, 20),
         (10, None),
@@ -32,7 +38,8 @@ def test_path_builder_sanitizes_invalid_points():
         (math.inf, 20),
         (10, math.inf),
         (30, 40),
-    ]
+        ],
+    )
 
     assert builder.build_path(points) == [(10, 20), (30, 40)]
 
@@ -58,8 +65,8 @@ def test_path_builder_smooth_mode_generates_curve_with_same_endpoints():
     curve = builder.build_path(points)
 
     assert len(curve) > len(points)
-    assert curve[0] == pytest.approx(points[0])
-    assert curve[-1] == pytest.approx(points[-1])
+    _assert_coord_close(curve[0], points[0])
+    _assert_coord_close(curve[-1], points[-1])
 
 
 def test_path_builder_infinity_mode_generates_curve_with_same_endpoints():
@@ -69,5 +76,5 @@ def test_path_builder_infinity_mode_generates_curve_with_same_endpoints():
     curve = builder.build_path(points)
 
     assert len(curve) > len(points)
-    assert curve[0] == pytest.approx(points[0])
-    assert curve[-1] == pytest.approx(points[-1])
+    _assert_coord_close(curve[0], points[0])
+    _assert_coord_close(curve[-1], points[-1])

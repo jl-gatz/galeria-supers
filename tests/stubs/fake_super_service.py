@@ -4,6 +4,22 @@ from pathlib import Path
 from galeria.domain.models import Era, Super
 
 
+def _default_pode_abrir(super_data: Super) -> bool:
+    return super_data.nome != "_blank"
+
+
+def _default_image_path(super_data: Super) -> Path | None:
+    if super_data.foto is None:
+        return None
+    return Path(f"/fake/images/{super_data.foto}")
+
+
+def _default_timeline_path(super_data: Super) -> Path | None:
+    if super_data.timeline is None:
+        return None
+    return Path(f"/fake/timeline/{super_data.timeline}")
+
+
 class FakeSuperService:
     def __init__(
         self,
@@ -17,22 +33,10 @@ class FakeSuperService:
         self._eras = list(eras or [])
 
         # comportamento padrão (simples e previsível)
-        self._pode_abrir_fn = pode_abrir_fn or (lambda s: getattr(s, "nome", None) != "_blank")
-
-        self._image_path_fn = image_path_fn or (
-            lambda s: (
-                Path(f"/fake/images/{getattr(s, 'foto', 'unknown')}")
-                if getattr(s, "foto", None)
-                else None
-            )
-        )
-
-        self._timeline_path_fn = timeline_path_fn or (
-            lambda s: (
-                Path(f"/fake/timeline/{getattr(s, 'timeline', 'none')}")
-                if getattr(s, "timeline", None)
-                else None
-            )
+        self._pode_abrir_fn: Callable[[Super], bool] = pode_abrir_fn or _default_pode_abrir
+        self._image_path_fn: Callable[[Super], Path | None] = image_path_fn or _default_image_path
+        self._timeline_path_fn: Callable[[Super], Path | None] = (
+            timeline_path_fn or _default_timeline_path
         )
 
     # ==========================================

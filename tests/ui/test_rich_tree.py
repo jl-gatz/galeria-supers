@@ -2,12 +2,13 @@ import pytest
 
 from tests.debug.rich_node import render_node
 from tests.debug.rich_query import render_query
+from tests.harness import FletTestHarness
 
 pytestmark = pytest.mark.debug
 
 
 @pytest.mark.asyncio
-async def test_debug_tree(mounted_gallery):
+async def test_debug_tree(mounted_gallery: FletTestHarness) -> None:
     """
     Renderiza a árvore completa da UI.
 
@@ -19,7 +20,7 @@ async def test_debug_tree(mounted_gallery):
 
 
 @pytest.mark.asyncio
-async def test_debug_query_images(mounted_gallery):
+async def test_debug_query_images(mounted_gallery: FletTestHarness) -> None:
     """
     Mostra todas as imagens encontradas na galeria.
     """
@@ -32,7 +33,7 @@ async def test_debug_query_images(mounted_gallery):
 
 
 @pytest.mark.asyncio
-async def test_debug_first_gallery_row(mounted_gallery):
+async def test_debug_first_gallery_row(mounted_gallery: FletTestHarness) -> None:
     """
     Inspeciona uma GalleryRow específica.
     """
@@ -45,7 +46,7 @@ async def test_debug_first_gallery_row(mounted_gallery):
 
 
 @pytest.mark.asyncio
-async def test_debug_nested_query(mounted_gallery):
+async def test_debug_nested_query(mounted_gallery: FletTestHarness) -> None:
     """
     Testa query descendente.
     """
@@ -58,7 +59,7 @@ async def test_debug_nested_query(mounted_gallery):
 
 
 @pytest.mark.asyncio
-async def test_debug_gallery_structure(mounted_gallery):
+async def test_debug_gallery_structure(mounted_gallery: FletTestHarness) -> None:
     """
     Renderiza árvore e faz verificação mínima estrutural.
     """

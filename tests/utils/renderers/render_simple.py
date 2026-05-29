@@ -7,6 +7,7 @@ from tests.utils.tree_helpers import (
     has_placeholders,
     walk,
 )
+from tests.utils.types import SerializedTree
 
 # def walk(node):
 #     yield node
@@ -14,7 +15,10 @@ from tests.utils.tree_helpers import (
 #         yield from walk(child)
 
 
-def render_simple(tree) -> str:
+def render_simple(tree: SerializedTree) -> str:
+    if isinstance(tree, str):
+        return tree
+
     nodes = list(walk(tree))
     lines = ["Gallery"]
 
@@ -23,7 +27,7 @@ def render_simple(tree) -> str:
         (
             n.get("props", {}).get("value")
             for n in nodes
-            if n["type"] == "Text" and n.get("props", {}).get("value")
+            if n.get("type") == "Text" and n.get("props", {}).get("value")
         ),
         None,
     )
@@ -39,7 +43,7 @@ def render_simple(tree) -> str:
             lines.append(f"{prefix} Card({card})")
 
     # FAB / ARROW 🔥 (agora funciona)
-    if any(n["type"] == "FloatingActionButton" for n in nodes):
+    if any(n.get("type") == "FloatingActionButton" for n in nodes):
         lines.append("├── FAB")
 
     # LOGOS

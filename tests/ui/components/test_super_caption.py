@@ -6,6 +6,7 @@ from galeria.ui.components.super_caption import SuperCaption
 from galeria.ui.theme.styles import ComponentStyles
 from tests.stubs.fake_theme import FakeTheme
 from tests.stubs.fake_theme_manager import FakeThemeManager
+from tests.stubs.theme import FakeTextTheme
 
 
 def test_super_caption_renders_name():
@@ -42,14 +43,18 @@ def test_super_caption_does_not_render_subtitle_when_none():
 
 def test_super_caption_applies_theme_and_reacts_to_theme_change():
     theme = FakeTheme()
-    theme.text.inverse = "#fafafa"
-    theme.styles = ComponentStyles(
-        portrait_caption=replace(
-            theme.styles.portrait_caption,
-            name_size=22,
-            subtitle_size=14,
-            line_height=1.2,
-        )
+    object.__setattr__(theme, "text", FakeTextTheme(inverse="#fafafa"))
+    object.__setattr__(
+        theme,
+        "styles",
+        ComponentStyles(
+            portrait_caption=replace(
+                theme.styles.portrait_caption,
+                name_size=22,
+                subtitle_size=14,
+                line_height=1.2,
+            )
+        ),
     )
     manager = FakeThemeManager(theme)
     caption = SuperCaption(
@@ -62,17 +67,22 @@ def test_super_caption_applies_theme_and_reacts_to_theme_change():
 
     assert caption.name_text.color == "#fafafa"
     assert caption.name_text.size == 22
+    assert caption.name_text.style is not None
     assert caption.name_text.style.height == 1.2
     assert caption.subtitle_text is not None
     assert caption.subtitle_text.size == 14
 
     next_theme = FakeTheme()
-    next_theme.text.inverse = "#111111"
-    next_theme.styles = ComponentStyles(
-        portrait_caption=replace(
-            next_theme.styles.portrait_caption,
-            name_size=24,
-        )
+    object.__setattr__(next_theme, "text", FakeTextTheme(inverse="#111111"))
+    object.__setattr__(
+        next_theme,
+        "styles",
+        ComponentStyles(
+            portrait_caption=replace(
+                next_theme.styles.portrait_caption,
+                name_size=24,
+            )
+        ),
     )
 
     manager.set_theme(next_theme)
