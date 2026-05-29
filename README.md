@@ -500,7 +500,7 @@ Antes de abrir um Pull Request, rode localmente:
 ```bash
 poetry run pytest
 poetry run task lint
-poetry run task typecheck
+poetry run task typecheck-all
 git status --short
 ```
 
