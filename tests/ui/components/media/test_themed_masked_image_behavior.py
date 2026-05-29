@@ -3,6 +3,7 @@ import flet as ft
 from galeria.ui.components.media import ThemedMaskedImage
 from tests.stubs.fake_theme import FakeTheme
 from tests.stubs.fake_theme_manager import FakeThemeManager
+from tests.stubs.theme import FakeImageTheme
 
 
 def test_masked_image_does_not_tint_base_image():
@@ -45,9 +46,15 @@ def test_masked_image_reacts_to_theme_change():
     component.did_mount()
 
     next_theme = FakeTheme()
-    next_theme.image.caption_mask_tint = "#0000ff"
-    next_theme.image.caption_mask_blend_mode = ft.BlendMode.MULTIPLY
-    next_theme.image.caption_mask_opacity = 0.4
+    object.__setattr__(
+        next_theme,
+        "image",
+        FakeImageTheme(
+            caption_mask_tint="#0000ff",
+            caption_mask_blend_mode=ft.BlendMode.MULTIPLY,
+            caption_mask_opacity=0.4,
+        ),
+    )
 
     manager.set_theme(next_theme)
 
