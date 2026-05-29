@@ -1,12 +1,15 @@
 # tests/ui/components/timeline/test_timeline_renderer.py
 
+from collections.abc import Sequence
+
 import flet as ft
+import flet.canvas as cv
 
 from galeria.ui.components.timeline.models import TimelinePoint
 from galeria.ui.components.timeline.view import TimelineRenderer, TimelineStyle
 
 
-def class_names(shapes):
+def class_names(shapes: Sequence[object]) -> list[str]:
     return [type(shape).__name__ for shape in shapes]
 
 
@@ -79,7 +82,7 @@ def test_renderer_uses_style_values(timeline_style: TimelineStyle):
         active_idx=0,
     )
 
-    circles = [shape for shape in shapes if type(shape).__name__ == "Circle"]
+    circles = [shape for shape in shapes if isinstance(shape, cv.Circle)]
 
     assert circles[0].radius == timeline_style.point_radius
     assert circles[-1].radius == timeline_style.cursor_radius
@@ -98,7 +101,7 @@ def test_renderer_uses_clicked_and_selected_point_states(timeline_style: Timelin
         point_states={1: "clicked", 2: "selected"},
     )
 
-    circles = [shape for shape in shapes if type(shape).__name__ == "Circle"]
+    circles = [shape for shape in shapes if isinstance(shape, cv.Circle)]
 
     assert circles[0].radius == timeline_style.point_radius
     assert circles[1].radius == timeline_style.point_clicked_radius
@@ -123,7 +126,7 @@ def test_renderer_draws_years_for_points_with_year(timeline_style: TimelineStyle
         points=points,
     )
 
-    years = [shape for shape in shapes if type(shape).__name__ == "Text"]
+    years = [shape for shape in shapes if isinstance(shape, cv.Text)]
 
     assert [year.value for year in years] == ["1967", "1969"]
     assert years[0].x == 10 + timeline_style.year_offset_x
@@ -149,10 +152,16 @@ def test_renderer_styles_years_by_point_state(timeline_style: TimelineStyle):
         points=points,
     )
 
-    years = [shape for shape in shapes if type(shape).__name__ == "Text"]
+    years = [shape for shape in shapes if isinstance(shape, cv.Text)]
 
-    assert years[0].style.color == timeline_style.year_active_color
-    assert years[0].style.weight == ft.FontWeight.BOLD
-    assert years[1].style.color == timeline_style.year_visited_color
-    assert years[2].style.color == timeline_style.year_selected_color
-    assert years[2].style.weight == ft.FontWeight.BOLD
+    first_style = years[0].style
+    second_style = years[1].style
+    third_style = years[2].style
+    assert first_style is not None
+    assert second_style is not None
+    assert third_style is not None
+    assert first_style.color == timeline_style.year_active_color
+    assert first_style.weight == ft.FontWeight.BOLD
+    assert second_style.color == timeline_style.year_visited_color
+    assert third_style.color == timeline_style.year_selected_color
+    assert third_style.weight == ft.FontWeight.BOLD

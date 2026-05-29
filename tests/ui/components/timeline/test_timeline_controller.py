@@ -1,6 +1,6 @@
 # tests/ui/components/timeline/test_timeline_controller.py
 
-from types import SimpleNamespace
+from dataclasses import dataclass
 from unittest.mock import Mock
 
 import pytest
@@ -12,11 +12,22 @@ from galeria.ui.components.timeline.models import TimelineModel, TimelinePoint
 
 
 class FakePage:
-    def __init__(self):
+    def __init__(self) -> None:
         self.run_task = Mock(return_value="task-id")
 
 
-def make_model(count=3):
+@dataclass
+class FakeControl:
+    page: FakePage | None = None
+
+
+@dataclass
+class FakeView:
+    refresh: Mock
+    control: FakeControl
+
+
+def make_model(count: int = 3) -> TimelineModel:
     points = [
         TimelinePoint(0.1, 0.8, id="ingresso", year=1967, label="Ingresso", text="Entrada."),
         TimelinePoint(0.5, 0.2, id="destaque", year=1968, label="Destaque", text="Marco."),
@@ -26,10 +37,10 @@ def make_model(count=3):
     return TimelineModel(points=points)
 
 
-def make_view(page=None):
-    return SimpleNamespace(
+def make_view(page: FakePage | None = None) -> FakeView:
+    return FakeView(
         refresh=Mock(),
-        control=SimpleNamespace(page=page),
+        control=FakeControl(page=page),
     )
 
 
@@ -72,7 +83,7 @@ def test_stop_marks_animation_as_done():
 
 def test_reset_restores_initial_state_and_refreshes_view():
     controller = TimelineController(make_model())
-    view = SimpleNamespace(refresh=Mock())
+    view = make_view()
     controller.bind_view(view)
 
     controller.progress = 0.8
@@ -159,18 +170,18 @@ def test_active_index_is_zero_when_model_has_one_or_no_points():
         (1.0, 1.0),
     ],
 )
-def test_eased_progress_uses_ease_in_out_formula(progress, expected):
+def test_eased_progress_uses_ease_in_out_formula(progress: float, expected: float) -> None:
     controller = TimelineController(make_model())
 
     controller.progress = progress
 
-    assert controller.get_eased_progress() == pytest.approx(expected)
+    assert abs(controller.get_eased_progress() - expected) < 1e-9
 
 
 def test_start_schedules_loop_when_view_has_page():
     controller = TimelineController(make_model())
     page = FakePage()
-    view = SimpleNamespace(control=SimpleNamespace(page=page))
+    view = make_view(page)
     controller.bind_view(view)
 
     controller.start()

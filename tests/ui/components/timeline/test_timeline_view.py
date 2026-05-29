@@ -1,7 +1,10 @@
 # tests/ui/components/timeline/test_timeline_view.py
 
+from collections.abc import Callable
+from typing import cast
 from unittest.mock import Mock
 
+import flet as ft
 import pytest
 
 from galeria.ui.components.timeline.controller import (
@@ -10,10 +13,11 @@ from galeria.ui.components.timeline.controller import (
 from galeria.ui.components.timeline.models import TimelineModel, TimelinePoint
 from galeria.ui.components.timeline.utils import PathBuilder
 from galeria.ui.components.timeline.view import TimelineRenderer, TimelineStyle, TimelineView
+from galeria.ui.components.timeline.view.timeline_container import TimelineContainer
 
 
 @pytest.fixture
-def model():
+def model() -> TimelineModel:
     return TimelineModel(
         points=[
             TimelinePoint(0.0, 1.0, id="ingresso"),
@@ -24,24 +28,24 @@ def model():
 
 
 @pytest.fixture
-def controller(model: TimelineModel):
+def controller(model: TimelineModel) -> TimelineController:
     return TimelineController(model)
 
 
 @pytest.fixture
-def renderer():
+def renderer() -> TimelineRenderer:
     return TimelineRenderer(TimelineStyle())
 
 
 @pytest.fixture
-def path_builder():
+def path_builder() -> PathBuilder:
     return PathBuilder(mode="linear")
 
 
 @pytest.fixture
 def timeline_view(
     controller: TimelineController, path_builder: PathBuilder, renderer: TimelineRenderer
-):
+) -> TimelineView:
     return TimelineView(
         controller=controller,
         path_builder=path_builder,
@@ -51,7 +55,7 @@ def timeline_view(
 
 def test_timeline_view_binds_itself_to_controller(
     controller: TimelineController, path_builder: PathBuilder, renderer: TimelineRenderer
-):
+) -> None:
     view = TimelineView(
         controller=controller,
         path_builder=path_builder,
@@ -93,8 +97,8 @@ def test_timeline_view_normalize_returns_empty_list_for_empty_points(
 def test_timeline_view_normalize_ignores_invalid_points(timeline_view: TimelineView):
     points = [
         TimelinePoint(0.1, 0.2),
-        TimelinePoint("invalid", 0.5),
-        TimelinePoint(0.3, None),
+        TimelinePoint(cast(float, "invalid"), 0.5),
+        TimelinePoint(0.3, cast(float, None)),
     ]
 
     normalized = timeline_view._normalize_points(
@@ -156,7 +160,9 @@ def test_timeline_view_draw_returns_when_canvas_has_invalid_size(timeline_view: 
     assert timeline_view.canvas.canvas.shapes == []
 
 
-def test_timeline_view_refresh_draws_shapes(monkeypatch, timeline_view: TimelineView):
+def test_timeline_view_refresh_draws_shapes(
+    monkeypatch: pytest.MonkeyPatch, timeline_view: TimelineView
+) -> None:
     safe_update = Mock()
     monkeypatch.setattr(
         "galeria.ui.components.timeline.view.timeline_view.safe_update",
@@ -170,8 +176,8 @@ def test_timeline_view_refresh_draws_shapes(monkeypatch, timeline_view: Timeline
 
 
 def test_timeline_view_uses_stack_with_canvas_behind_clickable_points(
-    monkeypatch, timeline_view: TimelineView
-):
+    monkeypatch: pytest.MonkeyPatch, timeline_view: TimelineView
+) -> None:
     monkeypatch.setattr(
         "galeria.ui.components.timeline.view.timeline_view.safe_update",
         Mock(),
@@ -179,18 +185,22 @@ def test_timeline_view_uses_stack_with_canvas_behind_clickable_points(
 
     timeline_view.refresh()
 
-    assert type(timeline_view.control.content).__name__ == "Stack"
-    assert type(timeline_view.control.content.controls[0]).__name__ == "TransparentPointer"
-    assert timeline_view.control.content.controls[0].content is timeline_view.canvas.canvas
+    control = cast(TimelineContainer, timeline_view.control)
+    assert isinstance(control.content, ft.Stack)
+    canvas_stack = control.content
+    assert type(canvas_stack.controls[0]).__name__ == "TransparentPointer"
+    transparent_pointer = canvas_stack.controls[0]
+    assert isinstance(transparent_pointer, ft.TransparentPointer)
+    assert transparent_pointer.content is timeline_view.canvas.canvas
     assert all(
         type(control).__name__ == "Container"
-        for control in timeline_view.control.content.controls[1:]
+        for control in canvas_stack.controls[1:]
     )
 
 
 def test_timeline_view_builds_clickable_points_over_rendered_coordinates(
-    monkeypatch, timeline_view: TimelineView
-):
+    monkeypatch: pytest.MonkeyPatch, timeline_view: TimelineView
+) -> None:
     monkeypatch.setattr(
         "galeria.ui.components.timeline.view.timeline_view.safe_update",
         Mock(),
@@ -198,6 +208,7 @@ def test_timeline_view_builds_clickable_points_over_rendered_coordinates(
 
     timeline_view.refresh()
     target = timeline_view.canvas_stack.controls[2]
+    assert isinstance(target, ft.Container)
 
     assert target.left == 950 - timeline_view.hit_size / 2
     assert target.top == 0 - timeline_view.hit_size / 2
@@ -208,8 +219,8 @@ def test_timeline_view_builds_clickable_points_over_rendered_coordinates(
 
 
 def test_timeline_view_point_tap_selects_point_and_rebuilds(
-    monkeypatch, timeline_view: TimelineView
-):
+    monkeypatch: pytest.MonkeyPatch, timeline_view: TimelineView
+) -> None:
     monkeypatch.setattr(
         "galeria.ui.components.timeline.view.timeline_view.safe_update",
         Mock(),
@@ -219,7 +230,10 @@ def test_timeline_view_point_tap_selects_point_and_rebuilds(
     timeline_view.refresh()
     timeline_view._rebuild = Mock()
     target = timeline_view.canvas_stack.controls[2]
-    target.on_click(None)
+    assert isinstance(target, ft.Container)
+    assert target.on_click is not None
+    on_click = cast(Callable[[object | None], object], target.on_click)
+    on_click(None)
 
     timeline_view.controller.select_point.assert_called_once_with("destaque")
     timeline_view._rebuild.assert_called_once()

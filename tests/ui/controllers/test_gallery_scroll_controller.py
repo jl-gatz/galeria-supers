@@ -1,4 +1,5 @@
 from types import SimpleNamespace
+from typing import cast
 
 import flet as ft
 import pytest
@@ -26,7 +27,7 @@ def test_gallery_scroll_controller_finds_centered_card_index():
 
 @pytest.mark.asyncio
 async def test_gallery_scroll_controller_notifies_active_index_on_scroll():
-    active_indexes = []
+    active_indexes: list[int] = []
     controller = GalleryScrollController(
         row=_row(5),
         visible_cards=1,
@@ -36,6 +37,7 @@ async def test_gallery_scroll_controller_notifies_active_index_on_scroll():
         on_active_index_change=active_indexes.append,
     )
 
-    await controller._on_scroll(SimpleNamespace(pixels=110, max_scroll_extent=440))
+    event = cast(ft.OnScrollEvent, SimpleNamespace(pixels=110, max_scroll_extent=440))
+    await controller._on_scroll(event)
 
     assert active_indexes == [1]

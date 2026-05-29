@@ -1,17 +1,21 @@
-from types import SimpleNamespace
+from collections.abc import Callable
 
 from galeria.ui.controllers.super_detail_controller import SuperDetailController
 from tests.stubs.fake_super import FakeSuper
 
 
-def test_starts_with_first_slide(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B", "C"])
+def test_starts_with_first_slide(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B", "C"])
 
     assert controller.current == "A"
 
 
-def test_next_moves_forward(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B", "C"])
+def test_next_moves_forward(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B", "C"])
 
     moved = controller.next()
 
@@ -19,8 +23,10 @@ def test_next_moves_forward(make_controller: FakeSuper):
     assert controller.current == "B"
 
 
-def test_next_at_end_returns_false(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B"])
+def test_next_at_end_returns_false(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B"])
 
     controller.next()  # vai para B
     moved = controller.next()  # tenta ir além
@@ -29,8 +35,10 @@ def test_next_at_end_returns_false(make_controller: FakeSuper):
     assert controller.current == "B"
 
 
-def test_prev_moves_backward(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B", "C"])
+def test_prev_moves_backward(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B", "C"])
 
     controller.next()  # B
     moved = controller.prev()
@@ -39,8 +47,10 @@ def test_prev_moves_backward(make_controller: FakeSuper):
     assert controller.current == "A"
 
 
-def test_prev_at_start_returns_false(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B"])
+def test_prev_at_start_returns_false(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B"])
 
     moved = controller.prev()
 
@@ -48,8 +58,10 @@ def test_prev_at_start_returns_false(make_controller: FakeSuper):
     assert controller.current == "A"
 
 
-def test_goto_valid_index(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B", "C"])
+def test_goto_valid_index(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B", "C"])
 
     moved = controller.goto(2)
 
@@ -57,8 +69,10 @@ def test_goto_valid_index(make_controller: FakeSuper):
     assert controller.current == "C"
 
 
-def test_sequence_navigation(make_controller: FakeSuper):
-    controller: FakeSuper = make_controller(["A", "B", "C"])
+def test_sequence_navigation(
+    make_controller: Callable[[list[str]], SuperDetailController],
+) -> None:
+    controller = make_controller(["A", "B", "C"])
 
     controller.next()  # B
     controller.next()  # C
@@ -67,15 +81,9 @@ def test_sequence_navigation(make_controller: FakeSuper):
     assert controller.current == "B"
 
 
-def test_exposes_periodo():
-    super_data = SimpleNamespace(
-        nome="Ada",
-        foto=None,
-        timeline=None,
-        timeline_points=[],
-        historias=["A"],
-        periodo="1967-1969",
-    )
+def test_exposes_periodo() -> None:
+    super_data = FakeSuper(["A"])
+    super_data.periodo = "1967-1969"
 
     controller = SuperDetailController(super_data)
 
