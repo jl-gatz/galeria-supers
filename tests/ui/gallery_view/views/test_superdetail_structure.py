@@ -8,6 +8,7 @@ from galeria.ui.theme.themes import CCUEC_THEME
 from galeria.ui.views.super_view import SuperDetail
 from tests.factories import SuperDetailFactory
 from tests.harness import FletTestHarness
+from tests.utils.types import HasValue
 
 
 @pytest.mark.asyncio
@@ -58,7 +59,13 @@ def test_superdetail_timeline_callback_updates_header():
 
     detail.timeline_view.controller.select_point("ingresso")
 
-    assert [control.value for control in detail.header.text_list.controls[:3]] == [
+    controls = detail.header.text_list.controls[:3]
+    values: list[object] = []
+    for control in controls:
+        assert isinstance(control, HasValue)
+        values.append(control.value)
+
+    assert values == [
         "1967",
         "Ingresso",
         "Alfredo inicia sua trajetória.",
