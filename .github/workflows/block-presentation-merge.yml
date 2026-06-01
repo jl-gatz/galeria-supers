@@ -1,0 +1,27 @@
+name: Block presentation branch merges
+
+"on":
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  block-presentation-branches:
+    name: Block presentation/demo branches
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Refuse PRs from presentation branches
+        run: |
+          echo "Head ref: ${{ github.head_ref }}"
+          echo "Base ref: ${{ github.base_ref }}"
+
+          if [[ "${{ github.head_ref }}" == presentation/* ]] || \
+             [[ "${{ github.head_ref }}" == demo-only/* ]] || \
+             [[ "${{ github.head_ref }}" == no-merge/* ]]; then
+            echo "Branches de apresentação/demo não devem ser mergeadas em main ou dev."
+            echo "Fluxo permitido: main/dev -> presentation/*."
+            echo "Fluxo proibido: presentation/* -> main/dev."
+            exit 1
+          fi
