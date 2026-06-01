@@ -2,11 +2,11 @@
 """Ponto de entrada da aplicação Flet."""
 
 import flet as ft
-from infrastructure.repositories.super_repository import SuperRepository
-from ui.config.page_config import configurar_page
 
 from galeria.core import ASSETS_URL
 from galeria.domain import SuperService
+from galeria.infrastructure.repositories.super_repository import SuperRepository
+from galeria.ui.config.page_config import configurar_page
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme.manager import ThemeManager
 from galeria.ui.theme.themes import CCUEC_THEME
@@ -44,5 +44,6 @@ def main(page: ft.Page) -> None:
     page.scroll = ft.ScrollMode.HIDDEN
 
 
-# Utilizando app ao invés de run, por conta da chamada para assets
-ft.app(target=main, assets_dir=str(ASSETS_URL))  # type: ignore
+if __name__ == "__main__":
+    # Utilizando app ao invés de run, por conta da chamada para assets
+    ft.app(target=main, assets_dir=str(ASSETS_URL))  # type: ignore
