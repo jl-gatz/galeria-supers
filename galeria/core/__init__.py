@@ -12,7 +12,6 @@ from .config import (
 )
 from .paths import (
     ASSETS_DIR,
-    ASSETS_URL,
     BASE_DIR,
     DATA_DIR,
     ERAS_JSON,
@@ -30,7 +29,6 @@ __all__ = [
     "ANIMATE_OPACITY",
     "APP_TITLE",
     "ASSETS_DIR",
-    "ASSETS_URL",
     "AUTO_TIME_VIEW_BACK",
     "BASE_DIR",
     "DATA_DIR",
