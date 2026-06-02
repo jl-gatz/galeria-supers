@@ -2,7 +2,6 @@
 
 import asyncio
 from collections.abc import Generator
-from pathlib import Path
 
 import pytest
 
@@ -67,8 +66,8 @@ def supers_sample() -> list[Super]:
         Super(
             id="1",
             nome="Ada",
-            foto=Path("ada.png"),
-            timeline=Path("ada.json"),
+            foto="ada.png",
+            timeline="ada.json",
             timeline_points=None,
             historias=None,
             periodo="1967-1969",
@@ -76,8 +75,8 @@ def supers_sample() -> list[Super]:
         Super(
             id="2",
             nome="Alan",
-            foto=Path("turing.png"),
-            timeline=Path("turing.json"),
+            foto="turing.png",
+            timeline="turing.json",
             timeline_points=None,
             historias=None,
             periodo="1969-1972",
