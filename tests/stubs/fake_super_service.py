@@ -1,5 +1,4 @@
 from collections.abc import Callable, Sequence
-from pathlib import Path
 
 from galeria.domain.models import Era, Super
 
@@ -8,16 +7,16 @@ def _default_pode_abrir(super_data: Super) -> bool:
     return super_data.nome != "_blank"
 
 
-def _default_image_path(super_data: Super) -> Path | None:
+def _default_image_path(super_data: Super) -> str | None:
     if super_data.foto is None:
         return None
-    return Path(f"/fake/images/{super_data.foto}")
+    return f"/fake/images/{super_data.foto}"
 
 
-def _default_timeline_path(super_data: Super) -> Path | None:
+def _default_timeline_path(super_data: Super) -> str | None:
     if super_data.timeline is None:
         return None
-    return Path(f"/fake/timeline/{super_data.timeline}")
+    return f"/fake/timeline/{super_data.timeline}"
 
 
 class FakeSuperService:
@@ -25,8 +24,8 @@ class FakeSuperService:
         self,
         supers: Sequence[Super],
         pode_abrir_fn: Callable[[Super], bool] | None = None,
-        image_path_fn: Callable[[Super], Path | None] | None = None,
-        timeline_path_fn: Callable[[Super], Path | None] | None = None,
+        image_path_fn: Callable[[Super], str | None] | None = None,
+        timeline_path_fn: Callable[[Super], str | None] | None = None,
         eras: Sequence[Era] | None = None,
     ):
         self._supers = list(supers)
@@ -34,8 +33,8 @@ class FakeSuperService:
 
         # comportamento padrão (simples e previsível)
         self._pode_abrir_fn: Callable[[Super], bool] = pode_abrir_fn or _default_pode_abrir
-        self._image_path_fn: Callable[[Super], Path | None] = image_path_fn or _default_image_path
-        self._timeline_path_fn: Callable[[Super], Path | None] = (
+        self._image_path_fn: Callable[[Super], str | None] = image_path_fn or _default_image_path
+        self._timeline_path_fn: Callable[[Super], str | None] = (
             timeline_path_fn or _default_timeline_path
         )
 
@@ -58,10 +57,10 @@ class FakeSuperService:
     def pode_abrir(self, super_data: Super) -> bool:
         return self._pode_abrir_fn(super_data)
 
-    def build_image_path(self, super_data: Super) -> Path | None:
+    def build_image_path(self, super_data: Super) -> str | None:
         return self._image_path_fn(super_data)
 
-    def build_timeline_path(self, super_data: Super) -> Path | None:
+    def build_timeline_path(self, super_data: Super) -> str | None:
         return self._timeline_path_fn(super_data)
 
     def is_blank(self, super_data: Super) -> bool:

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any, cast, override
 
-from galeria.core import ERAS_JSON, IMAGES_URL, SUPERS_JSON
+from galeria.core import ERAS_JSON, IMAGES_URL, SUPERS_JSON, TIMELINE_URL
 from galeria.domain import Era, InterfaceSuperRepository, Super
 
 
@@ -90,8 +90,8 @@ class SuperRepository(InterfaceSuperRepository):
         return Super(
             id=str(super_data["id"]),
             nome=super_data["nome"],
-            foto=IMAGES_URL / foto if foto else None,
-            timeline=Path(timeline) if timeline else None,
+            foto=f"{IMAGES_URL}/{foto}" if foto else None,
+            timeline=f"{TIMELINE_URL}/{timeline}" if timeline else None,
             timeline_points=super_data.get("timeline_points"),
             historias=super_data.get("historias"),
             periodo=super_data.get("periodo"),

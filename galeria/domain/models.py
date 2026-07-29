@@ -2,7 +2,6 @@
 """Entidades de domínio usadas pela galeria."""
 
 from dataclasses import dataclass
-from pathlib import Path
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,8 +18,8 @@ class Super:
 
     id: str
     nome: str
-    foto: Path | None
-    timeline: Path | None
+    foto: str | None
+    timeline: str | None
     timeline_points: list[TimelinePoint] | None
     historias: list[str] | None
     periodo: str | None = None

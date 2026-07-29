@@ -1,6 +1,5 @@
 # tests/unit/views/test_gallery_view.py
 
-from pathlib import Path
 from typing import Protocol, cast
 from unittest.mock import Mock, patch
 
@@ -248,8 +247,8 @@ def test_gallery_background_theme_changes_without_retheming_visible_cards(
     fake_theme_manager: FakeThemeManager,
 ):
     supers = [
-        Super("1", "Ada", Path("ada.png"), None, [], ["A"], "1967-1969", "ccuec"),
-        Super("2", "Grace", Path("grace.png"), None, [], ["A"], "2021-2023", "detic"),
+        Super("1", "Ada", "ada.png", None, [], ["A"], "1967-1969", "ccuec"),
+        Super("2", "Grace", "grace.png", None, [], ["A"], "2021-2023", "detic"),
     ]
     service = FakeSuperService(supers=supers)
     view = _gallery_view(fake_page, service, fake_root, fake_theme_manager)

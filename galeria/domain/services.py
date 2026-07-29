@@ -1,8 +1,6 @@
 # galeria/domain/services.py
 """Serviços de domínio para leitura e regras de superintendentes."""
 
-from pathlib import Path
-
 from .models import Era, Super
 from .super_repository import InterfaceSuperRepository
 
@@ -54,10 +52,10 @@ class SuperService:
         """Indica se o card do super pode abrir a visão de detalhe."""
         return not self.is_blank(super_data)
 
-    def build_image_path(self, super_data: Super) -> Path | None:
+    def build_image_path(self, super_data: Super) -> str | None:
         """Retorna o caminho de imagem já resolvido pelo repositório."""
         return super_data.foto
 
-    def build_timeline_path(self, super_data: Super) -> Path | None:
+    def build_timeline_path(self, super_data: Super) -> str | None:
         """Retorna o caminho de timeline já resolvido pelo repositório."""
         return super_data.timeline

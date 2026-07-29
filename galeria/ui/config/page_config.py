@@ -2,7 +2,8 @@
 """Configuração global da página principal do aplicativo."""
 
 import flet as ft
-from core.config import APP_TITLE
+
+from galeria.core.config import APP_TITLE
 
 
 def configurar_page(page: ft.Page) -> None:
