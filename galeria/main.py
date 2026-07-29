@@ -1,16 +1,25 @@
 # galeria/main.py
 """Ponto de entrada da aplicação Flet."""
 
-import flet as ft
-from infrastructure.repositories.super_repository import SuperRepository
-from ui.config.page_config import configurar_page
+from collections.abc import Awaitable, Callable
+from typing import Protocol, cast
 
-from galeria.core import ASSETS_URL
+import flet as ft
+
+from galeria.core.paths import ASSETS_DIR
 from galeria.domain import SuperService
+from galeria.infrastructure.repositories.super_repository import SuperRepository
+from galeria.ui.config.page_config import configurar_page
 from galeria.ui.layout import RootLayout
 from galeria.ui.theme.manager import ThemeManager
 from galeria.ui.theme.themes import CCUEC_THEME
 from galeria.ui.views import GalleryView
+
+type FletAppTarget = Callable[[ft.Page], object | Awaitable[object]]
+
+
+class FletRun(Protocol):
+    def __call__(self, main: FletAppTarget, *, assets_dir: str) -> object | None: ...
 
 
 def main(page: ft.Page) -> None:
@@ -44,5 +53,7 @@ def main(page: ft.Page) -> None:
     page.scroll = ft.ScrollMode.HIDDEN
 
 
-# Utilizando app ao invés de run, por conta da chamada para assets
-ft.app(target=main, assets_dir=str(ASSETS_URL))  # type: ignore
+if __name__ == "__main__":
+    # Flet exposes an Unknown parameter in the published type for run().
+    run_flet_app = cast(FletRun, ft.run)  # type: ignore[reportUnknownMemberType]
+    run_flet_app(main, assets_dir=str(ASSETS_DIR))

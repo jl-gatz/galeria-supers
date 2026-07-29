@@ -1,24 +1,21 @@
 # tests/fakes/builders.py
 
 from collections.abc import Sequence
-from pathlib import Path
 
 from galeria.domain.models import Super, TimelinePoint
 
-type SuperPath = Path | str | None
+type SuperPath = str | None
 
 
-def _to_path(value: SuperPath) -> Path | None:
-    if value is None or isinstance(value, Path):
-        return value
-    return Path(value)
+def _to_src(value: SuperPath) -> str | None:
+    return value
 
 
 def super_stub_one(
     id: str = "1",
     nome: str = "Ada",
-    foto: SuperPath = Path("ada.png"),
-    timeline: SuperPath = Path("ada.json"),
+    foto: SuperPath = "ada.png",
+    timeline: SuperPath = "ada.json",
     timeline_points: Sequence[TimelinePoint] | None = None,
     historias: list[str] | None = None,
     periodo: str | None = None,
@@ -27,8 +24,8 @@ def super_stub_one(
     return Super(
         id=id,
         nome=nome,
-        foto=_to_path(foto),
-        timeline=_to_path(timeline),
+        foto=_to_src(foto),
+        timeline=_to_src(timeline),
         timeline_points=list(timeline_points) if timeline_points is not None else None,
         historias=historias,
         periodo=periodo,

@@ -39,7 +39,7 @@ def test_repository_loads_grouped_supers_and_injects_era_id(tmp_path: Path) -> N
 
     assert [super_data.nome for super_data in supers] == ["Ada", "Grace"]
     assert [super_data.era_id for super_data in supers] == ["ccuec", "detic"]
-    assert supers[0].foto == Path("images/supers/grayscale/ada__gray.png")
+    assert supers[0].foto == "images/supers/grayscale/ada__gray.png"
 
 
 def test_repository_supports_legacy_flat_super_list(tmp_path: Path) -> None:
